@@ -1,12 +1,6 @@
 <?php
 session_start();
-
 include("../controllers/user.php");
-$_SESSION["user"] = [];
-
-if ($_SESSION["user"]) {
-  # code...
-}
 
 ?>
 

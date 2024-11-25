@@ -41,10 +41,7 @@ $db = new Database();
 
     <img class="block mx-auto p-8 justify-center" src="./img/Rectangle.png" alt="rectangle">    
 
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem rerum ipsa laboriosam aperiam quia quasi? Tempora, saepe, eos perspiciatis quasi fuga sint ad architecto debitis, veniam vitae laborum quisquam voluptatem!
-    Minima, obcaecati. Expedita pariatur ut, nesciunt sit illum perferendis, eveniet ullam distinctio dignissimos blanditiis alias iste quibusdam veritatis ratione explicabo, voluptatum cupiditate nemo cumque accusamus debitis? Provident molestiae aliquam veniam?
-    Ad facilis voluptate, quos dolorum debitis eius, vitae fugit repudiandae laudantium eaque tenetur necessitatibus cumque ipsum dolor sed, officia dicta sunt recusandae possimus aliquid natus at provident. Nam, nulla expedita.
-    Nam vitae doloremque similique distinctio, deleniti inventore beatae, numquam itaque hic sint, sunt exercitationem ad quidem necessitatibus quaerat doloribus voluptas blanditiis! Ea ad accusantium eos esse officia quas, pariatur ipsa?</p>
+    <h2 class="mb-5 text-center justify-center font-light text-2xl">Titre du livre</h2>
 
 
   </main>

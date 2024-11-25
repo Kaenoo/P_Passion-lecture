@@ -5,11 +5,14 @@ $db = new Database();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
-    $value = $db->verifyAccount($_POST["pseudo"], $_POST["password"]);
-    var_dump($value);
+  if (count($db->verifyAccount($_POST["pseudo"], $_POST["password"])) > 1) {
+    $valueUser = $db->verifyAccount($_POST["pseudo"], $_POST["password"]);
     $_SESSION["user"] = [];
-
-
+    $_SESSION["user"]["pseudo"] = $_POST["pseudo"];
+    $_SESSION["user"]["password"] = $_POST["password"];
+    $_SESSION["user"]["admin"] = $valueUser["admin"];
+    header("Location: ./index.php");
+    }
 }
 ?>
 
@@ -19,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/output.css">
-    <title>Document</title>
+    <title>Login</title>
 </head>
 <body class="h-full">
 <?php

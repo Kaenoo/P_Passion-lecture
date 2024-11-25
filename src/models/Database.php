@@ -63,7 +63,7 @@ class Database
         return $req->closeCursor();
     }
 
-    // Vérifie l'existence du compte dans la DB
+    // Vérifie l'existence du compte dans la DB, si c'est le cas -> return les valeurs associées
     public function verifyAccount($login, $password){
 
         $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo and `mot_de_passe` = :password";
@@ -74,12 +74,9 @@ class Database
         
         $req = $this->queryPrepareExecute($query, $binds);
         
+        $verify = $this->formatData($req);
 
-        // if (count($req) > 2) {
-        //     return true;
-        // }
-        
-        return false;
+        return $verify[0];
     }
 
     public function showFiveLastBooks()

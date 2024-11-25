@@ -1,9 +1,7 @@
 <?php
 session_start();
-
 include("./models/Database.php");
 $db = new Database();
-
 
 ?>
 

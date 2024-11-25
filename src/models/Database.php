@@ -76,6 +76,10 @@ class Database
         
         $verify = $this->formatData($req);
 
+        if (count($verify) == 0) {
+            return $verify;
+        }
+
         return $verify[0];
     }
 

@@ -1,10 +1,13 @@
 <?php
+session_start();
 include("./models/Database.php");
 include("./controllers/user.php");
 $db = new Database();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
+
+  //Vérifie si le login fait parti de la DB, si c'est la cas -> création de session
   if (count($db->verifyAccount($_POST["pseudo"], $_POST["password"])) > 1) {
     $valueUser = $db->verifyAccount($_POST["pseudo"], $_POST["password"]);
     $_SESSION["user"] = [];

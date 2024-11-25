@@ -17,6 +17,7 @@ class Database
             $this->connector = new PDO('mysql:host=localhost:6033;dbname=db_passion_lecture;charset=utf8', 'root', 'root');
         } catch (PDOException $e) {
             die('Erreur : ' . $e->getMessage());
+            echo "bagli";
         }
     }
 
@@ -25,7 +26,7 @@ class Database
      */
     private function querySimpleExecute($query)
     {
-        // TODO: permet de pr�parer et d�ex�cuter une requ�te de type simple (sans where)
+        // permet de préparer et d'executer une requéte de type simple (sans where)
         return $this->connector->query($query);
     }
  
@@ -62,5 +63,20 @@ class Database
         // Vider le jeu d'enregistrements
         return $req->closeCursor();
     }
+    
+    /**
+     * permet de recupérer les catégories
+     */
+    public function getAllCategorie()
+    {
+        $query = "SELECT * FROM t_categorie";
+        $req = $this->querySimpleExecute($query);
+        
+        // Appeler la méthode pour avoir le résultat sous forme de tableau
+        $categories = $this->formatData($req);
+        
+        return $categories;
+    }
+
 
 }

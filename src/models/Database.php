@@ -63,7 +63,7 @@ class Database
         return $req->closeCursor();
     }
 
-	    /**
+	/**
      * permet de recupérer les catégories
      */
     public function getAllCategorie()
@@ -75,6 +75,27 @@ class Database
         $categories = $this->formatData($req);
         
         return $categories;
+    }
+
+    //permet de ajouter un livre
+    public function addBook($datas)
+    {
+         // recuperer les données
+         $titre = $datas['title'];
+         $authorFirstname = $datas['authorFirstname'];
+         $authorLasttname = $datas['authorLastname'];
+         $categorie = $datas['category'];
+         $pages = $datas['pages'];
+         $categorie = $datas['category'];
+         $extrait = $datas['extrait'];
+         $editeur = $datas['publisher'];
+         $dateEdition = $datas['published_date'];
+         $resume = $datas['summary'];
+         $image = $datas['image'];
+
+         $query = "INSERT INTO `t_ouvrage`(`ouvrage_id`, `titre`, `nombre_page`, `extrait`, `resume`, `date_edition`, `image_couverture`, `editeur`, `ecrivain_id`, `utilisateur_id`, `categorie_id`) VALUES (DEFAULT, $titre, $pages, $extrait ,$resume ,$dateEdition , $image ,$editeur ,DEFAULT ,DEFAULT ,DEFAULT)";
+
+
     }
 
 

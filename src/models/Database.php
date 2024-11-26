@@ -25,7 +25,7 @@ class Database
      */
     private function querySimpleExecute($query)
     {
-        // TODO: permet de pr�parer et d�ex�cuter une requ�te de type simple (sans where)
+        // permet de préparer et d'executer une requéte de type simple (sans where)
         return $this->connector->query($query);
     }
  

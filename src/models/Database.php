@@ -63,6 +63,21 @@ class Database
         return $req->closeCursor();
     }
 
+	    /**
+     * permet de recupérer les catégories
+     */
+    public function getAllCategorie()
+    {
+        $query = "SELECT * FROM t_categorie";
+        $req = $this->querySimpleExecute($query);
+        
+        // Appeler la méthode pour avoir le résultat sous forme de tableau
+        $categories = $this->formatData($req);
+        
+        return $categories;
+    }
+
+
     // Vérifie l'existence du compte dans la DB, si c'est le cas -> return les valeurs associées
     public function verifyAccount($login, $password){
 
@@ -86,6 +101,70 @@ class Database
     public function showFiveLastBooks()
     {
         
+    }
+	
+	/* TODO: récupère la liste de tous les enseignants de la BD */
+    public function searchABook()
+    {
+        // TODO: avoir la requête sql
+        $query = "SELECT * FROM db_passion_lecture.TABLES LIMIT 0, 5;";
+
+        // TODO: appeler la méthode pour executer la requête
+        $result = $this->querySimpleExecute($query);
+    }
+
+    /* TODO: ajouter les informations de 1 enseignant */
+    public function listTitleBook ()
+    {
+        // 
+        $query = "SELECT titre FROM t_ouvrage;";
+
+        // 
+        $result = $this->querySimpleExecute($query);
+
+        // Retourne
+        return $result;
+    }
+
+    public function listAuthorBook ($data)
+    {
+        // TODO: avoir la requête sql
+        $query = "SELECT nom, prenom FROM t_ecrivain WHERE ecrivain_id = $data;";
+
+        // TODO: appeler la méthode pour executer la requête
+        $result = $this->querySimpleExecute($query);
+
+        // TODO: retour tous les enseignants
+        return $result;
+
+        
+    }
+
+
+    public function listPseudo ($data)
+    {
+        // TODO: avoir la requête sql
+        $query = "SELECT pseudo FROM t_utilisateur WHERE utilisateur_id = $data;";
+
+        // TODO: appeler la méthode pour executer la requête
+        $result = $this->querySimpleExecute($query);
+
+        // TODO: retour tous les enseignants
+        return $result;
+
+        
+    }
+
+    public function listCategoryBook ($data)
+    {
+        // TODO: avoir la requête sql
+        $query = "SELECT nom FROM t_categorie WHERE categorie_id = $data;";
+
+        // TODO: appeler la méthode pour executer la requête
+        $result = $this->querySimpleExecute($query);
+
+        // TODO: retour tous les enseignants
+        return $result;
     }
 
 }

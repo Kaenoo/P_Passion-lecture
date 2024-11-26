@@ -63,4 +63,29 @@ class Database
         return $req->closeCursor();
     }
 
+    // Vérifie l'existence du compte dans la DB, si c'est le cas -> return les valeurs associées
+    public function verifyAccount($login, $password){
+
+        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo and `mot_de_passe` = :password";
+
+        $binds = [];
+        $binds[] = [":pseudo", $login, PDO::PARAM_STR];
+        $binds[] = [":password", $password, PDO::PARAM_STR];
+        
+        $req = $this->queryPrepareExecute($query, $binds);
+        
+        $verify = $this->formatData($req);
+
+        if (count($verify) == 0) {
+            return $verify;
+        }
+
+        return $verify[0];
+    }
+
+    public function showFiveLastBooks()
+    {
+        
+    }
+
 }

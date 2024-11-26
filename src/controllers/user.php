@@ -1,30 +1,20 @@
 <?php
 
 function isUserConnected() {
-
     return isset($_SESSION["user"]) && count($_SESSION["user"]) > 1;
 }
 
-function getConnectedUser() {
-    if (isUserConnected())
-        return $_SESSION["user"]["useLogin"];
+// Connecte l'utilisateur et le redirige à la page d'acceuil
+function getConnectedUser($admin) {
+    $_SESSION["user"] = [];
+    $_SESSION["user"]["pseudo"] = $_POST["pseudo"];
+    $_SESSION["user"]["password"] = $_POST["password"];
+    $_SESSION["user"]["admin"] = $admin;
+    header("Location: ./index.php");
 }
 
-function getUserRight() {
-    if (isUserConnected()){
-        $value = $_SESSION["user"]["useAdministrator"] == 0 ? "user" : "admin"; 
-        return $value;
-    }
-    return false;
-}
-
-function isAdmin(){
-    if (getUserRight() !== "admin") {
-        header("Location: ./index.php");
-    }    
-}
-
-function deconnectUser() {
+//Déconnecte l'utilisateur
+function deconnectUser() { 
     $_SESSION["user"] = null;
 }
 

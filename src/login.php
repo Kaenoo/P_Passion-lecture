@@ -6,15 +6,12 @@ $db = new Database();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
-
   //Vérifie si le login fait parti de la DB, si c'est la cas -> création de session
   if (count($db->verifyAccount($_POST["pseudo"], $_POST["password"])) > 1) {
     $valueUser = $db->verifyAccount($_POST["pseudo"], $_POST["password"]);
-    $_SESSION["user"] = [];
-    $_SESSION["user"]["pseudo"] = $_POST["pseudo"];
-    $_SESSION["user"]["password"] = $_POST["password"];
-    $_SESSION["user"]["admin"] = $valueUser["admin"];
-    header("Location: ./index.php");
+
+    //Connecte l'utilisateur à la session
+    getConnectedUser($valueUser["admin"]);
     }
 }
 ?>

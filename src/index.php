@@ -1,8 +1,14 @@
 <?php
 session_start();
+include("./controllers/user.php");
 include("./models/Database.php");
-$db = new Database();
 
+//Si l'user veut se déconnecter
+if (isset($_GET["login"]) && $_GET["login"] === "out") {   
+ deconnectUser();
+}
+
+$db = new Database();
 ?>
 
 <!DOCTYPE html>

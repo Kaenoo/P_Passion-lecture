@@ -2,21 +2,20 @@
   /* Auteure       : Sarah Dongmo
   *  Date          : 25.11.2024
   *  Description   : Présentation des livres avec option de recherche */
-session_start();
+
+  session_start();
   include("./models/Database.php");
   $db = new Database();
+
   if ($_SERVER["REQUEST_METHOD"] == "POST") 
   {
+    var_dump($_POST);
     $db->searchABook($_POST);
   }
   else
   {
-    // $listTitleBook = $db->listTitleBook ();
-    // $listAuthorBook = $db->listAuthorBook($listTitleBook["ecrivain_id"]);
-    // $listPseudo = $db->listPseudo ($listTitleBook["utilisateur_id"]);
-    // $listCategoryBook = $db->listCategoryBook ($listTitleBook["categorie_id"]);
+    $listBooks = $db->listBooks();
   }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -44,29 +43,52 @@ session_start();
       function myFunction() 
       {
         <? $searchValue = '"document.getElementById("search").value';
-           $db->searchABook($searchValue);?>
+          // $db->searchABook($searchValue);?>
       }
       </script>
 
 
 
       <?php 
-        foreach ($listTitleBook as $titleBook)
+        foreach ($listBooks as $titleBook)
         { 
+          $listCategoryBook = $db->listCategoryBook ($titleBook["categorie_id"]);
+          foreach ($listCategoryBook as $categoryBook)
+          {
+            echo "<tr>";
+            echo "<td>";
+            echo $categoryBook["nom"] . " ";
+            echo "</td>";
+          }
+
+          $listPseudoUser = $db->listPseudoUser ($titleBook["utilisateur_id"]);
+          foreach ($listPseudoUser as $pseudoUser)
+          {
+            echo "<tr>";
+            echo "<td>";
+            echo $pseudoUser["pseudo"] . "</br>";
+            echo "</td>";
+          }
+
           echo "<tr>";
           echo "<td>";
-          echo $teacher['teaName'] . " " . $teacher['teaFirstname'];
+          echo $titleBook["titre"] . ", ";
           echo "</td>";
-          echo "<td>";
-          echo $teacher['teaNickname'];
-          echo "</td>";
-          echo "<td class='containerOptions'>";
-          echo "</td>";
+           
+
+          $listAuthorBook = $db->listAuthorBook($titleBook["ecrivain_id"]);
+          foreach ($listAuthorBook as $authorBook)
+          {
+            echo "<tr>";
+            echo "<td>";
+            echo $authorBook["prenom"] . " ";
+            echo $authorBook["nom"] . "</br>";
+            echo "</td>";
+          }
+
           echo "</tr>";
         }
       ?>
-
-
     </main>
 
     <?php

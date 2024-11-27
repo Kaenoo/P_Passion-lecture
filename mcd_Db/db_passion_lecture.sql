@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db:3306
--- Généré le : lun. 25 nov. 2024 à 09:52
+-- Généré le : mer. 27 nov. 2024 à 21:39
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.0.27
 
@@ -18,11 +18,9 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `db_passion _lecture`
+-- Base de données : `db_passion_lecture`
 --
-DROP DATABASE IF EXISTS `db_passion_lecture`;
-CREATE DATABASE `db_passion_lecture`;
-USE `db_passion_lecture`;
+
 -- --------------------------------------------------------
 
 --
@@ -111,12 +109,12 @@ CREATE TABLE `t_ouvrage` (
 --
 
 INSERT INTO `t_ouvrage` (`ouvrage_id`, `titre`, `nombre_page`, `extrait`, `resume`, `date_edition`, `image_couverture`, `editeur`, `ecrivain_id`, `utilisateur_id`, `categorie_id`) VALUES
-(1, 'Fondation', 255, 'Un extrait passionnant...', 'Un classique de la science-fiction.', 1951, 'fondation.jpg', 'Gnome Press', 1, 1, 1),
-(2, 'Le Seigneur des Anneaux', 1178, 'Un extrait épique...', 'Une épopée fantastique.', 1954, 'lotr.jpg', 'Allen & Unwin', 2, 2, 2),
-(3, 'Une Terre Promise', 768, 'Un extrait inspirant...', 'Les mémoires du président.', 2020, 'terre_promise.jpg', 'Crown', 3, 1, 3),
-(4, 'Si c\'est un homme', 206, 'Un témoignage poignant...', 'Un récit autobiographique sur les camps de concentration.', 1947, 'si_c_est_un_homme.jpg', 'De Silva', 4, 1, 3),
-(5, 'La Trêve', 264, 'Un récit captivant...', 'Suite de Si c\'est un homme, décrivant le retour en Italie.', 1963, 'la_treve.jpg', 'Einaudi', 4, 1, 3),
-(6, 'Les Naufragés et les Rescapés', 203, 'Une réflexion profonde...', 'Un essai sur la mémoire et le pardon.', 1986, 'naufrages_rescapes.jpg', 'Einaudi', 4, 2, 3);
+(1, 'Fondation', 255, 'Un extrait passionnant...', 'Un classique de la science-fiction.', 1951, 'https://m.media-amazon.com/images/I/81wW3qopnLL._AC_UF1000,1000_QL80_.jpg', 'Gnome Press', 1, 1, 1),
+(2, 'Le Seigneur des Anneaux', 1178, 'Un extrait épique...', 'Une épopée fantastique.', 1954, 'https://images.noosfere.org/couv/f/floisirs14777-2001.jpg', 'Allen & Unwin', 2, 2, 2),
+(3, 'Une Terre Promise', 768, 'Un extrait inspirant...', 'Les mémoires du président.', 2020, 'https://des-livres-pour-changer-de-vie.com/wp-content/uploads/2023/05/Une-terre-promise.jpg', 'Crown', 3, 1, 3),
+(4, 'Si c\'est un homme', 206, 'Un témoignage poignant...', 'Un récit autobiographique sur les camps de concentration.', 1947, 'https://cdn1.booknode.com/book_cover/1376/full/si-cest-un-homme-1375589.jpg', 'De Silva', 4, 1, 3),
+(5, 'La Trêve', 264, 'Un récit captivant...', 'Suite de Si c\'est un homme, décrivant le retour en Italie.', 1963, 'https://static.fnac-static.com/multimedia/PE/Images/FR/NR/4b/07/15/1378123/1507-1/tsp20240928073107/La-Treve.jpg', 'Einaudi', 4, 1, 3),
+(6, 'Les Naufragés et les Rescapés', 203, 'Une réflexion profonde...', 'Un essai sur la mémoire et le pardon.', 1986, 'https://m.media-amazon.com/images/I/71WKoQovrzL._AC_UF1000,1000_QL80_.jpg', 'Einaudi', 4, 2, 3);
 
 -- --------------------------------------------------------
 

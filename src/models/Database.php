@@ -98,9 +98,16 @@ class Database
         return $verify[0];
     }
 
+    // Récupère les 5 derniers ouvrages publiées
     public function showFiveLastBooks()
     {
-        
+        $query = "SELECT * FROM `t_ouvrage` ORDER BY `ouvrage_id` DESC LIMIT 5";
+
+        $req = $this->querySimpleExecute($query);
+
+        $books = $this->formatData($req);
+
+        return $books;
     }
 	
 	/* TODO: récupère la liste de tous les enseignants de la BD */

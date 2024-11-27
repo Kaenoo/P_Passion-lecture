@@ -2,13 +2,14 @@
 session_start();
 include("./controllers/user.php");
 include("./models/Database.php");
+include("./controllers/books.php");
+$db = new Database();
 
 //Si l'user veut se déconnecter
 if (isset($_GET["login"]) && $_GET["login"] === "out") {   
  deconnectUser();
 }
 
-$db = new Database();
 ?>
 
 <!DOCTYPE html>
@@ -41,27 +42,31 @@ $db = new Database();
       Si vous avez des précisions à apporter ou souhaitez une version plus ciblée, faites-le-moi savoir !</p>
     </div>
 
+    <!-- 5 derniers ouvrages -->
     <h1 class="my-4 text-4xl font-bold text-center">5 derniers ouvrages ajoutés</h1>
+
+    <!-- TODO : div permettant d'aligner les ouvrages sur une même page -->
+    <div class="grid grid-cols-5 gap-4 items-center">
+      <?php
+        foreach (booksPresentation(($db)) as $index => $bookArray) {
+          // Version juste
+          // echo '<img class="block mx-auto p-8 justify-center" src="' . $bookArray[1] . '" alt="rectangle">';
+          echo '<img class="block mx-auto p-8 justify-center" src="./img/Rectangle.png" alt="rectangle">';
+          echo '<h2 class="mb-5 text-center justify-center font-light text-2xl">' . $bookArray[0] .'</h2>';  
+        }
+      ?>
+    </div>
 
     <img class="block mx-auto p-8 justify-center" src="./img/Rectangle.png" alt="rectangle">    
 
     <h2 class="mb-5 text-center justify-center font-light text-2xl">Titre du livre</h2>
-
-
+    
   </main>
 
   <?php
+
   include("./views/footer.php");
   ?>
         
 </body>
 </html>
-
-
-<?php
-
-foreach ($ouvrage as $key => $value) {
-  # code...
-}
-
-?>

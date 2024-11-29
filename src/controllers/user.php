@@ -1,7 +1,18 @@
 <?php
 
+function createAccountUser(){
+    
+}
+
+// Vérifie si l'user utilise un compte 
 function isUserConnected() {
-    return isset($_SESSION["user"]) && count($_SESSION["user"]) > 1;
+    if (isset($_SESSION["user"]) && count($_SESSION["user"]) > 1) {
+       return true;
+    }
+    else{
+        header("Location: ./index.php");
+    }
+    
 }
 
 // Connecte l'utilisateur et le redirige à la page d'acceuil

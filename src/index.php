@@ -45,7 +45,6 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
     <!-- 5 derniers ouvrages -->
     <h1 class="my-4 text-4xl font-bold text-center">5 derniers ouvrages ajoutés</h1>
 
-    <!-- TODO : div permettant d'aligner les ouvrages sur une même page -->
     <div class="grid grid-cols-5 gap-4 items-center">
       <?php
         foreach (booksPresentation(($db)) as $index => $bookArray) {

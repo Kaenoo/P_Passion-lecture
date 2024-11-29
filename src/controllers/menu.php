@@ -26,7 +26,7 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
         <a href="#" class="block px-4 py-2" role="menuitem" tabindex="-1" id="menu-item-0">
           <img class="size-7" src="../img/settings.png" alt="Paramètres">
         </a>
-        <a href="#" class="block px-4 py-2" role="menuitem" tabindex="-1" id="menu-item-1">
+        <a href="../myBooks.php" class="block px-4 py-2" role="menuitem" tabindex="-1" id="menu-item-1">
           <img class="size-7" src="../img/myBooks.png" alt="Mes ouvrages">
         </a>
         <a href="../index.php?login=out" class="block px-4 py-2" role="menuitem" tabindex="-1" id="menu-item-2">

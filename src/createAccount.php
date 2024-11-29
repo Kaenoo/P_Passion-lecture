@@ -4,17 +4,15 @@ include("./models/Database.php");
 include("./controllers/user.php");
 $db = new Database();
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
-  //Vérifie si le login fait parti de la DB, si c'est la cas -> création de session
-  if (count($db->verifyAccount($_POST["pseudo"], $_POST["password"])) > 1) {
-    $password = password_verify($_POST["password"], PASSWORD_DEFAULT);
-    $valueUser = $db->verifyAccount($_POST["pseudo"], $_POST["password"]); // TODO : $_POST["password"]) -> $password
+    $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
-    //Connecte l'utilisateur à la session
-    getConnectedUser($valueUser["admin"]);
-    }
+    $db->CreateAccount($_POST["lastName"], $_POST["firstName"], $_POST["pseudo"], $password);
+    
+    //Créer une session au nouvel user
+    getConnectedUser(0);
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/output.css">
-    <title>Login</title>
+    <title>Créer un compte</title>
 </head>
 <body class="h-full">
 <?php
@@ -33,13 +31,27 @@ include("./views/header.php");
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
     <!-- <img class="mx-auto h-10 w-auto" src="./img/account2.png" alt=""> -->
-    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Connecte toi à ton compte</h2>
+    <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Créer un compte</h2>
   </div>
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
 
     <!-- DEBUT FORMULAIRE -->
     <form class="space-y-6" action="#" method="post" id="formLogin">
+        <div>
+            <label for="lastName" class="block text-sm/6 font-medium text-gray-900">Nom de famille</label>
+            <div class="mt-2">
+                <input id="lastName" name="lastName" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
+            </div>
+        </div>
+
+        <div>
+            <label for="firstName" class="block text-sm/6 font-medium text-gray-900">Prénom</label>
+            <div class="mt-2">
+                <input id="firstName" name="firstName" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
+            </div>
+        </div> 
+
       <div>
         <label for="pseudo" class="block text-sm/6 font-medium text-gray-900">Pseudo</label>
         <div class="mt-2">
@@ -57,13 +69,12 @@ include("./views/header.php");
       </div>
 
       <div>
-        <button type="submit" class="flex w-full justify-center rounded-md bg-green-700 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700">Connexion</button>
+        <button type="submit" class="flex w-full justify-center rounded-md bg-green-700 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700">Créer un compte</button>
       </div>
     </form>
 
-    <p class="mt-10 text-center text-sm/6 text-gray-500">
-      Pas encore inscrit
-      <a href="./createAccount.php" class="font-semibold text-green-700 hover:text-green-600">Créer un compte</a>
+    <p class="mt-10 text-center text-sm/6">
+      <a href="./index.php" class="font-semibold text-green-700 hover:text-green-600">Retourner à la page d'acceuil</a>
     </p>
   </div>
 </div>

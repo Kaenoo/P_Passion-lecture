@@ -98,6 +98,20 @@ class Database
         return $verify[0];
     }
 
+    // Créer un compte à l'user
+    public function CreateAccount($lastName, $firstName, $pseudo, $password){
+        $query = "INSERT INTO `t_utilisateur` (`utilisateur_id`, `pseudo`, `date_entree`, `admin`, `nom`, `prenom`, `mot_de_passe`) VALUES (NULL, :pseudo, '2024-11-29', '0', :lastName, :firstName, :password);";
+
+        $binds = [];
+        $binds[] = [":lastName", $lastName, PDO::PARAM_STR];
+        $binds[] = [":firstName", $firstName, PDO::PARAM_STR];
+        $binds[] = [":pseudo", $pseudo, PDO::PARAM_STR];
+        $binds[] = [":password", $password, PDO::PARAM_STR];
+
+        $this->queryPrepareExecute($query, $binds);
+
+    }
+
     // Récupère les 5 derniers ouvrages publiées
     public function showFiveLastBooks()
     {

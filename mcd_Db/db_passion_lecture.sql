@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db:3306
--- Généré le : mer. 27 nov. 2024 à 21:39
+-- Généré le : ven. 29 nov. 2024 à 23:29
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.0.27
 
@@ -129,7 +129,7 @@ CREATE TABLE `t_utilisateur` (
   `admin` tinyint(1) DEFAULT NULL,
   `nom` varchar(128) DEFAULT NULL,
   `prenom` varchar(128) DEFAULT NULL,
-  `mot_de_passe` varchar(50) DEFAULT NULL
+  `mot_de_passe` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -139,7 +139,10 @@ CREATE TABLE `t_utilisateur` (
 INSERT INTO `t_utilisateur` (`utilisateur_id`, `pseudo`, `date_entree`, `admin`, `nom`, `prenom`, `mot_de_passe`) VALUES
 (1, 'lecteur1', '2023-01-15', 0, 'Doe', 'John', 'password123'),
 (2, 'admin', '2020-05-20', 1, 'Smith', 'Jane', 'adminpass'),
-(3, 'lectrice2', '2024-03-10', 0, 'Brown', 'Emma', 'pass456');
+(3, 'lectrice2', '2024-03-10', 0, 'Brown', 'Emma', 'pass456'),
+(4, 'Kaeno', '2024-11-29', 1, 'Eyer', 'Kaeno', 'kaka'),
+(5, 'KAENOO', '2024-11-29', 0, 'Eyer', 'Kaeno', '$2y$10$Nib5lQi/s05dS/bS.uCAGOW2cLLGSi9bxmiqVutJYmiCoXksQfiAS'),
+(6, 'KAENOO', '2024-11-29', 0, 'Eyer', 'Kaeno', '$2y$10$AGvYSW6KGS/Gf7gVEptRwOiwMDke93XZmCS2XL/SI16jZZuYpNwWy');
 
 --
 -- Index pour les tables déchargées
@@ -205,7 +208,7 @@ ALTER TABLE `t_ouvrage`
 -- AUTO_INCREMENT pour la table `t_utilisateur`
 --
 ALTER TABLE `t_utilisateur`
-  MODIFY `utilisateur_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `utilisateur_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Contraintes pour les tables déchargées

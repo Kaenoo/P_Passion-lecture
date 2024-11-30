@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db:3306
--- Généré le : ven. 29 nov. 2024 à 23:29
+-- Généré le : sam. 30 nov. 2024 à 20:00
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.0.27
 
@@ -137,12 +137,10 @@ CREATE TABLE `t_utilisateur` (
 --
 
 INSERT INTO `t_utilisateur` (`utilisateur_id`, `pseudo`, `date_entree`, `admin`, `nom`, `prenom`, `mot_de_passe`) VALUES
-(1, 'lecteur1', '2023-01-15', 0, 'Doe', 'John', 'password123'),
-(2, 'admin', '2020-05-20', 1, 'Smith', 'Jane', 'adminpass'),
-(3, 'lectrice2', '2024-03-10', 0, 'Brown', 'Emma', 'pass456'),
-(4, 'Kaeno', '2024-11-29', 1, 'Eyer', 'Kaeno', 'kaka'),
-(5, 'KAENOO', '2024-11-29', 0, 'Eyer', 'Kaeno', '$2y$10$Nib5lQi/s05dS/bS.uCAGOW2cLLGSi9bxmiqVutJYmiCoXksQfiAS'),
-(6, 'KAENOO', '2024-11-29', 0, 'Eyer', 'Kaeno', '$2y$10$AGvYSW6KGS/Gf7gVEptRwOiwMDke93XZmCS2XL/SI16jZZuYpNwWy');
+(1, 'Kaeno', '2024-11-29', 1, 'Eyer', 'Kaeno', '$2y$10$KNiOZTUytSh2z9Pjb0XQcOekpu.y/LAoYOvI/AW7Q3OARDtA7gS3S'),
+(2, 'Sarah', '2024-11-29', 0, 'Dongmo', 'Sarah', '$2y$10$MrbRYTkPIUNaHSkJz6rdpOkXMQgJdHmitbjoyb/b3HzLp0aBDzmpe'),
+(3, 'Mustafa', '2024-11-29', 0, 'Yildiz', 'Mustafa', '$2y$10$zR/6J8tELzmpwnz4.0y0D.bN3geEyGZhUhTaE6zINnhtEw8mj9aqm'),
+(14, 'GregLeBarbar', '2024-11-29', 0, 'Charmier', 'Grégory', '$2y$10$G/XII8Nzx5.99R41CvLouujgC8XgBO2mHtULFfR0513DvcDOzCAcC');
 
 --
 -- Index pour les tables déchargées
@@ -208,7 +206,7 @@ ALTER TABLE `t_ouvrage`
 -- AUTO_INCREMENT pour la table `t_utilisateur`
 --
 ALTER TABLE `t_utilisateur`
-  MODIFY `utilisateur_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `utilisateur_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Contraintes pour les tables déchargées

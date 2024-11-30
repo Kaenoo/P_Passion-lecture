@@ -7,9 +7,9 @@ $db = new Database();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
   //Vérifie si le login fait parti de la DB, si c'est la cas -> création de session
-  if (count($db->verifyAccount($_POST["pseudo"], $_POST["password"])) > 1) {
-    $password = password_verify($_POST["password"], PASSWORD_DEFAULT);
-    $valueUser = $db->verifyAccount($_POST["pseudo"], $_POST["password"]); // TODO : $_POST["password"]) -> $password
+  if ($db->verifyAccount($_POST["pseudo"], $_POST["password"]) === true) {
+    
+    $valueUser = $db->getDataAccount($_POST["pseudo"]);
 
     //Connecte l'utilisateur à la session
     getConnectedUser($valueUser["admin"]);

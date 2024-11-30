@@ -78,35 +78,75 @@ class Database
     }
 
 
-    // Vérifie l'existence du compte dans la DB, si c'est le cas -> return les valeurs associées
+    // Vérifie l'existence du compte dans la DB
     public function verifyAccount($login, $password){
 
-        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo and `mot_de_passe` = :password";
+
+        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
 
         $binds = [];
         $binds[] = [":pseudo", $login, PDO::PARAM_STR];
-        $binds[] = [":password", $password, PDO::PARAM_STR];
+        
+        $req = $this->queryPrepareExecute($query, $binds);
+        
+        $verify = $this->formatData($req);   
+
+        // Retourne false si le pseudo n'est pas trouvé ou que le mot de passe n'est pas bon
+        if (count($verify) == 0) {
+            return false;
+        }
+        elseif (password_verify($password, $verify[0]["mot_de_passe"]) === false) {
+            return false;
+        }
+
+        return true;
+    }
+
+    // Récupère les donnéees du compte utilisateur
+    public function getDataAccount($login){
+        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
+
+        $binds = [];
+        $binds[] = [":pseudo", $login, PDO::PARAM_STR];
         
         $req = $this->queryPrepareExecute($query, $binds);
         
         $verify = $this->formatData($req);
 
-        if (count($verify) == 0) {
-            return $verify;
+
+        return $verify[0];
+    }
+
+    public function verifyPseudoExistence($pseudo){
+
+        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
+
+        $binds = [];
+        $binds[] = [":pseudo", $pseudo, PDO::PARAM_STR];
+        
+        $req = $this->queryPrepareExecute($query, $binds);
+        
+        $verify = $this->formatData($req);
+
+        if (count($verify) > 0) {
+            
+            
+            return true;
         }
 
         return $verify[0];
     }
 
     // Créer un compte à l'user
-    public function CreateAccount($lastName, $firstName, $pseudo, $password){
-        $query = "INSERT INTO `t_utilisateur` (`utilisateur_id`, `pseudo`, `date_entree`, `admin`, `nom`, `prenom`, `mot_de_passe`) VALUES (NULL, :pseudo, '2024-11-29', '0', :lastName, :firstName, :password);";
+    public function CreateAccount($lastName, $firstName, $pseudo, $password, $date){
+        $query = "INSERT INTO `t_utilisateur` (`utilisateur_id`, `pseudo`, `date_entree`, `admin`, `nom`, `prenom`, `mot_de_passe`) VALUES (NULL, :pseudo, :date, '0', :lastName, :firstName, :password);";
 
         $binds = [];
         $binds[] = [":lastName", $lastName, PDO::PARAM_STR];
         $binds[] = [":firstName", $firstName, PDO::PARAM_STR];
         $binds[] = [":pseudo", $pseudo, PDO::PARAM_STR];
         $binds[] = [":password", $password, PDO::PARAM_STR];
+        $binds[] = [":date", $date, PDO::PARAM_STR];
 
         $this->queryPrepareExecute($query, $binds);
 

@@ -5,12 +5,19 @@ include("./controllers/user.php");
 $db = new Database();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
-    $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
-    $db->CreateAccount($_POST["lastName"], $_POST["firstName"], $_POST["pseudo"], $password);
-    
-    //Créer une session au nouvel user
-    getConnectedUser(0);
+    // Vérifie si le pseudo existe dans la db, si ce n'est pas le cas -> Création de compte
+    if ($db->verifyPseudoExistence($_POST["pseudo"]) !== true) {
+      $date = date("Y-m-d");
+      $password = password_hash($_POST["pseudo"], PASSWORD_DEFAULT);
+      $db->CreateAccount($_POST["lastName"], $_POST["firstName"], $_POST["pseudo"], $password, $date);
+      
+      //Créer une session au nouvel user
+      getConnectedUser(0);
+    }
+    else {
+      echo "Ce pseudo existe déjà, prends-en un autre !";
+    }
 }
 
 ?>

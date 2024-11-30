@@ -8,12 +8,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
 
     // Vérifie si le pseudo existe dans la db, si ce n'est pas le cas -> Création de compte
     if ($db->verifyPseudoExistence($_POST["pseudo"]) !== true) {
+      
+      //Préparation des données
       $date = date("Y-m-d");
       $password = password_hash($_POST["pseudo"], PASSWORD_DEFAULT);
+
       $db->CreateAccount($_POST["lastName"], $_POST["firstName"], $_POST["pseudo"], $password, $date);
       
+      // Récupère l'id de l'user
+      $userData = $db->getDataAccount($_POST["pseudo"]);
+      $idUser = $userData["utilisateur_id"];
+      
       //Créer une session au nouvel user
-      getConnectedUser(0);
+      getConnectedUser(0, $idUser);
     }
     else {
       echo "Ce pseudo existe déjà, prends-en un autre !";
@@ -31,9 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
     <title>Créer un compte</title>
 </head>
 <body class="h-full">
-<?php
-include("./views/header.php");
-?>
+<?php include("./views/header.php"); ?>
 
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">

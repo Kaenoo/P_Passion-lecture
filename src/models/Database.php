@@ -20,18 +20,14 @@ class Database
         }
     }
 
-     /**
-     * Avec query
-     */
+     // Avec query
     private function querySimpleExecute($query)
     {
         // permet de préparer et d'executer une requéte de type simple (sans where)
         return $this->connector->query($query);
     }
  
-    /**
-     * Avec prepare
-     */
+    // Avec prepare
     private function queryPrepareExecute($query, $binds)
     {
         //permet de préparer et d'exécuter une requéte    
@@ -46,26 +42,20 @@ class Database
         return $req;
     }
 
-    /**
-     * Permet de recuperer les données dans tableau associatif
-     */
+    // Permet de recuperer les données dans tableau associatif
     private function formatData($req)
     {
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * permet de vider
-     */
+    // permet de vider
     private function unsetData($req)
     {
         // Vider le jeu d'enregistrements
         return $req->closeCursor();
     }
 
-	    /**
-     * permet de recupérer les catégories
-     */
+    // permet de récupérer les catégories
     public function getAllCategorie()
     {
         $query = "SELECT * FROM t_categorie";
@@ -77,6 +67,7 @@ class Database
         return $categories;
     }
 
+    /* ---------------- Fonctions (Compte utilisateur) ---------------- */
 
     // Vérifie l'existence du compte dans la DB
     public function verifyAccount($login, $password){
@@ -117,6 +108,7 @@ class Database
         return $verify[0];
     }
 
+    // Vérifie si le pseudo existe dans la db
     public function verifyPseudoExistence($pseudo){
 
         $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
@@ -134,7 +126,7 @@ class Database
             return true;
         }
 
-        return $verify[0];
+        return false;
     }
 
     // Créer un compte à l'user
@@ -147,12 +139,14 @@ class Database
         $binds[] = [":pseudo", $pseudo, PDO::PARAM_STR];
         $binds[] = [":password", $password, PDO::PARAM_STR];
         $binds[] = [":date", $date, PDO::PARAM_STR];
-
+        
         $this->queryPrepareExecute($query, $binds);
 
     }
 
-    // Récupère les 5 derniers ouvrages publiées
+    /* ---------------- Fonctions (Livres) ---------------- */
+
+    // Récupère les 5 derniers ouvrages publiés
     public function showFiveLastBooks()
     {
         $query = "SELECT * FROM `t_ouvrage` ORDER BY `ouvrage_id` DESC LIMIT 5";
@@ -162,6 +156,21 @@ class Database
         $books = $this->formatData($req);
 
         return $books;
+    }
+
+    // Récupère les ouvrages publiés par l'user 
+    public function userBooks($userID){
+        $query = "SELECT `ouvrage_id`, `titre`, `image_couverture` FROM `t_ouvrage` WHERE `utilisateur_id` = :userID";
+
+        $binds = [];
+        $binds[] = [":userID", $userID, PDO::PARAM_STR];
+
+        $req = $this-> queryPrepareExecute($query, $binds);
+
+        $books = $this->formatData($req);
+
+        return $books;
+
     }
 	
 	/* TODO: récupère la liste de tous les enseignants de la BD */

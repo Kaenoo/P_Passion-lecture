@@ -9,7 +9,6 @@ $db = new Database();
 if (isset($_GET["login"]) && $_GET["login"] === "out") {   
  deconnectUser();
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -21,14 +20,12 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
     <title>Accueil - Passion lecture</title>
 </head>
 <body class="m-auto w-full">
-  <?php
-  include("./views/header.php");
-  ?>
+  <?php include("./views/header.php"); ?>
 
   <main class="px-12 text-justify">
     <h1 class="my-4 text-4xl font-bold text-center">Accueil</h1>
 
-    <!-- introductory message -->
+    <!-- Message d'introduction -->
     <div class="m-5 p-5 bg-green-200 ">
       <p>Bienvenue sur Passion Lecture, votre espace dédié à la découverte et au partage littéraire ! Que vous soyez un amateur de romans, un passionné d’essais ou un curieux de récits historiques, ce site vous permet :</p>
 
@@ -58,10 +55,7 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
     
   </main>
 
-  <?php
-
-  include("./views/footer.php");
-  ?>
+  <?php include("./views/footer.php");?>
         
 </body>
 </html>

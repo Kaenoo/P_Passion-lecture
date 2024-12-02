@@ -50,14 +50,14 @@ class Database
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    //  Permet de vider
+    // permet de vider
     private function unsetData($req)
     {
         // Vider le jeu d'enregistrements
         return $req->closeCursor();
     }
 
-    // permet de recupérer les catégories
+    // permet de récupérer les catégories
     public function getAllCategorie()
     {
         $query = "SELECT * FROM t_categorie";
@@ -69,31 +69,110 @@ class Database
         return $categories;
     }
 
+    /* ---------------- Fonctions (Compte utilisateur) ---------------- */
 
     // Vérifie l'existence du compte dans la DB, si c'est le cas -> return les valeurs associées
-    public function verifyAccount($login, $password)
-    {
+    public function verifyAccount($login, $password){
 
-        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo and `mot_de_passe` = :password";
+
+        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
 
         $binds = [];
         $binds[] = [":pseudo", $login, PDO::PARAM_STR];
-        $binds[] = [":password", $password, PDO::PARAM_STR];
+        
+        $req = $this->queryPrepareExecute($query, $binds);
+        
+        $verify = $this->formatData($req);   
+
+        // Retourne false si le pseudo n'est pas trouvé ou que le mot de passe n'est pas bon
+        if (count($verify) == 0) {
+            return false;
+        }
+        elseif (password_verify($password, $verify[0]["mot_de_passe"]) === false) {
+            return false;
+        }
+
+        return true;
+    }
+
+    // Récupère les donnéees du compte utilisateur
+    public function getDataAccount($login){
+        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
+
+        $binds = [];
+        $binds[] = [":pseudo", $login, PDO::PARAM_STR];
         
         $req = $this->queryPrepareExecute($query, $binds);
         
         $verify = $this->formatData($req);
 
-        if (count($verify) == 0) {
-            return $verify;
-        }
 
         return $verify[0];
     }
 
+    // Vérifie si le pseudo existe dans la db
+    public function verifyPseudoExistence($pseudo){
+
+        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
+
+        $binds = [];
+        $binds[] = [":pseudo", $pseudo, PDO::PARAM_STR];
+        
+        $req = $this->queryPrepareExecute($query, $binds);
+        
+        $verify = $this->formatData($req);
+
+        if (count($verify) > 0) {
+            
+            
+            return true;
+        }
+
+        return false;
+    }
+
+    // Créer un compte à l'user
+    public function CreateAccount($lastName, $firstName, $pseudo, $password, $date){
+        $query = "INSERT INTO `t_utilisateur` (`utilisateur_id`, `pseudo`, `date_entree`, `admin`, `nom`, `prenom`, `mot_de_passe`) VALUES (NULL, :pseudo, :date, '0', :lastName, :firstName, :password);";
+
+        $binds = [];
+        $binds[] = [":lastName", $lastName, PDO::PARAM_STR];
+        $binds[] = [":firstName", $firstName, PDO::PARAM_STR];
+        $binds[] = [":pseudo", $pseudo, PDO::PARAM_STR];
+        $binds[] = [":password", $password, PDO::PARAM_STR];
+        $binds[] = [":date", $date, PDO::PARAM_STR];
+        
+        $this->queryPrepareExecute($query, $binds);
+
+    }
+
+    /* ---------------- Fonctions (Livres) ---------------- */
+
+    // Récupère les 5 derniers ouvrages publiés
     public function showFiveLastBooks()
     {
-        
+        $query = "SELECT * FROM `t_ouvrage` ORDER BY `ouvrage_id` DESC LIMIT 5";
+
+        $req = $this->querySimpleExecute($query);
+
+        $books = $this->formatData($req);
+
+        return $books;
+    }
+
+    // Récupère les ouvrages publiés par l'user 
+    public function userBooks($userID){
+        $query = "SELECT `ouvrage_id`, `titre`, `image_couverture` FROM `t_ouvrage` WHERE `utilisateur_id` = :userID";
+
+        $binds = [];
+        $binds[] = [":userID", $userID, PDO::PARAM_STR];
+
+        $req = $this-> queryPrepareExecute($query, $binds);
+
+        $books = $this->formatData($req);
+
+        return $books;
+
     }
 	
 	// Affiche les résultats de la recherche utilisateur

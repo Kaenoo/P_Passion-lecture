@@ -50,22 +50,14 @@ class Database
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
-<<<<<<< HEAD
     //  Permet de vider
-=======
-    // permet de vider
->>>>>>> main
     private function unsetData($req)
     {
         // Vider le jeu d'enregistrements
         return $req->closeCursor();
     }
 
-<<<<<<< HEAD
     // permet de recupérer les catégories
-=======
-    // permet de récupérer les catégories
->>>>>>> main
     public function getAllCategorie()
     {
         $query = "SELECT * FROM t_categorie";
@@ -78,15 +70,8 @@ class Database
     }
 
     /* ---------------- Fonctions (Compte utilisateur) ---------------- */
-
-<<<<<<< HEAD
     // Vérifie l'existence du compte dans la DB, si c'est le cas -> return les valeurs associées
-    public function verifyAccount($login, $password)
-    {
-=======
-    // Vérifie l'existence du compte dans la DB
     public function verifyAccount($login, $password){
->>>>>>> main
 
 
         $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";

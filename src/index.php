@@ -1,8 +1,14 @@
 <?php
 session_start();
+include("./controllers/user.php");
 include("./models/Database.php");
+include("./controllers/books.php");
 $db = new Database();
 
+//Si l'user veut se déconnecter
+if (isset($_GET["login"]) && $_GET["login"] === "out") {   
+ deconnectUser();
+}
 ?>
 
 <!DOCTYPE html>
@@ -14,14 +20,12 @@ $db = new Database();
     <title>Accueil - Passion lecture</title>
 </head>
 <body class="m-auto w-full">
-  <?php
-  include("./views/header.php");
-  ?>
+  <?php include("./views/header.php"); ?>
 
   <main class="px-12 text-justify">
     <h1 class="my-4 text-4xl font-bold text-center">Accueil</h1>
 
-    <!-- introductory message -->
+    <!-- Message d'introduction -->
     <div class="m-5 p-5 bg-green-200 ">
       <p>Bienvenue sur Passion Lecture, votre espace dédié à la découverte et au partage littéraire ! Que vous soyez un amateur de romans, un passionné d’essais ou un curieux de récits historiques, ce site vous permet :</p>
 
@@ -35,27 +39,23 @@ $db = new Database();
       Si vous avez des précisions à apporter ou souhaitez une version plus ciblée, faites-le-moi savoir !</p>
     </div>
 
+    <!-- 5 derniers ouvrages -->
     <h1 class="my-4 text-4xl font-bold text-center">5 derniers ouvrages ajoutés</h1>
 
-    <img class="block mx-auto p-8 justify-center" src="./img/Rectangle.png" alt="rectangle">    
-
-    <h2 class="mb-5 text-center justify-center font-light text-2xl">Titre du livre</h2>
-
-
+    <div class="grid grid-cols-5 gap-4 items-center">
+      <?php
+        foreach (booksPresentation(($db)) as $index => $bookArray) {
+          echo '<div>';
+          echo '<img class="block mx-auto p-8 size-fit object-cover justify-center" src="' . $bookArray[1] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[0] . '">';
+          echo '<h2 class="mb-5 text-center justify-center font-light text-2xl">' . $bookArray[0] .'</h2>';
+          echo '</div>';  
+        }
+      ?>
+    </div>
+    
   </main>
 
-  <?php
-  include("./views/footer.php");
-  ?>
+  <?php include("./views/footer.php");?>
         
 </body>
 </html>
-
-
-<?php
-
-foreach ($ouvrage as $key => $value) {
-  # code...
-}
-
-?>

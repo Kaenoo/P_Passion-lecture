@@ -20,18 +20,14 @@ class Database
         }
     }
 
-     /**
-     * Avec query
-     */
+     // Avec query
     private function querySimpleExecute($query)
     {
         // permet de préparer et d'executer une requéte de type simple (sans where)
         return $this->connector->query($query);
     }
  
-    /**
-     * Avec prepare
-     */
+    // Avec prepare
     private function queryPrepareExecute($query, $binds)
     {
         //permet de préparer et d'exécuter une requéte    
@@ -46,26 +42,20 @@ class Database
         return $req;
     }
 
-    /**
-     * Permet de recuperer les données dans tableau associatif
-     */
+    // Permet de recuperer les données dans tableau associatif
     private function formatData($req)
     {
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /**
-     * permet de vider
-     */
+    // permet de vider
     private function unsetData($req)
     {
         // Vider le jeu d'enregistrements
         return $req->closeCursor();
     }
 
-	/**
-     * permet de recupérer les catégories
-     */
+    // permet de récupérer les catégories
     public function getAllCategorie()
     {
         $query = "SELECT * FROM t_categorie";
@@ -77,51 +67,110 @@ class Database
         return $categories;
     }
 
-    //permet de ajouter un livre
-    public function addBook($datas)
-    {
-         // recuperer les données
-         $titre = $datas['title'];
-         $authorFirstname = $datas['authorFirstname'];
-         $authorLasttname = $datas['authorLastname'];
-         $categorie = $datas['category'];
-         $pages = $datas['pages'];
-         $categorie = $datas['category'];
-         $extrait = $datas['extrait'];
-         $editeur = $datas['publisher'];
-         $dateEdition = $datas['published_date'];
-         $resume = $datas['summary'];
-         $image = $datas['image'];
+    /* ---------------- Fonctions (Compte utilisateur) ---------------- */
 
-         $query = "INSERT INTO `t_ouvrage`(`ouvrage_id`, `titre`, `nombre_page`, `extrait`, `resume`, `date_edition`, `image_couverture`, `editeur`, `ecrivain_id`, `utilisateur_id`, `categorie_id`) VALUES (DEFAULT, $titre, $pages, $extrait ,$resume ,$dateEdition , $image ,$editeur ,DEFAULT ,DEFAULT ,DEFAULT)";
-
-
-    }
-
-
-    // Vérifie l'existence du compte dans la DB, si c'est le cas -> return les valeurs associées
+    // Vérifie l'existence du compte dans la DB
     public function verifyAccount($login, $password){
 
-        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo and `mot_de_passe` = :password";
+
+        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
 
         $binds = [];
         $binds[] = [":pseudo", $login, PDO::PARAM_STR];
-        $binds[] = [":password", $password, PDO::PARAM_STR];
+        
+        $req = $this->queryPrepareExecute($query, $binds);
+        
+        $verify = $this->formatData($req);   
+
+        // Retourne false si le pseudo n'est pas trouvé ou que le mot de passe n'est pas bon
+        if (count($verify) == 0) {
+            return false;
+        }
+        elseif (password_verify($password, $verify[0]["mot_de_passe"]) === false) {
+            return false;
+        }
+
+        return true;
+    }
+
+    // Récupère les donnéees du compte utilisateur
+    public function getDataAccount($login){
+        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
+
+        $binds = [];
+        $binds[] = [":pseudo", $login, PDO::PARAM_STR];
         
         $req = $this->queryPrepareExecute($query, $binds);
         
         $verify = $this->formatData($req);
 
-        if (count($verify) == 0) {
-            return $verify;
-        }
 
         return $verify[0];
     }
 
+    // Vérifie si le pseudo existe dans la db
+    public function verifyPseudoExistence($pseudo){
+
+        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
+
+        $binds = [];
+        $binds[] = [":pseudo", $pseudo, PDO::PARAM_STR];
+        
+        $req = $this->queryPrepareExecute($query, $binds);
+        
+        $verify = $this->formatData($req);
+
+        if (count($verify) > 0) {
+            
+            
+            return true;
+        }
+
+        return false;
+    }
+
+    // Créer un compte à l'user
+    public function CreateAccount($lastName, $firstName, $pseudo, $password, $date){
+        $query = "INSERT INTO `t_utilisateur` (`utilisateur_id`, `pseudo`, `date_entree`, `admin`, `nom`, `prenom`, `mot_de_passe`) VALUES (NULL, :pseudo, :date, '0', :lastName, :firstName, :password);";
+
+        $binds = [];
+        $binds[] = [":lastName", $lastName, PDO::PARAM_STR];
+        $binds[] = [":firstName", $firstName, PDO::PARAM_STR];
+        $binds[] = [":pseudo", $pseudo, PDO::PARAM_STR];
+        $binds[] = [":password", $password, PDO::PARAM_STR];
+        $binds[] = [":date", $date, PDO::PARAM_STR];
+        
+        $this->queryPrepareExecute($query, $binds);
+
+    }
+
+    /* ---------------- Fonctions (Livres) ---------------- */
+
+    // Récupère les 5 derniers ouvrages publiés
     public function showFiveLastBooks()
     {
-        
+        $query = "SELECT * FROM `t_ouvrage` ORDER BY `ouvrage_id` DESC LIMIT 5";
+
+        $req = $this->querySimpleExecute($query);
+
+        $books = $this->formatData($req);
+
+        return $books;
+    }
+
+    // Récupère les ouvrages publiés par l'user 
+    public function userBooks($userID){
+        $query = "SELECT `ouvrage_id`, `titre`, `image_couverture` FROM `t_ouvrage` WHERE `utilisateur_id` = :userID";
+
+        $binds = [];
+        $binds[] = [":userID", $userID, PDO::PARAM_STR];
+
+        $req = $this-> queryPrepareExecute($query, $binds);
+
+        $books = $this->formatData($req);
+
+        return $books;
+
     }
 	
 	/* TODO: récupère la liste de tous les enseignants de la BD */

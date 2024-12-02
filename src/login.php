@@ -6,15 +6,13 @@ $db = new Database();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
-
   //Vérifie si le login fait parti de la DB, si c'est la cas -> création de session
-  if (count($db->verifyAccount($_POST["pseudo"], $_POST["password"])) > 1) {
-    $valueUser = $db->verifyAccount($_POST["pseudo"], $_POST["password"]);
-    $_SESSION["user"] = [];
-    $_SESSION["user"]["pseudo"] = $_POST["pseudo"];
-    $_SESSION["user"]["password"] = $_POST["password"];
-    $_SESSION["user"]["admin"] = $valueUser["admin"];
-    header("Location: ./index.php");
+  if ($db->verifyAccount($_POST["pseudo"], $_POST["password"]) === true) {
+    
+    $valueUser = $db->getDataAccount($_POST["pseudo"]);
+
+    //Connecte l'utilisateur à la session
+    getConnectedUser($valueUser["admin"], $valueUser["utilisateur_id"]);
     }
 }
 ?>
@@ -65,7 +63,7 @@ include("./views/header.php");
 
     <p class="mt-10 text-center text-sm/6 text-gray-500">
       Pas encore inscrit
-      <a href="#" class="font-semibold text-green-700 hover:text-green-600">Créer un compte</a>
+      <a href="./createAccount.php" class="font-semibold text-green-700 hover:text-green-600">Créer un compte</a>
     </p>
   </div>
 </div>

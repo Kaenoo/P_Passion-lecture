@@ -6,6 +6,11 @@
  */
 session_start();
 include ("./models/Database.php");
+include ("./controllers/user.php");
+
+// Vérifie que l'user soit bien connecté
+isUserConnected();
+
 $db = new Database();
 $ecrivans = $db->getAllCategorie();
 echo "<pre>";

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : db:3306
--- Généré le : lun. 25 nov. 2024 à 09:52
+-- Généré le : sam. 30 nov. 2024 à 20:00
 -- Version du serveur : 8.0.30
 -- Version de PHP : 8.0.27
 
@@ -18,11 +18,9 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `db_passion _lecture`
+-- Base de données : `db_passion_lecture`
 --
-DROP DATABASE IF EXISTS `db_passion_lecture`;
-CREATE DATABASE `db_passion_lecture`;
-USE `db_passion_lecture`;
+
 -- --------------------------------------------------------
 
 --
@@ -111,12 +109,12 @@ CREATE TABLE `t_ouvrage` (
 --
 
 INSERT INTO `t_ouvrage` (`ouvrage_id`, `titre`, `nombre_page`, `extrait`, `resume`, `date_edition`, `image_couverture`, `editeur`, `ecrivain_id`, `utilisateur_id`, `categorie_id`) VALUES
-(1, 'Fondation', 255, 'Un extrait passionnant...', 'Un classique de la science-fiction.', 1951, 'fondation.jpg', 'Gnome Press', 1, 1, 1),
-(2, 'Le Seigneur des Anneaux', 1178, 'Un extrait épique...', 'Une épopée fantastique.', 1954, 'lotr.jpg', 'Allen & Unwin', 2, 2, 2),
-(3, 'Une Terre Promise', 768, 'Un extrait inspirant...', 'Les mémoires du président.', 2020, 'terre_promise.jpg', 'Crown', 3, 1, 3),
-(4, 'Si c\'est un homme', 206, 'Un témoignage poignant...', 'Un récit autobiographique sur les camps de concentration.', 1947, 'si_c_est_un_homme.jpg', 'De Silva', 4, 1, 3),
-(5, 'La Trêve', 264, 'Un récit captivant...', 'Suite de Si c\'est un homme, décrivant le retour en Italie.', 1963, 'la_treve.jpg', 'Einaudi', 4, 1, 3),
-(6, 'Les Naufragés et les Rescapés', 203, 'Une réflexion profonde...', 'Un essai sur la mémoire et le pardon.', 1986, 'naufrages_rescapes.jpg', 'Einaudi', 4, 2, 3);
+(1, 'Fondation', 255, 'Un extrait passionnant...', 'Un classique de la science-fiction.', 1951, 'https://m.media-amazon.com/images/I/81wW3qopnLL._AC_UF1000,1000_QL80_.jpg', 'Gnome Press', 1, 1, 1),
+(2, 'Le Seigneur des Anneaux', 1178, 'Un extrait épique...', 'Une épopée fantastique.', 1954, 'https://images.noosfere.org/couv/f/floisirs14777-2001.jpg', 'Allen & Unwin', 2, 2, 2),
+(3, 'Une Terre Promise', 768, 'Un extrait inspirant...', 'Les mémoires du président.', 2020, 'https://des-livres-pour-changer-de-vie.com/wp-content/uploads/2023/05/Une-terre-promise.jpg', 'Crown', 3, 1, 3),
+(4, 'Si c\'est un homme', 206, 'Un témoignage poignant...', 'Un récit autobiographique sur les camps de concentration.', 1947, 'https://cdn1.booknode.com/book_cover/1376/full/si-cest-un-homme-1375589.jpg', 'De Silva', 4, 1, 3),
+(5, 'La Trêve', 264, 'Un récit captivant...', 'Suite de Si c\'est un homme, décrivant le retour en Italie.', 1963, 'https://static.fnac-static.com/multimedia/PE/Images/FR/NR/4b/07/15/1378123/1507-1/tsp20240928073107/La-Treve.jpg', 'Einaudi', 4, 1, 3),
+(6, 'Les Naufragés et les Rescapés', 203, 'Une réflexion profonde...', 'Un essai sur la mémoire et le pardon.', 1986, 'https://m.media-amazon.com/images/I/71WKoQovrzL._AC_UF1000,1000_QL80_.jpg', 'Einaudi', 4, 2, 3);
 
 -- --------------------------------------------------------
 
@@ -131,7 +129,7 @@ CREATE TABLE `t_utilisateur` (
   `admin` tinyint(1) DEFAULT NULL,
   `nom` varchar(128) DEFAULT NULL,
   `prenom` varchar(128) DEFAULT NULL,
-  `mot_de_passe` varchar(50) DEFAULT NULL
+  `mot_de_passe` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -139,9 +137,10 @@ CREATE TABLE `t_utilisateur` (
 --
 
 INSERT INTO `t_utilisateur` (`utilisateur_id`, `pseudo`, `date_entree`, `admin`, `nom`, `prenom`, `mot_de_passe`) VALUES
-(1, 'lecteur1', '2023-01-15', 0, 'Doe', 'John', 'password123'),
-(2, 'admin', '2020-05-20', 1, 'Smith', 'Jane', 'adminpass'),
-(3, 'lectrice2', '2024-03-10', 0, 'Brown', 'Emma', 'pass456');
+(1, 'Kaeno', '2024-11-29', 1, 'Eyer', 'Kaeno', '$2y$10$KNiOZTUytSh2z9Pjb0XQcOekpu.y/LAoYOvI/AW7Q3OARDtA7gS3S'),
+(2, 'Sarah', '2024-11-29', 0, 'Dongmo', 'Sarah', '$2y$10$MrbRYTkPIUNaHSkJz6rdpOkXMQgJdHmitbjoyb/b3HzLp0aBDzmpe'),
+(3, 'Mustafa', '2024-11-29', 0, 'Yildiz', 'Mustafa', '$2y$10$zR/6J8tELzmpwnz4.0y0D.bN3geEyGZhUhTaE6zINnhtEw8mj9aqm'),
+(14, 'GregLeBarbar', '2024-11-29', 0, 'Charmier', 'Grégory', '$2y$10$G/XII8Nzx5.99R41CvLouujgC8XgBO2mHtULFfR0513DvcDOzCAcC');
 
 --
 -- Index pour les tables déchargées
@@ -207,7 +206,7 @@ ALTER TABLE `t_ouvrage`
 -- AUTO_INCREMENT pour la table `t_utilisateur`
 --
 ALTER TABLE `t_utilisateur`
-  MODIFY `utilisateur_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `utilisateur_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Contraintes pour les tables déchargées

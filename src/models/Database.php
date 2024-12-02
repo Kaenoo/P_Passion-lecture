@@ -13,9 +13,11 @@ class Database
     public function __construct()
     {
         // Se connecter via PDO et utilise la variable de classe $connector
-        try {
+        try 
+        {
             $this->connector = new PDO('mysql:host=localhost:6033;dbname=db_passion_lecture;charset=utf8', 'root', 'root');
-        } catch (PDOException $e) {
+        } catch (PDOException $e) 
+        {
             die('Erreur : ' . $e->getMessage());
         }
     }
@@ -69,7 +71,7 @@ class Database
 
     /* ---------------- Fonctions (Compte utilisateur) ---------------- */
 
-    // Vérifie l'existence du compte dans la DB
+    // Vérifie l'existence du compte dans la DB, si c'est le cas -> return les valeurs associées
     public function verifyAccount($login, $password){
 
 
@@ -173,68 +175,92 @@ class Database
 
     }
 	
-	/* TODO: récupère la liste de tous les enseignants de la BD */
-    public function searchABook()
+	// Affiche les résultats de la recherche utilisateur
+    public function searchABook($search)
     {
         // TODO: avoir la requête sql
-        $query = "SELECT * FROM db_passion_lecture.TABLES LIMIT 0, 5;";
+        //$query = "SELECT * FROM db_passion_lecture.TABLES LIMIT 0, 5;";
 
-        // TODO: appeler la méthode pour executer la requête
+        $query = "SELECT DISTINCT o.titre, e.nom, e.prenom, u.pseudo, c.nom 
+        FROM `t_ouvrage` o 
+        INNER JOIN `t_ecrivain` e ON o.ecrivain_id = e.ecrivain_id 
+        INNER JOIN `t_utilisateur` u ON o.ecrivain_id = u.utilisateur_id 
+        INNER JOIN `t_categorie` c ON o.categorie_id = c.categorie_id 
+        WHERE IF(o.titre LIKE $search, 'True', 'False') = 'True'
+        OR IF(e.nom LIKE $search, 'True', 'False') = 'True'
+        OR IF(e.prenom LIKE $search, 'True', 'False') = 'True'
+        OR IF(c.nom LIKE $search, 'True', 'False') = 'True';";
+
+        // Méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
+
+        // Mise en forme en tableau
+        $searchABook = $this->formatData($result);
+
+        // Retourne le résultat d'une recherche de livre
+        return $searchABook;        
     }
 
-    /* TODO: ajouter les informations de 1 enseignant */
-    public function listTitleBook ()
+    // Liste les titres des livres
+    public function listBooks ()
     {
         // 
-        $query = "SELECT titre FROM t_ouvrage;";
+        $query = "SELECT * FROM t_ouvrage;";
 
-        // 
+        // Méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
 
-        // Retourne
-        return $result;
-    }
+        // Mise en forme en tableau
+        $listBooks = $this->formatData($result);
 
+        // Retourne la liste des livres
+        return $listBooks;
+    }
+    
+    // Liste le noms des auteurs en fonction des livres écrits
     public function listAuthorBook ($data)
     {
-        // TODO: avoir la requête sql
+        // 
         $query = "SELECT nom, prenom FROM t_ecrivain WHERE ecrivain_id = $data;";
 
-        // TODO: appeler la méthode pour executer la requête
+        // Méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
 
-        // TODO: retour tous les enseignants
-        return $result;
+        // Mise en forme en tableau
+        $listAuthorBook = $this->formatData($result);
 
-        
+        // Retourne la liste des noms et prénoms des auteurs
+        return $listAuthorBook;
     }
 
-
-    public function listPseudo ($data)
+    // Liste le pseudo des utilisateurs en fonction des livres publiés
+    public function listPseudoUser ($data)
     {
-        // TODO: avoir la requête sql
+        // Requête SQL
         $query = "SELECT pseudo FROM t_utilisateur WHERE utilisateur_id = $data;";
 
-        // TODO: appeler la méthode pour executer la requête
+        // Méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
 
-        // TODO: retour tous les enseignants
-        return $result;
+        // Mise en forme en tableau
 
-        
+        // Retorune les pseudos utilisateur
+        return $result;
     }
 
+    // Liste les livres selon leur catégorie
     public function listCategoryBook ($data)
     {
         // TODO: avoir la requête sql
         $query = "SELECT nom FROM t_categorie WHERE categorie_id = $data;";
 
-        // TODO: appeler la méthode pour executer la requête
+        // Méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
 
-        // TODO: retour tous les enseignants
+        // Mise en forme en tableau
+        $this->formatData($result);
+
+        // Retourne la catégorie des livres
         return $result;
     }
-
 }

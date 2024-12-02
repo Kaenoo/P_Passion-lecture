@@ -11,5 +11,8 @@ echo "<pre>";
 var_dump($_POST);
 echo "</pre>";
 
-$db->addBook($_POST, $_FILES);
+var_dump($_SESSION);
+die;
+$db->addBook($_POST, $_FILES, $_SESSION["userID"]);
+
 header("location: ./index.php");

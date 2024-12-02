@@ -338,7 +338,7 @@ class Database
 
     /* ---------------- Fonctions (Ajouter un Livre) ---------------- */
     //permet de ajouter un livre
-    public function addBook($datas, $files)
+    public function addBook($datas, $files, $userID)
     {
         // var_dump($files);
         // die();
@@ -350,7 +350,6 @@ class Database
         //$authorLasttname = $datas['authorLastname'];
         //$categorie = $datas['category'];
         $ecrivain_id = $datas['auteur'];
-        $utilisateur_id = $_SESSION['utilisateur_id'];
         $categorie_id = $datas['category_id'];
         $pages = $datas['pages'];
         //$categorie = $datas['category'];
@@ -371,7 +370,7 @@ class Database
         $binds[] = [":image_couverture", $image_couverture, PDO::PARAM_STR];
         $binds[] = [":editeur", $editeur, PDO::PARAM_STR];
         $binds[] = [":ecrivain_id", $ecrivain_id, PDO::PARAM_INT];
-        $binds[] = [":utilisateur_id", $utilisateur_id, PDO::PARAM_INT];
+        $binds[] = [":utilisateur_id", $userID, PDO::PARAM_INT];
         $binds[] = [":categorie_id", $categorie_id, PDO::PARAM_INT];
         $req = $this->queryPrepareExecute($query, $binds);
 
@@ -380,19 +379,6 @@ class Database
         echo "<pre>";
         var_dump($books);
         echo "</pre>";
-    }
-
-    // Afficher les catégories
-    public function listCategoriesBook()
-    {
-        // TODO: avoir la requête sql
-        $query = "SELECT * FROM t_categorie;";
-
-        // TODO: appeler la méthode pour executer la requête
-        $result = $this->querySimpleExecute($query);
-
-        // TODO: retour tous les enseignants
-        return $result;
     }
 
     // Afficher les auteurs

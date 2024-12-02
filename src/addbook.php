@@ -12,7 +12,7 @@ include ("./controllers/user.php");
 isUserConnected();
 
 $db = new Database();
-$categories = $db->listCategoriesBook();
+$categories = $db->getCategories();
 $authors = $db->listAuthors();
 $ouvrages = $db->listOuvrages();
 ?>

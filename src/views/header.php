@@ -10,7 +10,7 @@
         echo '<a href="./addbook.php">
         <img class="size-12" src="img/addBook.png" alt="">
       </a>';}?>
-      <a href="./booklistGCR.php">
+      <a href="./booklist.php">
         <img class="size-12" src="img/book_list.png" alt="">
       </a>
 

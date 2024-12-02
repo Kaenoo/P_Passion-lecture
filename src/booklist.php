@@ -50,22 +50,14 @@
       }
       </script>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 
       <div class="listofbook">
-=======
->>>>>>> Sarah
-=======
-      <div class="listofbook">
->>>>>>> 6f1491e51d71ce19f3621474532fe727cd92bac4
-      <?php 
-        foreach ($listBooks as $titleBook)
 
-        
-        <!-- Barre de recherche -->
-         <form action="#" method="get">
+      <div class="listofbook">
+
+      <!-- Barre de recherche -->
+      <form action="#" method="get">
             <div class="join">
                 <div>
                 <div>
@@ -88,7 +80,8 @@
             </div>
           </form>
           
-          <?php 
+    <?php      
+        
         foreach ($listTitleBook as $titleBook)
         { 
           $listCategoryBook = $db->listCategoryBook ($titleBook["categorie_id"]);

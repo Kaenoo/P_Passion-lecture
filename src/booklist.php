@@ -51,11 +51,15 @@
       </script>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
       <div class="listofbook">
 =======
 >>>>>>> Sarah
+=======
+      <div class="listofbook">
+>>>>>>> 6f1491e51d71ce19f3621474532fe727cd92bac4
       <?php 
         foreach ($listBooks as $titleBook)
 

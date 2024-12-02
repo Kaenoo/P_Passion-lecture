@@ -4,6 +4,7 @@
   *  Description   : Présentation des livres avec option de recherche */
 session_start();
   include("./models/Database.php");
+  include("./controllers/books.php");
   $db = new Database();
   if ($_SERVER["REQUEST_METHOD"] == "POST") 
   {
@@ -16,7 +17,8 @@ session_start();
     // $listPseudo = $db->listPseudo ($listTitleBook["utilisateur_id"]);
     // $listCategoryBook = $db->listCategoryBook ($listTitleBook["categorie_id"]);
   }
-
+  
+  
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -47,10 +49,32 @@ session_start();
            $db->searchABook($searchValue);?>
       }
       </script>
-
-
-
-      <?php 
+        
+        <!-- Barre de recherche -->
+         <form action="#" method="get">
+            <div class="join">
+                <div>
+                <div>
+                  <input class="input input-bordered join-item" placeholder="Recherche" id="search" name="search"/>
+                </div>
+              </div>
+              <select id="categories" name="categories" class="select select-bordered join-item">
+                <option value="filter" selected>Filtre</option>
+                <!-- Afficher dynamiquement les catégories -->
+                <?php 
+                    $categories = categories($db);
+                    foreach ($categories as $key => $value) {
+                      echo '<option value="'. $value . '">' . $value . '</option>';
+                    }
+                    ?>
+              </select>
+              <div class="indicator">
+                <button type="submit" class="btn join-item bg-green-700 hover:bg-green-600 font-bold">Rechercher</button>
+              </div>
+            </div>
+          </form>
+          
+          <?php 
         foreach ($listTitleBook as $titleBook)
         { 
           echo "<tr>";

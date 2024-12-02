@@ -11,6 +11,10 @@
   {
     var_dump($_POST);
     $db->searchABook($_POST);
+    echo '<div class="listofbook">
+    
+    
+    </div>';
   }
   else
   {
@@ -48,7 +52,7 @@
       </script>
 
 
-
+      <div class="listofbook">
       <?php 
         foreach ($listBooks as $titleBook)
         { 
@@ -89,6 +93,7 @@
           echo "</tr>";
         }
       ?>
+      </div>
     </main>
 
     <?php

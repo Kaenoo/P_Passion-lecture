@@ -1,8 +1,3 @@
-<?php
-if (isset($_GET["login"]) && $_GET["login"] === "out") {   
-    $_SESSION["user"] = null;
-}
-?>
 <div class="relative inline-block text-left">
     <img 
       src="../img/account2.png" 

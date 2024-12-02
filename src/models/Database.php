@@ -35,11 +35,13 @@ class Database
         //permet de préparer et d'exécuter une requéte    
         $req = $this->connector->prepare($query);
 
+        
         foreach($binds as $bind) {
-            $req->bindValue($bind[0], $bind[1], $bind[2]);
+            $req->bindValue($bind[0], $bind[1], PDO::PARAM_INT);
         }
         
         $req->execute();
+        
 
         return $req;
     }
@@ -148,7 +150,7 @@ class Database
     /* ---------------- Fonctions (Livres) ---------------- */
 
     // Récupère les 5 derniers ouvrages publiés
-    public function showFiveLastBooks()
+    public function getFiveLastBooks()
     {
         $query = "SELECT * FROM `t_ouvrage` ORDER BY `ouvrage_id` DESC LIMIT 5";
 
@@ -166,12 +168,50 @@ class Database
         $binds = [];
         $binds[] = [":userID", $userID, PDO::PARAM_STR];
 
-        $req = $this-> queryPrepareExecute($query, $binds);
+        $req = $this->queryPrepareExecute($query, $binds);
 
         $books = $this->formatData($req);
 
         return $books;
 
+    }
+
+    // Récupère les données d'un ouvrage 
+    public function getDataBook($bookID){
+        $query = "SELECT * FROM `t_ouvrage` WHERE `ouvrage_id` = :bookID";
+
+        $binds = [];
+        $binds[] = [":bookID", $bookID, PDO::PARAM_INT];
+
+        $req = $this->queryPrepareExecute($query, $binds);
+
+        $book = $this->formatData($req);
+
+        return $book[0];
+    }
+
+    // Récupère les données de l'écrivain
+    public function getWriter($writerID){
+        $query = "SELECT * FROM `t_ecrivain` WHERE `ecrivain_id` = :writerID";
+        
+        $binds = [];
+        $binds[] = [":writerID", $writerID, PDO::PARAM_INT];
+        
+        $req = $this->queryPrepareExecute($query, $binds);
+        
+        $writer = $this->formatData($req);
+        
+        return $writer[0];
+    }
+
+    // Récupère les catégories
+    public function getCategories(){
+        $query = "SELECT `nom` FROM `t_categorie`";
+        $req = $this->querySimpleExecute($query);
+        
+        $categories = $this->formatData($req);
+        
+        return $categories;
     }
 	
 	// Affiche les résultats de la recherche utilisateur

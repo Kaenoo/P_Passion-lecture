@@ -52,14 +52,14 @@ class Database
         return $req->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // permet de vider
+    //  Permet de vider
     private function unsetData($req)
     {
         // Vider le jeu d'enregistrements
         return $req->closeCursor();
     }
 
-    // permet de récupérer les catégories
+    // permet de recupérer les catégories
     public function getAllCategorie()
     {
         $query = "SELECT * FROM t_categorie";
@@ -72,7 +72,6 @@ class Database
     }
 
     /* ---------------- Fonctions (Compte utilisateur) ---------------- */
-
     // Vérifie l'existence du compte dans la DB, si c'est le cas -> return les valeurs associées
     public function verifyAccount($login, $password){
 
@@ -216,29 +215,60 @@ class Database
     }
 	
 	// Affiche les résultats de la recherche utilisateur
-    public function searchABook($search)
+    public function searchBooks($search)
     {
-        // TODO: avoir la requête sql
         //$query = "SELECT * FROM db_passion_lecture.TABLES LIMIT 0, 5;";
 
-        $query = "SELECT DISTINCT o.titre, e.nom, e.prenom, u.pseudo, c.nom 
-        FROM `t_ouvrage` o 
-        INNER JOIN `t_ecrivain` e ON o.ecrivain_id = e.ecrivain_id 
-        INNER JOIN `t_utilisateur` u ON o.ecrivain_id = u.utilisateur_id 
-        INNER JOIN `t_categorie` c ON o.categorie_id = c.categorie_id 
-        WHERE IF(o.titre LIKE $search, 'True', 'False') = 'True'
-        OR IF(e.nom LIKE $search, 'True', 'False') = 'True'
-        OR IF(e.prenom LIKE $search, 'True', 'False') = 'True'
-        OR IF(c.nom LIKE $search, 'True', 'False') = 'True';";
+       // $query = "SELECT DISTINCT o.titre, e.nom, e.prenom, u.pseudo, c.nom;
 
-        // Méthode pour executer la requête
-        $result = $this->querySimpleExecute($query);
+    //         $query = "SELECT DISTINCT o.titre, e.nom, e.prenom, u.pseudo, c.nom 
+    //         FROM `t_ouvrage` o 
+    //         INNER JOIN `t_ecrivain` e ON o.ecrivain_id = e.ecrivain_id 
+    //         INNER JOIN `t_utilisateur` u ON o.ecrivain_id = u.utilisateur_id 
+    //         INNER JOIN `t_categorie` c ON o.categorie_id = c.categorie_id 
+    //         WHERE o.titre LIKE :titre
+    //         OR e.nom LIKE :nom
+    //         OR e.prenom LIKE :prenom
+    //         OR c.nom LIKE :nom;";
+       
+
+    //     foreach ($search as $searching => $word)
+    //     {
+    //         $wording = $word . "%";
+    //         $binds =
+    //         [
+    //             ["o.titre", $wording, PDO::PARAM_STR],
+    //             ["e.nom", $wording, PDO::PARAM_STR],
+    //             ["e.prenom", $wording, PDO::PARAM_STR],
+    //             ["c.nom", $wording, PDO::PARAM_STR],
+
+    //         ];
+    //    }
+
+
+
+
+        $query = "SELECT DISTINCT titre
+        FROM `t_ouvrage`
+        WHERE titre LIKE :titre;";
+
+        foreach ($search as $searching => $word)
+        {
+            $wording = "%" . $word . "%";
+            $binds =
+            [
+                ["titre", $wording, PDO::PARAM_STR],
+
+            ];
+        }
+                // Méthode pour executer la requête
+        $req = $this->queryPrepareExecute($query, $binds);
 
         // Mise en forme en tableau
-        $searchABook = $this->formatData($result);
+       $searchBooks = $this->formatData($req);
 
         // Retourne le résultat d'une recherche de livre
-        return $searchABook;        
+        return $searchBooks;        
     }
 
     // Liste les titres des livres

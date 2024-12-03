@@ -2,7 +2,6 @@
 Auteur : Kaeno Eyer
 Date : 03.12.2024
 Description :  Page affichant les informations d'un ouvrage à l'aide son ID
-
 -->
 <?php
 session_start();

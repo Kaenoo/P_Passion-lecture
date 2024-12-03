@@ -163,8 +163,9 @@ $ouvrages = $db->listOuvrages();
           <!-- Image -->
           <div>
             <div class="mb-4">
-              <label for="image" class="block text-gray-600 font-medium mb-2">Image</label>
-              <input type="file" id="image" name="image" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
+              <p class="text-gray-600 font-medium mb-2 py-5">Image</p>
+              <input type="file" id="image" name="image" hidden>
+              <label class="border border-gray-300 rounded-lg px-4 py-5 w-full" for="image">Insérer une image</label>
             </div>
           </div>
         </div>

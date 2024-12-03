@@ -5,14 +5,14 @@
  * Description  : Le page pour ajouter un livre
  */
 session_start();
-include ("./models/Database.php");
-include ("./controllers/user.php");
+include("./models/Database.php");
+include("./controllers/user.php");
 
 // Vérifie que l'user soit bien connecté
 isUserConnected();
 
 $db = new Database();
-$categories = $db->getCategories();
+$categories = $db->listCategories();
 $authors = $db->listAuthors();
 $ouvrages = $db->listOuvrages();
 ?>
@@ -25,7 +25,6 @@ $ouvrages = $db->listOuvrages();
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/output.css">
   <title>Accueil - Passion lecture Add Book</title>
-
 </head>
 
 <body class="m-auto w-full">
@@ -65,7 +64,7 @@ $ouvrages = $db->listOuvrages();
                 <select id="author" name="author" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
                   <option value="" disabled selected>-- Sélectionnez un auteur --</option>
                   <?php foreach ($authors as $author): ?>
-                    <option value=<?=  $author['ecrivain_id']; ?>>
+                    <option value=<?= $author['ecrivain_id']; ?>>
                       <?= $author['prenom'] . " " . $author['nom']; ?>
                     </option>
                   <?php endforeach; ?>
@@ -80,11 +79,11 @@ $ouvrages = $db->listOuvrages();
                 <label for="category" class="block text-gray-600 font-medium">Catégorie</label>
               </div>
               <!-- Droite: Input -->
-              <div class="w-3/4">          
+              <div class="w-3/4">
                 <select id="category" name="category" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
                   <option value="" disabled selected>-- Sélectionnez une catégorie --</option>
                   <?php foreach ($categories as $category): ?>
-                    <option  value=<?=  $category['categorie_id']; ?>>
+                    <option value=<?= $category['categorie_id']; ?>>
                       <?= $category['nom']; ?>
                     </option>
                   <?php endforeach; ?>
@@ -176,16 +175,11 @@ $ouvrages = $db->listOuvrages();
         </div>
       </form>
     </div>
-
-
   </main>
-
-
 
   <?php
   include("./views/footer.php");
   ?>
 
 </body>
-
 </html>

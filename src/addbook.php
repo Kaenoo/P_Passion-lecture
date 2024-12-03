@@ -12,10 +12,9 @@ include ("./controllers/user.php");
 isUserConnected();
 
 $db = new Database();
-$ecrivans = $db->getAllCategorie();
-echo "<pre>";
-var_dump($ecrivans);
-echo "</pre>";
+$categories = $db->getCategories();
+$authors = $db->listAuthors();
+$ouvrages = $db->listOuvrages();
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +38,7 @@ echo "</pre>";
       <!-- Form Section -->
       <h2 class="text-2xl font-semibold text-gray-700 mb-6">Ajouter un ouvrage</h2>
 
-      <form action="/books/create" method="POST" enctype="multipart/form-data">
+      <form action="./checkaddbook.php" method="POST" enctype="multipart/form-data">
         <div class="grid grid-cols-2 gap-6">
           <!-- Left Column -->
           <div>
@@ -63,7 +62,14 @@ echo "</pre>";
               </div>
               <!-- Droite: Input -->
               <div class="w-3/4">
-                <input type="text" id="author" name="authorLastname" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
+                <select id="author" name="author" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
+                  <option value="" disabled selected>-- Sélectionnez un auteur --</option>
+                  <?php foreach ($authors as $author): ?>
+                    <option value=<?=  $author['ecrivain_id']; ?>>
+                      <?= $author['prenom'] . " " . $author['nom']; ?>
+                    </option>
+                  <?php endforeach; ?>
+                </select>
               </div>
             </div>
 
@@ -74,8 +80,15 @@ echo "</pre>";
                 <label for="category" class="block text-gray-600 font-medium">Catégorie</label>
               </div>
               <!-- Droite: Input -->
-              <div class="w-3/4">
-                <input type="text" id="category" name="category" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
+              <div class="w-3/4">          
+                <select id="category" name="category" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
+                  <option value="" disabled selected>-- Sélectionnez une catégorie --</option>
+                  <?php foreach ($categories as $category): ?>
+                    <option  value=<?=  $category['categorie_id']; ?>>
+                      <?= $category['nom']; ?>
+                    </option>
+                  <?php endforeach; ?>
+                </select>
               </div>
             </div>
 
@@ -87,7 +100,7 @@ echo "</pre>";
               </div>
               <!-- Droite: Input -->
               <div class="w-3/4">
-                <input type="number" id="pages" name="pages" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
+                <input id="pages" name="pages" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
               </div>
             </div>
 
@@ -99,7 +112,7 @@ echo "</pre>";
               </div>
               <!-- Droite: Input -->
               <div class="w-3/4">
-                <input type="file" id="extrait" name="extrait" accept=".pdf" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
+                <input type="text" id="extrait" name="extrait" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
               </div>
             </div>
 
@@ -111,7 +124,14 @@ echo "</pre>";
               </div>
               <!-- Droite: Input -->
               <div class="w-3/4">
-                <input type="text" id="publisher" name="publisher" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
+                <select id="publisher" name="publisher" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
+                  <option value="" disabled selected>-- Sélectionnez un editeur --</option>
+                  <?php foreach ($ouvrages as $ouvrage): ?>
+                    <option>
+                      <?= $ouvrage['editeur']; ?>
+                    </option>
+                  <?php endforeach; ?>
+                </select>
               </div>
             </div>
 

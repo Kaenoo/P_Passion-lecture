@@ -25,6 +25,7 @@ function getConnectedUser($admin, $userID) {
     header("Location: ./index.php");
 }
 
+
 //Déconnecte l'utilisateur
 function deconnectUser() { 
     $_SESSION["user"] = null;

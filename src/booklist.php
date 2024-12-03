@@ -8,14 +8,9 @@
   include("./controllers/books.php");
   $db = new Database();
 
-  if ($_SERVER["REQUEST_METHOD"] == "POST") 
+  if ($_GET["search"]) 
   {
-    var_dump($_POST);
-    $db->searchABook($_POST);
-    echo '<div class="listofbook">
-    
-    
-    </div>';
+    $listBooks = $db->searchBooks($_POST);
   }
   else
   {
@@ -23,6 +18,8 @@
   }
 
 ?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -39,7 +36,7 @@
     <main>
       <h1 class="py-4 text-4xl font-bold text-center">Liste des ouvrages</h1>
       <div class="search-container">
-        <form action=#> <!--"booklist.php?search={}"-->
+        <form action="" method="get">
           <input type="text" placeholder="Search.." id="search" name="search" oninput="myFunction()">
           <button type="submit"><i class="fa fa-search"></i></button>
         </form>
@@ -56,12 +53,11 @@
 
 
       <div class="listofbook">
-      <?php 
-        foreach ($listBooks as $titleBook)
 
-        
-        <!-- Barre de recherche -->
-         <form action="#" method="get">
+      <div class="listofbook">
+
+      <!-- Barre de recherche -->
+      <form action="#" method="get">
             <div class="join">
                 <div>
                 <div>
@@ -84,7 +80,8 @@
             </div>
           </form>
           
-          <?php 
+    <?php      
+        
         foreach ($listTitleBook as $titleBook)
         { 
           $listCategoryBook = $db->listCategoryBook ($titleBook["categorie_id"]);
@@ -124,7 +121,6 @@
           echo "</tr>";
         }
       ?>
-      </div>
     </main>
 
     <?php
@@ -134,3 +130,5 @@
 </body>
 </body>
 </html>
+
+

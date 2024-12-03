@@ -192,7 +192,7 @@ class Database
     }
 
     // Récupère les données de l'écrivain
-    public function getWriter($writerID){
+    public function getBookWriter($writerID){
         $query = "SELECT * FROM `t_ecrivain` WHERE `ecrivain_id` = :writerID";
         
         $binds = [];
@@ -203,6 +203,20 @@ class Database
         $writer = $this->formatData($req);
         
         return $writer[0];
+    }
+
+    // Récupère la catégorie d'un ouvrage
+    public function getBookCategory($categoryID){
+        $query = "SELECT `nom` FROM `t_categorie` WHERE `categorie_id` = :categoryID";
+
+        $binds = [];
+        $binds[] = ["categoryID", $categoryID, PDO::PARAM_INT];
+
+        $req = $this->queryPrepareExecute($query, $binds);
+
+        $writer = $this->formatData($req);
+
+        return $writer[0]["nom"];
     }
 
     // Récupère les catégories
@@ -297,6 +311,8 @@ class Database
         // Méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
 
+        var_dump($result);
+        die;
         // Mise en forme en tableau
         $this->formatData($result);
 

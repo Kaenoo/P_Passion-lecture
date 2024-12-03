@@ -1,4 +1,8 @@
-
+<!-- 
+Auteur : Kaeno Eyer
+Date : 03.12.2024
+Description :  En-tête du site web
+-->
 <header class="flex items-center py-6 px-28 bg-green-700">
     <a href="../index.php">
       <h1 class="text-4xl font-bold">Passion Lecture</h1>

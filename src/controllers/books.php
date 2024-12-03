@@ -54,13 +54,18 @@ function dataBook($db, $bookID){
 }
 
 // Retourne le nom et prénom de l'écrivain
-function writer($db, $writerID){
+function writerBook($db, $writerID){
 
-    $content = $db->getWriter($writerID);
+    $content = $db->getBookWriter($writerID);
     
     $writerName = $content["prenom"] . " " . $content["nom"];
 
     return $writerName;
+}
+
+// Retourne la catégorie d'un ouvrage
+function categoryBook($db, $categoryID){
+    return $db->getBookCategory($categoryID);
 }
 
 // Retourne les catégories

@@ -1,3 +1,9 @@
+<!-- 
+Auteur : Kaeno Eyer
+Date : 03.12.2024
+Description :  Page d'acceuil du site web
+-->
+
 <?php
 session_start();
 include("./controllers/user.php");

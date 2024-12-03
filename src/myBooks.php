@@ -1,3 +1,9 @@
+<!-- 
+Auteur : Kaeno Eyer
+Date : 03.12.2024
+Description :  Page qui affiche les ouvrages publiés d'un user
+-->
+
 <?php
 session_start();
 include("./controllers/user.php");

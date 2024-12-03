@@ -1,3 +1,8 @@
+<!-- 
+Auteur : Kaeno Eyer
+Date : 03.12.2024
+Description :  Page de création de compte
+-->
 <?php
 session_start();
 include("./models/Database.php");

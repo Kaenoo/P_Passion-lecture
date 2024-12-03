@@ -5,14 +5,11 @@
  * Description  : Le page pour ajouter un livre
  */
 session_start();
-include ("./models/Database.php");
+include("./models/Database.php");
 $db = new Database();
-echo "<pre>";
-var_dump($_POST);
-echo "</pre>";
 
-var_dump($_SESSION);
-die;
-$db->addBook($_POST, $_FILES, $_SESSION["userID"]);
+// Permet de ajouter un livre
+$db->addBook($_POST, $_FILES, $_SESSION['user']['userID']);
 
+// Aller au page accueil après ajouter un livre
 header("location: ./index.php");

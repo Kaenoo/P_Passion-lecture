@@ -79,4 +79,9 @@ function categories($db){
 
     return $categories;
 }
+
+// Retourne la note d'un ouvrage
+function bookReview($db, $bookID){
+    return $db->getBookReviews($bookID);
+}
 ?>

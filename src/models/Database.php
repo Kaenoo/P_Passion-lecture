@@ -246,6 +246,22 @@ class Database
 
         return $review[0]["ROUND(AVG(`note`))"];
     }
+
+    // Donne une notation et un avis d'un user sur un ouvrage
+    public function giveReviewOnABook($bookID, $userID, $note, $review){
+
+        $query = "INSERT INTO `t_apprecier`(`ouvrage_id`, `utilisateur_id`, `note`, `commentaire`) VALUES (:bookID, :userID, :note, :review)";
+
+        $binds = [];
+        $binds[] = [":bookID", $bookID, PDO::PARAM_INT];
+        $binds[] = [":userID", $userID, PDO::PARAM_INT];
+        $binds[] = [":note", $note, PDO::PARAM_INT];
+        $binds[] = [":review", $review, PDO::PARAM_STR];
+        
+
+        $this->queryPrepareExecute($query, $binds);
+
+    }
 	
 	// Affiche les résultats de la recherche utilisateur
     public function searchABook($search)

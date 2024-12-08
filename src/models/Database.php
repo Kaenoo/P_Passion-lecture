@@ -228,10 +228,10 @@ class Database
         return $categories;
     }
 
-    // Récupère les notations des users sur un ouvrage
+    // Récupère les notations arrondies des users sur un ouvrage
     public function getBookReviews($bookID){
 
-        $query = "SELECT `note` FROM `t_apprecier` WHERE `ouvrage_id`= :bookID ";
+        $query = "SELECT  ROUND(AVG(`note`)) FROM `t_apprecier` WHERE `ouvrage_id`= :bookID ";
 
         $binds = [];
         $binds[] = [":bookID", $bookID, PDO::PARAM_INT];
@@ -243,7 +243,8 @@ class Database
         if (count($review) === 0) {
             return null;
         }
-        return $review[0]["note"];
+
+        return $review[0]["ROUND(AVG(`note`))"];
     }
 	
 	// Affiche les résultats de la recherche utilisateur

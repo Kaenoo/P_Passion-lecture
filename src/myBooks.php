@@ -12,7 +12,9 @@ include("./controllers/books.php");
 $db = new Database();
 
 // Vérifie que l'user soit bien connecté
-isUserConnected();
+if (isUserConnected() !== true) {
+  header("Location: ./index.php");
+}
 
 ?>
 

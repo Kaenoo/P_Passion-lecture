@@ -9,9 +9,8 @@ function isUserConnected() {
     if (isset($_SESSION["user"]) && count($_SESSION["user"]) > 1) {
        return true;
     }
-    else{
-        header("Location: ./index.php");
-    }
+    
+    false;
     
 }
 

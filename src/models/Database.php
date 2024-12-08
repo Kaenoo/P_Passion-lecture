@@ -228,8 +228,26 @@ class Database
         return $categories;
     }
 
-    // Affiche les résultats de la recherche utilisateur
-    public function searchBooks($search)
+    // Récupère les notations des users sur un ouvrage
+    public function getBookReviews($bookID){
+
+        $query = "SELECT `note` FROM `t_apprecier` WHERE `ouvrage_id`= :bookID ";
+
+        $binds = [];
+        $binds[] = [":bookID", $bookID, PDO::PARAM_INT];
+
+        $req = $this->queryPrepareExecute($query, $binds);
+
+        $review = $this->formatData($req);
+
+        if (count($review) === 0) {
+            return null;
+        }
+        return $review[0]["note"];
+    }
+	
+	// Affiche les résultats de la recherche utilisateur
+    public function searchABook($search)
     {
         //$query = "SELECT * FROM db_passion_lecture.TABLES LIMIT 0, 5;";
 

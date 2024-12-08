@@ -13,6 +13,8 @@ $db = new Database();
 $dataBook = dataBook($db, $_GET["id"]);
 var_dump($dataBook);
 
+var_dump(bookReview($db, $dataBook["ouvrage_id"]));
+
 
 ?>
 
@@ -36,24 +38,41 @@ var_dump($dataBook);
       
       <!-- 2ème colonne -->
       <div class="col-start-2">
-        <p class="pt-10 ">Éditeur : <?= $dataBook["editeur"]?></p>
-        <p>Pages : <?= $dataBook["nombre_page"]?></p>
-        <p>Catégorie : <?= categoryBook($db, $dataBook["categorie_id"])?></p>  
-        <p>Parution : <?= $dataBook["date_edition"]?></p>
+        <p class="pt-10 text-lg">Éditeur : <?= $dataBook["editeur"]?></p>
+        <p class="text-lg">Pages : <?= $dataBook["nombre_page"]?></p>
+        <p class="text-lg">Catégorie : <?= categoryBook($db, $dataBook["categorie_id"])?></p>  
+        <p class="text-lg">Parution : <?= $dataBook["date_edition"]?></p>
         <h3 class="py-5 text-2xl font-bold text-green-700 underline decoration-green-700 decoration-8">Résumé</h3>
-        <p><?= $dataBook["resume"]?></p>
+        <p class="text-lg"><?= $dataBook["resume"]?></p>
 
         <h3 class="pt-16 pb-5 text-2xl font-bold text-green-700">Avis utilisateurs</h3>
 
         <!-- Notation en étoile -->
         <div class="rating">
-          <input type="radio" name="rating-4" class="mask mask-star-2 bg-green-700" />
-          <input type="radio" name="rating-4" class="mask mask-star-2 bg-green-700" checked="checked" />
-          <input type="radio" name="rating-4" class="mask mask-star-2 bg-green-700" />
-          <input type="radio" name="rating-4" class="mask mask-star-2 bg-green-700" />
-          <input type="radio" name="rating-4" class="mask mask-star-2 bg-green-700" />
+          <?php
+            // Si l'ouvrage a des notations, affichage des étoiles
+            if (bookReview($db, $dataBook["ouvrage_id"]) != null) {
+              $review = bookReview($db, $dataBook["ouvrage_id"]);
+              for ($i=1; $i <= 5; $i++) { 
+                if ($review >= $i) {
+                  echo '<input name="rating-4" class="mask mask-star-2 bg-green-700"/>'; // type="radio" checked="checked" 
+                  
+                }
+                else{ echo '<input name="rating-4" class="mask mask-star-2 bg-green-700 bg-opacity-20" />'; } // type="radio"
+              }
+            }
+            else { echo '<p class="text-lg">Cet ouvrage n\'a pas encore reçu d\'avis</p>'; }
+          ?>
         </div>
 
+        <?php
+          if (isUserConnected() === true) {
+            echo '<br> <button class="btn mt-10 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">Donner son avis</button>';
+          }
+        ?>
+        
+         
+            
       </div>
 
     </div>
@@ -64,6 +83,9 @@ var_dump($dataBook);
   </main>
 
   <?php include("./views/footer.php");?>
+
+  <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
+
         
 </body>
 </html>

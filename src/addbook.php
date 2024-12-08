@@ -9,7 +9,10 @@ include("./models/Database.php");
 include("./controllers/user.php");
 
 // Vérifie que l'user soit bien connecté
-isUserConnected();
+if (isUserConnected() !== true) {
+  header("Location: ./index.php");
+}
+
 
 $db = new Database();
 $categories = $db->listCategories();

@@ -5,7 +5,7 @@
  * Description  : Le page pour ajouter un livre
  */
 session_start();
-include("./models/Database.php");
+include("./models/database.php");
 include("./controllers/user.php");
 
 // Vérifie que l'user soit bien connecté

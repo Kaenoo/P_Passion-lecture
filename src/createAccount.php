@@ -5,7 +5,7 @@ Description :  Page de création de compte
 -->
 <?php
 session_start();
-include("./models/Database.php");
+include("./models/database.php");
 include("./controllers/user.php");
 $db = new Database();
 

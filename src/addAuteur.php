@@ -1,8 +1,8 @@
 <?php
 /*
  * Auteur       : Mustafa Yildiz
- * Date         : 19.11.2024
- * Description  : Le page pour ajouter un livre
+ * Date         : 09.12.2024
+ * Description  : Le page pour ajouter un auteur
  */
 session_start();
 include("./models/Database.php");
@@ -27,7 +27,7 @@ $ouvrages = $db->listOuvrages();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/output.css">
-  <title>Accueil - Passion lecture Add Book</title>
+  <title>Accueil - Passion lecture Add Auteur</title>
 </head>
 
 <body class="m-auto w-full">

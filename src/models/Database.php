@@ -264,7 +264,7 @@ class Database
     }
 	
 	// Affiche les résultats de la recherche utilisateur
-    public function searchABook($search)
+    public function searchBooks($search)
     {
         //$query = "SELECT * FROM db_passion_lecture.TABLES LIMIT 0, 5;";
 
@@ -297,26 +297,31 @@ class Database
 
 
 
-        $query = "SELECT DISTINCT titre
+        $query = "SELECT DISTINCT *
         FROM `t_ouvrage`
         WHERE titre LIKE :titre;";
 
+        //$binds = [];
         foreach ($search as $searching => $word) {
             $wording = "%" . $word . "%";
             $binds =
                 [
-                    ["titre", $wording, PDO::PARAM_STR],
-
+                    "titre", $wording, PDO::PARAM_STR,
                 ];
         }
         // Méthode pour executer la requête
         $req = $this->queryPrepareExecute($query, $binds);
 
         // Mise en forme en tableau
-        $searchBooks = $this->formatData($req);
+        //$searchBooks = $this->formatData($req);
 
         // Retourne le résultat d'une recherche de livre
-        return $searchBooks;
+        //return $searchBooks;
+
+        $req = $this->queryPrepareExecute($query, $binds);
+        $writer = $this->formatData($req);
+
+        return $writer;
     }
 
     // Liste les titres des livres
@@ -355,7 +360,7 @@ class Database
     public function listPseudoUser($data)
     {
         // Requête SQL
-        $query = "SELECT pseudo FROM t_utilisateur WHERE utilisateur_id = $data;";
+        $query = "SELECT * FROM t_utilisateur WHERE utilisateur_id = $data;";
 
         // Méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
@@ -375,16 +380,12 @@ class Database
         // Méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
 
-        var_dump($result);
-        die;
         // Mise en forme en tableau
         $this->formatData($result);
 
         // Retourne la catégorie des livres
         return $result;
     }
-
-
 
     /* ---------------- Fonctions (Ajouter un Livre) ---------------- */
     // Permet de ajouter un livre

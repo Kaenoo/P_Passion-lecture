@@ -1,8 +1,8 @@
 <?php
 
-// Récupère les données des 5 derniers ouvrages
-function getFiveLastBooks($db){    
-    return $db->showFiveLastBooks();
+// Retourne les données des 5 derniers ouvrages
+function FiveLastBooks($db){    
+    return $db->getFiveLastBooks();
 }
 
 // Prépare la présentation des ouvrages en isolant le titre et l'image
@@ -10,9 +10,10 @@ function booksPresentation($db){
     $content[] = [];
 
     
-    foreach (getFiveLastBooks($db) as $key => $book) {
-        $content[$key][0] = $book["titre"];
-        $content[$key][1] = $book["image_couverture"];
+    foreach (FiveLastBooks($db) as $key => $book) {
+        $content[$key][0] = $book["ouvrage_id"];
+        $content[$key][1] = $book["titre"];
+        $content[$key][2] = $book["image_couverture"];
         
     }
     
@@ -20,18 +21,70 @@ function booksPresentation($db){
 
 }
 
-// Récupère les ouvrages de l'user et les prépare à la présentation
+// Vérifie si l'user a publié des ouvrages
+function userHaveBooks($db, $userID){
+    $content = $db->userBooks($userID);
+
+    if (count($content) > 0) {
+        return true;
+    }
+
+    return false;
+}
+
+// Retourne les ouvrages de l'user et les prépare à la présentation
 function showMyBooks($db, $userID){
 
     $content[] = [];
 
     
     foreach ($db->userBooks($userID) as $key => $book) {
-        $content[$key][0] = $book["titre"];
-        $content[$key][1] = $book["image_couverture"];
+        $content[$key][0] = $book["ouvrage_id"];
+        $content[$key][1] = $book["titre"];
+        $content[$key][2] = $book["image_couverture"];
         
     }
     
     return $content;
+}
+
+// Retourne les données d'un ouvrage
+function dataBook($db, $bookID){
+    return $db->getDataBook($bookID);
+}
+
+// Retourne le nom et prénom de l'écrivain
+function writerBook($db, $writerID){
+
+    $content = $db->getBookWriter($writerID);
+    
+    $writerName = $content["prenom"] . " " . $content["nom"];
+
+    return $writerName;
+}
+
+// Retourne la catégorie d'un ouvrage
+function categoryBook($db, $categoryID){
+    return $db->getBookCategory($categoryID);
+}
+
+// Retourne les catégories
+function categories($db){
+    $arrayCategories = $db->getCategories();
+    $categories = [];
+
+    foreach ($arrayCategories as $key => $keyCategorie) {
+        $categories[] = $keyCategorie["nom"];
+    }
+
+    return $categories;
+}
+
+// Retourne la note d'un ouvrage
+function bookReview($db, $bookID){
+    return $db->getBookReviews($bookID);
+}
+function giveReview($db, $bookID, $userID, $note, $review){
+    $db->giveReviewOnABook($bookID, $userID, $note, $review);
 }
 ?>

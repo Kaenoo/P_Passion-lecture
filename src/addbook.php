@@ -5,17 +5,19 @@
  * Description  : Le page pour ajouter un livre
  */
 session_start();
-include ("./models/Database.php");
-include ("./controllers/user.php");
+include("./models/Database.php");
+include("./controllers/user.php");
 
 // Vérifie que l'user soit bien connecté
-isUserConnected();
+if (isUserConnected() !== true) {
+  header("Location: ./index.php");
+}
+
 
 $db = new Database();
-$ecrivans = $db->getAllCategorie();
-echo "<pre>";
-var_dump($ecrivans);
-echo "</pre>";
+$categories = $db->listCategories();
+$authors = $db->listAuthors();
+$ouvrages = $db->listOuvrages();
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +28,6 @@ echo "</pre>";
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/output.css">
   <title>Accueil - Passion lecture Add Book</title>
-
 </head>
 
 <body class="m-auto w-full">
@@ -39,7 +40,7 @@ echo "</pre>";
       <!-- Form Section -->
       <h2 class="text-2xl font-semibold text-gray-700 mb-6">Ajouter un ouvrage</h2>
 
-      <form action="/books/create" method="POST" enctype="multipart/form-data">
+      <form action="./checkaddbook.php" method="POST" enctype="multipart/form-data">
         <div class="grid grid-cols-2 gap-6">
           <!-- Left Column -->
           <div>
@@ -63,7 +64,14 @@ echo "</pre>";
               </div>
               <!-- Droite: Input -->
               <div class="w-3/4">
-                <input type="text" id="author" name="authorLastname" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
+                <select id="author" name="author" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
+                  <option value="" disabled selected>-- Sélectionnez un auteur --</option>
+                  <?php foreach ($authors as $author): ?>
+                    <option value=<?= $author['ecrivain_id']; ?>>
+                      <?= $author['prenom'] . " " . $author['nom']; ?>
+                    </option>
+                  <?php endforeach; ?>
+                </select>
               </div>
             </div>
 
@@ -75,7 +83,14 @@ echo "</pre>";
               </div>
               <!-- Droite: Input -->
               <div class="w-3/4">
-                <input type="text" id="category" name="category" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
+                <select id="category" name="category" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
+                  <option value="" disabled selected>-- Sélectionnez une catégorie --</option>
+                  <?php foreach ($categories as $category): ?>
+                    <option value=<?= $category['categorie_id']; ?>>
+                      <?= $category['nom']; ?>
+                    </option>
+                  <?php endforeach; ?>
+                </select>
               </div>
             </div>
 
@@ -87,7 +102,7 @@ echo "</pre>";
               </div>
               <!-- Droite: Input -->
               <div class="w-3/4">
-                <input type="number" id="pages" name="pages" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
+                <input id="pages" name="pages" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
               </div>
             </div>
 
@@ -99,7 +114,7 @@ echo "</pre>";
               </div>
               <!-- Droite: Input -->
               <div class="w-3/4">
-                <input type="file" id="extrait" name="extrait" accept=".pdf" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
+                <input type="text" id="extrait" name="extrait" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
               </div>
             </div>
 
@@ -111,7 +126,14 @@ echo "</pre>";
               </div>
               <!-- Droite: Input -->
               <div class="w-3/4">
-                <input type="text" id="publisher" name="publisher" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
+                <select id="publisher" name="publisher" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
+                  <option value="" disabled selected>-- Sélectionnez un editeur --</option>
+                  <?php foreach ($ouvrages as $ouvrage): ?>
+                    <option>
+                      <?= $ouvrage['editeur']; ?>
+                    </option>
+                  <?php endforeach; ?>
+                </select>
               </div>
             </div>
 
@@ -144,8 +166,9 @@ echo "</pre>";
           <!-- Image -->
           <div>
             <div class="mb-4">
-              <label for="image" class="block text-gray-600 font-medium mb-2">Image</label>
-              <input type="file" id="image" name="image" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
+              <p class="text-gray-600 font-medium mb-2 py-5">Image</p>
+              <input type="file" id="image" name="image" hidden>
+              <label class="border border-gray-300 rounded-lg px-4 py-5 w-full" for="image">Insérer une image</label>
             </div>
           </div>
         </div>
@@ -156,16 +179,11 @@ echo "</pre>";
         </div>
       </form>
     </div>
-
-
   </main>
-
-
 
   <?php
   include("./views/footer.php");
   ?>
 
 </body>
-
 </html>

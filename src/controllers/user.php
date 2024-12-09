@@ -9,9 +9,8 @@ function isUserConnected() {
     if (isset($_SESSION["user"]) && count($_SESSION["user"]) > 1) {
        return true;
     }
-    else{
-        header("Location: ./index.php");
-    }
+    
+    false;
     
 }
 
@@ -24,6 +23,7 @@ function getConnectedUser($admin, $userID) {
     $_SESSION["user"]["userID"] = $userID;
     header("Location: ./index.php");
 }
+
 
 //Déconnecte l'utilisateur
 function deconnectUser() { 

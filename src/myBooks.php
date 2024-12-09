@@ -1,3 +1,9 @@
+<!-- 
+Auteur : Kaeno Eyer
+Date : 03.12.2024
+Description :  Page qui affiche les ouvrages publiés d'un user
+-->
+
 <?php
 session_start();
 include("./controllers/user.php");
@@ -6,7 +12,9 @@ include("./controllers/books.php");
 $db = new Database();
 
 // Vérifie que l'user soit bien connecté
-isUserConnected();
+if (isUserConnected() !== true) {
+  header("Location: ./index.php");
+}
 
 ?>
 
@@ -29,13 +37,22 @@ isUserConnected();
     <!-- /!\ : Remplisseur de page -->
     <div class="grid grid-cols-5 gap-4 items-center">
       <?php
-        foreach (showMyBooks($db, $_SESSION["user"]["userID"]) as $index => $bookArray) {
-          echo '<div>';
-          echo '<img class="block mx-auto p-8 size-fit object-cover justify-center" src="' . $bookArray[1] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[0] . '">';
-          echo '<h2 class="mb-5 text-center justify-center font-light text-2xl">' . $bookArray[0] .'</h2>';
-          echo '</div>';  
+
+        // Vérifie si l'user a publié des ouvrages
+        if (userHaveBooks($db, $_SESSION["user"]["userID"])) {
+          foreach (showMyBooks($db, $_SESSION["user"]["userID"]) as $index => $bookArray) {
+            echo '<div> <a href="./book.php?id=' . $bookArray[0] .'">';
+            echo '<img class="block mx-auto p-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[0] . '">';
+            echo '<h2 class="mb-5 text-center justify-center font-light text-2xl">' . $bookArray[1] .'</h2>';
+            echo '</a> </div>';  
+          }
+        }
+        else {
+          echo '<p class="p-5 text-lg text-center">Vous n\'avez publié encore aucun ouvrage.</p>';
         }
       ?>
+
+      
     </div>
     
   </main>

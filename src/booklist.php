@@ -5,6 +5,7 @@
 
   session_start();
   include("./models/Database.php");
+  include("./controllers/books.php");
   $db = new Database();
 
   if ($_GET["search"]) 
@@ -15,6 +16,7 @@
   {
     $listBooks = $db->listBooks();
   }
+
 ?>
 
 
@@ -48,8 +50,39 @@
       }
       </script>
 
-      <?php 
-        foreach ($listBooks as $titleBook)
+
+
+      <div class="listofbook">
+
+      <div class="listofbook">
+
+      <!-- Barre de recherche -->
+      <form action="#" method="get">
+            <div class="join">
+                <div>
+                <div>
+                  <input class="input input-bordered join-item" placeholder="Recherche" id="search" name="search"/>
+                </div>
+              </div>
+              <select id="categories" name="categories" class="select select-bordered join-item">
+                <option value="filter" selected>Filtre</option>
+                <!-- Afficher dynamiquement les catégories -->
+                <?php 
+                    $categories = categories($db);
+                    foreach ($categories as $key => $value) {
+                      echo '<option value="'. $value . '">' . $value . '</option>';
+                    }
+                    ?>
+              </select>
+              <div class="indicator">
+                <button type="submit" class="btn join-item bg-green-700 hover:bg-green-600 font-bold">Rechercher</button>
+              </div>
+            </div>
+          </form>
+          
+    <?php      
+        
+        foreach ($listTitleBook as $titleBook)
         { 
           $listCategoryBook = $db->listCategoryBook ($titleBook["categorie_id"]);
           foreach ($listCategoryBook as $categoryBook)

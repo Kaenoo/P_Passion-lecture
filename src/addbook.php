@@ -75,15 +75,18 @@ $ouvrages = $db->listOuvrages();
                   </select>
                 </div>
 
+
+
+
                 <!-- Open the modal using ID.showModal() method -->
                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="my_modal_1.showModal()">+</button>
                 <dialog id="my_modal_1" class="modal">
                   <div class="modal-box">
 
-
+                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
 
                     <h3 class="text-lg font-bold">Ajouter un auteur!</h3>
-                    <p class="py-4">Press ESC key or click the button below to add</p>
+                    <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
                     <label class="input input-bordered flex items-center gap-2">
 
                       <input id="author" name="authorPrenom" type="text" class="grow" placeholder="Prénom" />
@@ -97,14 +100,46 @@ $ouvrages = $db->listOuvrages();
 
 
                     <div class="modal-action">
-                      <form action="./addbook.php" method="dialog">
+                      <form action="./addbook.php" method="">
                         <!-- if there is a button in form, it will close the modal -->
-                        <button class="btn" onclick="my_modal_1.showModal()">Ajouter</button>
+
                         <button type="submit" class="btn">Ajouter</button>
                       </form>
                     </div>
                   </div>
                 </dialog>
+
+
+
+
+                <button class="bg-green text-lg text-white font-semibold hover:bg-green-600" onclick="my_modal_3.showModal()">+</button>
+                <dialog id="my_modal_3" class="modal">
+                  <div class="modal-box">
+                    <form method="dialog">
+                      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                    </form>
+                    <div class="flex items-center justify-center">
+                      <form action="#" method="post" class="space-y-4">
+                        <h3 class="text-lg font-bold">Ajouter un auteur!</h3>
+                        <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
+                        <label class="input input-bordered flex items-center gap-2">
+
+                          <input id="author" name="authorPrenom" type="text" class="grow" placeholder="Prénom" />
+                        </label>
+                        <label class="input input-bordered flex items-center gap-2">
+
+                          <input id="author" name="authorNom" type="text" class="grow" placeholder="Nom" />
+                        </label>
+                        <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
+                          Ajouter
+                        </button>
+                      </form>
+                    </div>
+
+                  </div>
+                </dialog>
+
+
 
 
 

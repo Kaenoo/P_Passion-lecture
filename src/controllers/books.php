@@ -21,6 +21,10 @@ function booksPresentation($db){
 
 }
 
+function delete($db, $bookID){
+    $db->deleteBook($bookID);
+}
+
 // Vérifie si l'user a publié des ouvrages
 function userHaveBooks($db, $userID){
     $content = $db->userBooks($userID);

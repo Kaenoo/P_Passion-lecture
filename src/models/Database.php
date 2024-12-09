@@ -244,7 +244,14 @@ class Database
 
     // Supprime un ouvrage
     public function deleteBook($bookID){
-        $query = "";
+        $query = "DELETE FROM t_apprecier WHERE ouvrage_id = :bookID; ";
+        $query2 = "DELETE FROM t_ouvrage WHERE ouvrage_id = :bookID";
+
+        $binds = [];
+        $binds[] = ["bookID", $bookID, PDO::PARAM_INT];
+
+        $this->queryPrepareExecute($query, $binds);
+        $this->queryPrepareExecute($query2, $binds);
     }
 
     /* ---------------- Fonctions (Avis utilisateurs) ---------------- */

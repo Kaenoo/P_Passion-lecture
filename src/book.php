@@ -13,6 +13,10 @@ $db = new Database();
 
 $dataBook = dataBook($db, $_GET["id"]);
 
+if (isUserConnected() !== true) {
+  header("Location: ./index.php");
+}
+
 //var_dump($dataBook);
 // Vérifie si l'user a donné un avis
 if (count($_POST) > 0 && verifyReviewUser($db, $_SESSION["user"]["userID"], $dataBook["ouvrage_id"]) === false) {
@@ -50,6 +54,7 @@ if (count($_POST) > 0 && verifyReviewUser($db, $_SESSION["user"]["userID"], $dat
         <p class="text-lg">Pages : <?= $dataBook["nombre_page"] ?></p>
         <p class="text-lg">Catégorie : <?= categoryBook($db, $dataBook["categorie_id"]) ?></p>
         <p class="text-lg">Parution : <?= $dataBook["date_edition"] ?></p>
+        <p class="text-lg">Publié par : <a class="hover:font-semibold hover:text-green-700" href=""><?= UserPseudo($db, $dataBook["utilisateur_id"])?></a></p>
         <h3 class="py-5 text-2xl font-bold text-green-700 underline decoration-green-700 decoration-8">Résumé</h3>
         <p class="text-lg"><?= $dataBook["resume"] ?></p>
 
@@ -77,7 +82,7 @@ if (count($_POST) > 0 && verifyReviewUser($db, $_SESSION["user"]["userID"], $dat
           
         <!-- Option : Donner son avis -->
         <?php
-        if (isUserConnected() === true && verifyReviewUser($db, $_SESSION["user"]["userID"], $dataBook["ouvrage_id"]) === false) {
+        if (verifyReviewUser($db, $_SESSION["user"]["userID"], $dataBook["ouvrage_id"]) === false) {
           
           echo '<div class="mt-8">
           <button class="btn bg-green-700 text-lg text-white font-semibold hover:bg-green-600" onclick="my_modal_3.showModal()">Donner son avis</button>

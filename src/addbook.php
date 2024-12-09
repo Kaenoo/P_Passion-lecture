@@ -18,6 +18,7 @@ $db = new Database();
 $categories = $db->listCategories();
 $authors = $db->listAuthors();
 $ouvrages = $db->listOuvrages();
+//$author = $db-addAuteur($_POST)
 ?>
 
 <!DOCTYPE html>
@@ -73,9 +74,40 @@ $ouvrages = $db->listOuvrages();
                     <?php endforeach; ?>
                   </select>
                 </div>
-                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow">
-                  +
-                </button>
+
+                <!-- Open the modal using ID.showModal() method -->
+                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="my_modal_1.showModal()">+</button>
+                <dialog id="my_modal_1" class="modal">
+                  <div class="modal-box">
+
+
+
+                    <h3 class="text-lg font-bold">Ajouter un auteur!</h3>
+                    <p class="py-4">Press ESC key or click the button below to add</p>
+                    <label class="input input-bordered flex items-center gap-2">
+
+                      <input id="author" name="authorPrenom" type="text" class="grow" placeholder="Prénom" />
+                    </label>
+                    <label class="input input-bordered flex items-center gap-2">
+
+                      <input id="author" name="authorNom" type="text" class="grow" placeholder="Nom" />
+                    </label>
+
+
+
+
+                    <div class="modal-action">
+                      <form action="./addbook.php" method="dialog">
+                        <!-- if there is a button in form, it will close the modal -->
+                        <button class="btn" onclick="my_modal_1.showModal()">Ajouter</button>
+                        <button type="submit" class="btn">Ajouter</button>
+                      </form>
+                    </div>
+                  </div>
+                </dialog>
+
+
+
               </div>
 
               <!-- Catégorie -->
@@ -185,7 +217,7 @@ $ouvrages = $db->listOuvrages();
                   <img class=" w-1/4 object-cover" src="./imgCoverBook/La-Treve.jpg" alt="Sunset in the mountains">
                 </div>
                 <div class="font-bold text-xl mb-2">The Coldest Sunset</div>
-              </div>            
+              </div>
             </div>
           </div>
 

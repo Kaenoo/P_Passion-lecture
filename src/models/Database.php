@@ -460,4 +460,30 @@ class Database
         // Retour tous les enseignants
         return $result;
     }
+
+     // Afficher les ouvrages
+     public function addAuteur($datas)
+     {
+
+        var_dump($_POST);
+
+
+         // Recuperer les données
+         $nom = $datas['nom'];
+         $prenom = $datas['prenom'];
+
+         // Avoir la requête sql
+         $query = "INSERT INTO `t_ecrivain`(`ecrivain_id`, `nom`, `prenom`) VALUES (DEFAULT,:nom,:prenom)";
+
+         // Avoir la list PDO pour requête prépare sql
+        $binds = [];
+        $binds[] = [":nom", $nom, PDO::PARAM_STR];
+        $binds[] = [":prenom", $prenom, PDO::PARAM_INT];
+ 
+         // Méthode pour executer la requête
+         $req = $this->queryPrepareExecute($query, $binds);
+ 
+         // Retour tous les enseignants
+         return $req;
+     }
 }

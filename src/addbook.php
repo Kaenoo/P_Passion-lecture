@@ -5,7 +5,7 @@
  * Description  : Le page pour ajouter un livre
  */
 session_start();
-include("./models/Database.php");
+include("./models/database.php");
 include("./controllers/user.php");
 
 // Vérifie que l'user soit bien connecté
@@ -40,7 +40,7 @@ $ouvrages = $db->listOuvrages();
       <!-- Form Section -->
       <h2 class="text-2xl font-semibold text-gray-700 mb-6">Ajouter un ouvrage</h2>
 
-      <form action="./checkaddbook.php" method="POST" enctype="multipart/form-data">
+      <form action="./checkaddBook.php" method="POST" enctype="multipart/form-data">
         <div class="grid grid-cols-2 gap-6">
           <!-- Left Column -->
           <div>

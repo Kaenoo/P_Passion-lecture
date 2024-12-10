@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Generation Time: Dec 10, 2024 at 03:36 PM
+-- Generation Time: Dec 10, 2024 at 04:17 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.0.27
 
@@ -127,7 +127,7 @@ INSERT INTO `t_ouvrage` (`ouvrage_id`, `titre`, `nombre_page`, `extrait`, `resum
 (4, 'Si c\'est un homme', 206, 'Un témoignage poignant...', 'Un récit autobiographique sur les camps de concentration.', 1947, 'https://cdn1.booknode.com/book_cover/1376/full/si-cest-un-homme-1375589.jpg', 'De Silva', 4, 1, 3),
 (5, 'La Trêve', 264, 'Un récit captivant...', 'Suite de Si c\'est un homme, décrivant le retour en Italie.', 1963, 'https://static.fnac-static.com/multimedia/PE/Images/FR/NR/4b/07/15/1378123/1507-1/tsp20240928073107/La-Treve.jpg', 'Einaudi', 4, 1, 3),
 (6, 'Les Naufragés et les Rescapés', 203, 'Une réflexion profonde...', 'Un essai sur la mémoire et le pardon.', 1986, 'https://m.media-amazon.com/images/I/71WKoQovrzL._AC_UF1000,1000_QL80_.jpg', 'Einaudi', 4, 2, 3),
-(7, 'Les Misérables', 1232, 'Jean Valjean, ancien bagnard...', 'Un chef-d’œuvre racontant la lutte pour la justice sociale.', 1862, 'les_miserables.jpg', 'A. Lacroix, Verboeckhoven & Cie', 5, 3, 4),
+(7, 'Les Misérables', 1232, 'Jean Valjean, ancien bagnard...', 'Un chef-d’œuvre racontant la lutte pour la justice sociale.', 2009, '', 'Pocket', 5, 3, 4),
 (8, 'Harry Potter à l\'école des sorciers', 309, 'Mr et Mrs Dursley, qui habitaient au 4, Privet Drive...', 'Les débuts de l’aventure magique de Harry Potter.', 1997, 'harry_potter.jpg', 'Bloomsbury', 8, 3, 2),
 (9, '1984', 328, 'Big Brother vous surveille...', 'Un roman dystopique sur un régime totalitaire et la surveillance de masse.', 1949, '1984.jpg', 'Secker & Warburg', 9, 2, 1),
 (10, 'L\'Étranger', 123, 'Aujourd’hui, maman est morte...', 'Un homme détaché est confronté à un meurtre et à son procès.', 1942, 'etranger.jpg', 'Gallimard', 10, 14, 7);

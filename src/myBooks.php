@@ -52,7 +52,7 @@ if (isUserConnected() !== true) {
                       </a>
                     </li>
                     <li>
-                      <a class="p-1 object-center" href="#">
+                      <a class="p-1 object-center" href="./myBooks.php?delete=' . $nick .  '"> 
                         <img class="size-6" src="./img/delete.png" alt="Supprimer">
                       </a>
                     </li>
@@ -70,6 +70,10 @@ if (isUserConnected() !== true) {
         }
       ?>
 </div>
+
+                      <a onClick=<?php delete($db, $bookArray[0]) ?> class="p-1 object-center" href="#">
+                        <img class="size-6" src="./img/delete.png" alt="Supprimer">
+                      </a>
   </main>
 
   <?php include("./views/footer.php"); ?>

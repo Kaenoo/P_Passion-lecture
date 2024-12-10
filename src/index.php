@@ -7,7 +7,7 @@ Description :  Page d'acceuil du site web
 <?php
 session_start();
 include("./controllers/user.php");
-include("./models/Database.php");
+include("./models/database.php");
 include("./controllers/books.php");
 $db = new Database();
 
@@ -32,7 +32,7 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
     <h1 class="my-4 text-4xl font-bold text-center">Accueil</h1>
 
     <!-- Message d'introduction -->
-    <div class="m-5 p-5 bg-green-200 ">
+    <div class="m-5 p-5 rounded-xl bg-gray-200 text-lg">
       <p>Bienvenue sur Passion Lecture, votre espace dédié à la découverte et au partage littéraire ! Que vous soyez un amateur de romans, un passionné d’essais ou un curieux de récits historiques, ce site vous permet :</p>
 
       <ul class="list-disc pl-8">
@@ -52,11 +52,11 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
       <?php
         foreach (booksPresentation(($db)) as $index => $bookArray) {
           echo '<div> <a href="./book.php?id=' . $bookArray[0] .'">';
-          echo '<img class="block mx-auto p-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[0] . '">';
+          echo '<img class="block mx-auto p-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[1] . '">';
           echo '<h2 class="mb-5 text-center justify-center font-light text-2xl">' . $bookArray[1] .'</h2>';
           echo '</a> </div>';  
         }
-      ?>
+        ?>
     </div>
     
   </main>

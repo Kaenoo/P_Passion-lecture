@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Generation Time: Dec 08, 2024 at 07:29 PM
+-- Generation Time: Dec 10, 2024 at 03:36 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.0.27
 
@@ -41,11 +41,8 @@ CREATE TABLE `t_apprecier` (
 --
 
 INSERT INTO `t_apprecier` (`ouvrage_id`, `utilisateur_id`, `note`, `commentaire`) VALUES
-(1, 1, 5, ''),
-(2, 2, 4, ''),
-(3, 1, NULL, ''),
-(1, 1, 2, 'gtdgtdgt'),
-(1, 1, 2, 'gtdgtdgt');
+(4, 1, 5, 'Un livre excellent qui raconte une partie de l\'Histoire a ne pas oublié.'),
+(3, 1, 3, 'Bof, sans plus.\r\nLorem, ipsum dolor sit amet consectetur adipisicing elit. Velit esse dolores ipsam qui voluptatem distinctio accusamus, at id possimus assumenda voluptate eum culpa molestias totam incidunt, aut quis repellat voluptatum.');
 
 -- --------------------------------------------------------
 
@@ -65,7 +62,11 @@ CREATE TABLE `t_categorie` (
 INSERT INTO `t_categorie` (`categorie_id`, `nom`) VALUES
 (1, 'Science Fiction'),
 (2, 'Fantaisie'),
-(3, 'Biographie');
+(3, 'Biographie'),
+(4, 'Roman'),
+(5, 'Bande dessinée'),
+(6, 'Manga'),
+(7, 'Philosophie');
 
 -- --------------------------------------------------------
 
@@ -87,7 +88,13 @@ INSERT INTO `t_ecrivain` (`ecrivain_id`, `nom`, `prenom`) VALUES
 (1, 'Asimov', 'Isaac'),
 (2, 'Tolkien', 'J.R.R.'),
 (3, 'Obama', 'Barack'),
-(4, 'Levi', 'Primo');
+(4, 'Levi', 'Primo'),
+(5, 'Hugo', 'Victor'),
+(6, 'Austen', 'Jane'),
+(7, 'Dumas', 'Alexandre'),
+(8, 'Rowling', 'J.K.'),
+(9, 'Orwell', 'George'),
+(10, 'Camus', 'Albert');
 
 -- --------------------------------------------------------
 
@@ -101,7 +108,7 @@ CREATE TABLE `t_ouvrage` (
   `nombre_page` smallint DEFAULT NULL,
   `extrait` varchar(250) NOT NULL,
   `resume` varchar(500) DEFAULT NULL,
-  `date_edition` year DEFAULT NULL,
+  `date_edition` int DEFAULT NULL,
   `image_couverture` varchar(250) DEFAULT NULL,
   `editeur` varchar(50) DEFAULT NULL,
   `ecrivain_id` int NOT NULL,
@@ -114,12 +121,16 @@ CREATE TABLE `t_ouvrage` (
 --
 
 INSERT INTO `t_ouvrage` (`ouvrage_id`, `titre`, `nombre_page`, `extrait`, `resume`, `date_edition`, `image_couverture`, `editeur`, `ecrivain_id`, `utilisateur_id`, `categorie_id`) VALUES
-(1, 'Fondation', 255, 'Un extrait passionnant...', 'Un classique de la science-fiction.', 1951, 'https://m.media-amazon.com/images/I/81wW3qopnLL._AC_UF1000,1000_QL80_.jpg', 'Gnome Press', 1, 1, 1),
+(1, 'Fondation', 255, 'Un extrait passionnant...', 'Un classique de la science-fiction.', 1951, 'src\\imgCoverBook\\isaac_Asimov_Fondation.jpg', 'Gnome Press', 1, 1, 1),
 (2, 'Le Seigneur des Anneaux', 1178, 'Un extrait épique...', 'Une épopée fantastique.', 1954, 'https://images.noosfere.org/couv/f/floisirs14777-2001.jpg', 'Allen & Unwin', 2, 2, 2),
 (3, 'Une Terre Promise', 768, 'Un extrait inspirant...', 'Les mémoires du président.', 2020, 'https://des-livres-pour-changer-de-vie.com/wp-content/uploads/2023/05/Une-terre-promise.jpg', 'Crown', 3, 1, 3),
 (4, 'Si c\'est un homme', 206, 'Un témoignage poignant...', 'Un récit autobiographique sur les camps de concentration.', 1947, 'https://cdn1.booknode.com/book_cover/1376/full/si-cest-un-homme-1375589.jpg', 'De Silva', 4, 1, 3),
 (5, 'La Trêve', 264, 'Un récit captivant...', 'Suite de Si c\'est un homme, décrivant le retour en Italie.', 1963, 'https://static.fnac-static.com/multimedia/PE/Images/FR/NR/4b/07/15/1378123/1507-1/tsp20240928073107/La-Treve.jpg', 'Einaudi', 4, 1, 3),
-(6, 'Les Naufragés et les Rescapés', 203, 'Une réflexion profonde...', 'Un essai sur la mémoire et le pardon.', 1986, 'https://m.media-amazon.com/images/I/71WKoQovrzL._AC_UF1000,1000_QL80_.jpg', 'Einaudi', 4, 2, 3);
+(6, 'Les Naufragés et les Rescapés', 203, 'Une réflexion profonde...', 'Un essai sur la mémoire et le pardon.', 1986, 'https://m.media-amazon.com/images/I/71WKoQovrzL._AC_UF1000,1000_QL80_.jpg', 'Einaudi', 4, 2, 3),
+(7, 'Les Misérables', 1232, 'Jean Valjean, ancien bagnard...', 'Un chef-d’œuvre racontant la lutte pour la justice sociale.', 1862, 'les_miserables.jpg', 'A. Lacroix, Verboeckhoven & Cie', 5, 3, 4),
+(8, 'Harry Potter à l\'école des sorciers', 309, 'Mr et Mrs Dursley, qui habitaient au 4, Privet Drive...', 'Les débuts de l’aventure magique de Harry Potter.', 1997, 'harry_potter.jpg', 'Bloomsbury', 8, 3, 2),
+(9, '1984', 328, 'Big Brother vous surveille...', 'Un roman dystopique sur un régime totalitaire et la surveillance de masse.', 1949, '1984.jpg', 'Secker & Warburg', 9, 2, 1),
+(10, 'L\'Étranger', 123, 'Aujourd’hui, maman est morte...', 'Un homme détaché est confronté à un meurtre et à son procès.', 1942, 'etranger.jpg', 'Gallimard', 10, 14, 7);
 
 -- --------------------------------------------------------
 
@@ -193,19 +204,19 @@ ALTER TABLE `t_utilisateur`
 -- AUTO_INCREMENT for table `t_categorie`
 --
 ALTER TABLE `t_categorie`
-  MODIFY `categorie_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `categorie_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `t_ecrivain`
 --
 ALTER TABLE `t_ecrivain`
-  MODIFY `ecrivain_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ecrivain_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `t_ouvrage`
 --
 ALTER TABLE `t_ouvrage`
-  MODIFY `ouvrage_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ouvrage_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `t_utilisateur`

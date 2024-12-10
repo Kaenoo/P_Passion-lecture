@@ -4,7 +4,7 @@
   *  Description   : Présentation des livres avec option de recherche */
 
   session_start();
-  include("./models/Database.php");
+  include("./models/database.php");
   $db = new Database();
 
   if ($_SERVER["REQUEST_METHOD"] === "GET") 

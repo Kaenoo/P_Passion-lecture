@@ -24,6 +24,10 @@ function getConnectedUser($admin, $userID) {
     header("Location: ./index.php");
 }
 
+// Retourne le pseudo de l'user
+function UserPseudo($db, $userID){
+    return $db->getPseudoUser($userID);
+}
 
 //Déconnecte l'utilisateur
 function deconnectUser() { 

@@ -79,12 +79,4 @@ function categories($db){
 
     return $categories;
 }
-
-// Retourne la note d'un ouvrage
-function bookReview($db, $bookID){
-    return $db->getBookReviews($bookID);
-}
-function giveReview($db, $bookID, $userID, $note, $review){
-    $db->giveReviewOnABook($bookID, $userID, $note, $review);
-}
 ?>

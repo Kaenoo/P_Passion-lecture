@@ -16,6 +16,12 @@ if (isUserConnected() !== true) {
   header("Location: ./index.php");
 }
 
+// Supprime l'ouvrage lors du clic
+if (isset($_GET["delete"])) {
+  delete($db, $_GET["delete"]);
+  header("Location: ./myBooks.php");
+}
+
 ?>
 
 <!DOCTYPE html>

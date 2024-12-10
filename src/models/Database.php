@@ -249,7 +249,6 @@ class Database
 
         $binds = [];
         $binds[] = ["bookID", $bookID, PDO::PARAM_INT];
-
         $this->queryPrepareExecute($query, $binds);
         $this->queryPrepareExecute($query2, $binds);
     }

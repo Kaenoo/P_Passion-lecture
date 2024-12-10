@@ -52,7 +52,7 @@ if (isUserConnected() !== true) {
                       </a>
                     </li>
                     <li>
-                      <a class="p-1 object-center" href="./myBooks.php?delete=' . $nick .  '"> 
+                      <a class="p-1 object-center" href="./myBooks.php?delete=' . $bookArray[0] .  '"> 
                         <img class="size-6" src="./img/delete.png" alt="Supprimer">
                       </a>
                     </li>
@@ -66,14 +66,14 @@ if (isUserConnected() !== true) {
           }
         }
         else {
-          echo '<p class="p-5 text-lg text-center">Vous n\'avez publié encore aucun ouvrage.</p>';
+          echo '<p class="col-span-5 py-5 text-lg text-center">Vous n\'avez publié encore aucun ouvrage.</p>';
         }
       ?>
 </div>
 
-                      <a onClick=<?php delete($db, $bookArray[0]) ?> class="p-1 object-center" href="#">
-                        <img class="size-6" src="./img/delete.png" alt="Supprimer">
-                      </a>
+
+
+</div>
   </main>
 
   <?php include("./views/footer.php"); ?>

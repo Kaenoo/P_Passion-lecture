@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Generation Time: Dec 10, 2024 at 04:17 PM
+-- Generation Time: Dec 10, 2024 at 09:20 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.0.27
 
@@ -41,7 +41,6 @@ CREATE TABLE `t_apprecier` (
 --
 
 INSERT INTO `t_apprecier` (`ouvrage_id`, `utilisateur_id`, `note`, `commentaire`) VALUES
-(4, 1, 5, 'Un livre excellent qui raconte une partie de l\'Histoire a ne pas oublié.'),
 (3, 1, 3, 'Bof, sans plus.\r\nLorem, ipsum dolor sit amet consectetur adipisicing elit. Velit esse dolores ipsam qui voluptatem distinctio accusamus, at id possimus assumenda voluptate eum culpa molestias totam incidunt, aut quis repellat voluptatum.');
 
 -- --------------------------------------------------------
@@ -121,16 +120,14 @@ CREATE TABLE `t_ouvrage` (
 --
 
 INSERT INTO `t_ouvrage` (`ouvrage_id`, `titre`, `nombre_page`, `extrait`, `resume`, `date_edition`, `image_couverture`, `editeur`, `ecrivain_id`, `utilisateur_id`, `categorie_id`) VALUES
-(1, 'Fondation', 255, 'Un extrait passionnant...', 'Un classique de la science-fiction.', 1951, 'src\\imgCoverBook\\isaac_Asimov_Fondation.jpg', 'Gnome Press', 1, 1, 1),
-(2, 'Le Seigneur des Anneaux', 1178, 'Un extrait épique...', 'Une épopée fantastique.', 1954, 'https://images.noosfere.org/couv/f/floisirs14777-2001.jpg', 'Allen & Unwin', 2, 2, 2),
-(3, 'Une Terre Promise', 768, 'Un extrait inspirant...', 'Les mémoires du président.', 2020, 'https://des-livres-pour-changer-de-vie.com/wp-content/uploads/2023/05/Une-terre-promise.jpg', 'Crown', 3, 1, 3),
-(4, 'Si c\'est un homme', 206, 'Un témoignage poignant...', 'Un récit autobiographique sur les camps de concentration.', 1947, 'https://cdn1.booknode.com/book_cover/1376/full/si-cest-un-homme-1375589.jpg', 'De Silva', 4, 1, 3),
-(5, 'La Trêve', 264, 'Un récit captivant...', 'Suite de Si c\'est un homme, décrivant le retour en Italie.', 1963, 'https://static.fnac-static.com/multimedia/PE/Images/FR/NR/4b/07/15/1378123/1507-1/tsp20240928073107/La-Treve.jpg', 'Einaudi', 4, 1, 3),
-(6, 'Les Naufragés et les Rescapés', 203, 'Une réflexion profonde...', 'Un essai sur la mémoire et le pardon.', 1986, 'https://m.media-amazon.com/images/I/71WKoQovrzL._AC_UF1000,1000_QL80_.jpg', 'Einaudi', 4, 2, 3),
-(7, 'Les Misérables', 1232, 'Jean Valjean, ancien bagnard...', 'Un chef-d’œuvre racontant la lutte pour la justice sociale.', 2009, '', 'Pocket', 5, 3, 4),
-(8, 'Harry Potter à l\'école des sorciers', 309, 'Mr et Mrs Dursley, qui habitaient au 4, Privet Drive...', 'Les débuts de l’aventure magique de Harry Potter.', 1997, 'harry_potter.jpg', 'Bloomsbury', 8, 3, 2),
-(9, '1984', 328, 'Big Brother vous surveille...', 'Un roman dystopique sur un régime totalitaire et la surveillance de masse.', 1949, '1984.jpg', 'Secker & Warburg', 9, 2, 1),
-(10, 'L\'Étranger', 123, 'Aujourd’hui, maman est morte...', 'Un homme détaché est confronté à un meurtre et à son procès.', 1942, 'etranger.jpg', 'Gallimard', 10, 14, 7);
+(1, 'Fondation', 255, 'Un extrait passionnant...', 'Isaac Asimov nous entraîne dans une galaxie en déclin, où un mathématicien visionnaire, Hari Seldon, utilise la psychohistoire pour prédire l’effondrement imminent de l’Empire Galactique. Il crée une Fondation sur une planète reculée pour préserver le savoir humain et réduire les âges sombres à venir. Ce récit explore la politique, la science et les luttes de pouvoir dans un univers complexe, tout en interrogeant la capacité de l\'humanité à modeler son destin.', 1951, 'src\\imgCoverBook\\isaac_Asimov_Fondation.jpg', 'Gnome Press', 1, 1, 1),
+(2, 'Le Seigneur des Anneaux', 1178, 'Un extrait épique...', 'Cette épopée de J.R.R. Tolkien suit la quête de Frodon Sacquet, chargé de détruire l\'Anneau Unique, un artefact maléfique forgé par Sauron. Accompagné par la Communauté de l’Anneau, il traverse des terres magnifiques et périlleuses, tout en affrontant des créatures mythiques et ses propres doutes. Cette œuvre magistrale célèbre l\'amitié, le courage et la lutte contre les ténèbres.', 1954, 'https://images.noosfere.org/couv/f/floisirs14777-2001.jpg', 'Allen & Unwin', 2, 2, 2),
+(3, 'Une Terre Promise', 768, 'Un extrait inspirant...', 'Barack Obama nous plonge dans son parcours intime et politique, de son enfance à sa première élection présidentielle. Il décrit les défis et décisions majeures de son mandat, avec des réflexions sur la démocratie, la justice et l’espoir. Ce livre est un portrait sincère d’un leader face aux réalités complexes du pouvoir.', 2020, 'https://des-livres-pour-changer-de-vie.com/wp-content/uploads/2023/05/Une-terre-promise.jpg', 'Crown', 3, 1, 3),
+(6, 'Les Naufragés et les Rescapés', 203, 'Une réflexion profonde...', 'Cet essai de Levi analyse les mécanismes de l’Holocauste et ses impacts durables. Il interroge les responsabilités et les silences autour de cette tragédie, offrant une réflexion éthique sur la mémoire collective.', 1986, 'https://m.media-amazon.com/images/I/71WKoQovrzL._AC_UF1000,1000_QL80_.jpg', 'Einaudi', 4, 2, 3),
+(7, 'Les Misérables', 1232, 'Jean Valjean, ancien bagnard...', 'Victor Hugo tisse une fresque magistrale de la société française du XIXᵉ siècle. À travers les destins croisés de Jean Valjean, Cosette et Javert, il explore la justice, la misère et la rédemption, tout en dénonçant les injustices sociales de son temps.', 2009, '', 'Pocket', 5, 3, 4),
+(8, 'Harry Potter à l\'école des sorciers', 309, 'Mr et Mrs Dursley, qui habitaient au 4, Privet Drive...', 'J.K. Rowling présente Harry Potter, un orphelin découvrant qu’il est un sorcier. Entre l’apprentissage de la magie à Poudlard et la découverte de son passé, il affronte le mage noir Voldemort, lançant une saga captivante d’amitié et de courage.', 1997, 'harry_potter.jpg', 'Bloomsbury', 8, 3, 2),
+(9, '1984', 328, 'Big Brother vous surveille...', 'George Orwell imagine un monde dystopique où Big Brother contrôle tout. Dans cette société totalitaire, la pensée est surveillée et manipulée. Winston Smith, le protagoniste, tente de résister à ce régime oppressif, mais à quel prix ?', 1949, '1984.jpg', 'Secker & Warburg', 9, 2, 1),
+(10, 'L\'Étranger', 123, 'Aujourd’hui, maman est morte...', 'Albert Camus raconte l’histoire de Meursault, un homme détaché du monde, qui commet un meurtre absurde. Ce roman explore l’absurdité de la vie et la quête de sens dans une société normative.', 1942, 'etranger.jpg', 'Gallimard', 10, 14, 7);
 
 -- --------------------------------------------------------
 

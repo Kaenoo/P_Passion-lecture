@@ -3262,6 +3262,14 @@ html {
   font-weight: 600;
 }
 
+.hover\:font-medium:hover {
+  font-weight: 500;
+}
+
+.hover\:font-normal:hover {
+  font-weight: 400;
+}
+
 .hover\:text-green-600:hover {
   --tw-text-opacity: 1;
   color: rgb(22 163 74 / var(--tw-text-opacity, 1));

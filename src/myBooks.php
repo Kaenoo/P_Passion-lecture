@@ -67,7 +67,7 @@ if (isset($_GET["delete"])) {
                     </div></p>';
             echo '<a href="./book.php?id=' . $bookArray[0] .'">';
             echo '<img class="block mx-auto px-8 pb-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[1] . '">';
-            echo '<h2 class="mb-5 text-center justify-center font-light text-2xl">' . $bookArray[1] .'</h2>';
+            echo '<h2 class="mb-5 text-center justify-center font-light text-2xl hover:font-normal hover:text-green-700">' . $bookArray[1] .'</h2>';
             echo '</a> </div>';  
           }
         }

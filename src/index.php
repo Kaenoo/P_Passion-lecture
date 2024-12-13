@@ -41,7 +41,8 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
         <li>Découvrir des recommandations personnalisées : Trouvez votre prochaine lecture grâce à nos suggestions basées sur vos préférences.</li>
         <li>Suivre vos auteurs favoris : Restez informé des œuvres de vos écrivains préférés.</li>
       </ul>
-      <p>Les cinq derniers ouvrages ajoutés sont disponibles directement sur cette page pour une exploration immédiate. Bonne lecture ! 📚
+      <p>Les cinq derniers ouvrages ajoutés sont disponibles directement sur cette page pour une exploration immédiate. Bonne lecture ! 📚 <br>
+      Si vous avez des précisions à apporter ou souhaitez une version plus ciblée, faites-le-moi savoir !</p>
     </div>
 
     <!-- 5 derniers ouvrages -->

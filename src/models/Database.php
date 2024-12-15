@@ -36,7 +36,7 @@ class Database
         foreach ($binds as $bind) {
             $req->bindValue($bind[0], $bind[1], $bind[2]);
         }
-
+        
         $req->execute();
 
         return $req;
@@ -145,6 +145,20 @@ class Database
         $this->queryPrepareExecute($query, $binds);
     }
 
+    // Récupère le pseudo d'un user
+    public function getPseudoUser($userID){
+        $query = "SELECT `pseudo` FROM `t_utilisateur` WHERE `utilisateur_id` = :userID";
+
+        $binds = [];
+        $binds[] = [":userID", $userID, PDO::PARAM_INT];
+
+        $req = $this->queryPrepareExecute($query, $binds);
+
+        $pseudo = $this->formatData($req);
+
+        return $pseudo[0]["pseudo"];
+    } 
+
     /* ---------------- Fonctions (Livres) ---------------- */
 
     // Récupère les 5 derniers ouvrages publiés
@@ -228,6 +242,19 @@ class Database
         return $categories;
     }
 
+    // Supprime un ouvrage
+    public function deleteBook($bookID){
+        $query = "DELETE FROM t_apprecier WHERE ouvrage_id = :bookID; ";
+        $query2 = "DELETE FROM t_ouvrage WHERE ouvrage_id = :bookID";
+
+        $binds = [];
+        $binds[] = ["bookID", $bookID, PDO::PARAM_INT];
+        $this->queryPrepareExecute($query, $binds);
+        $this->queryPrepareExecute($query2, $binds);
+    }
+
+    /* ---------------- Fonctions (Avis utilisateurs) ---------------- */
+
     // Récupère les notations arrondies des users sur un ouvrage
     public function getBookReviews($bookID){
 
@@ -260,6 +287,40 @@ class Database
         
 
         $this->queryPrepareExecute($query, $binds);
+
+    }
+
+    // Récupère tous les avis et notation d'un ouvrage
+    public function getAllReviewsBook($bookID){
+        $query = "SELECT `utilisateur_id`, `note`, `commentaire` FROM `t_apprecier` WHERE `ouvrage_id` = :bookID";
+
+        $binds = [];
+        $binds[] = [":bookID", $bookID, PDO::PARAM_INT];
+
+        $req = $this->queryPrepareExecute($query, $binds);
+        
+        $reviews = $this->formatData($req);
+        
+
+        return $reviews;
+    }
+
+    // Récupère l'avis d'un user sur un ouvrage (Si c'est le cas, il ne peut plus en poster sur celui là)
+    public function userReviewBook($userID, $bookID){
+        $query = "SELECT * FROM `t_apprecier` WHERE `utilisateur_id` = :userID and `ouvrage_id` = :bookID";
+
+        $binds = [];
+        $binds[] = [":userID", $userID, PDO::PARAM_INT];
+        $binds[] = [":bookID", $bookID, PDO::PARAM_INT];
+        
+        $req = $this->queryPrepareExecute($query, $binds);
+        
+        $review = $this->formatData($req);
+
+        if (count($review) > 0) {
+            return true;
+        }
+        return false;
 
     }
 	

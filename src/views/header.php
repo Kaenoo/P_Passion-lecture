@@ -11,7 +11,7 @@ Description :  En-tête du site web
     <div class="flex ml-auto space-x-14 ">
       
       <?php if (isset($_SESSION["user"])) {
-        echo '<a href="./addbook.php">
+        echo '<a href="./addBook.php">
         <img class="size-12" src="img/addBook.png" alt="">
       </a>';}?>
       <a href="./booklist.php">

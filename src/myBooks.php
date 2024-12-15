@@ -7,13 +7,19 @@ Description :  Page qui affiche les ouvrages publiés d'un user
 <?php
 session_start();
 include("./controllers/user.php");
-include("./models/Database.php");
+include("./models/database.php");
 include("./controllers/books.php");
 $db = new Database();
 
 // Vérifie que l'user soit bien connecté
 if (isUserConnected() !== true) {
   header("Location: ./index.php");
+}
+
+// Supprime l'ouvrage lors du clic
+if (isset($_GET["delete"])) {
+  delete($db, $_GET["delete"]);
+  header("Location: ./myBooks.php");
 }
 
 ?>
@@ -41,20 +47,39 @@ if (isUserConnected() !== true) {
         // Vérifie si l'user a publié des ouvrages
         if (userHaveBooks($db, $_SESSION["user"]["userID"])) {
           foreach (showMyBooks($db, $_SESSION["user"]["userID"]) as $index => $bookArray) {
-            echo '<div> <a href="./book.php?id=' . $bookArray[0] .'">';
-            echo '<img class="block mx-auto p-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[0] . '">';
-            echo '<h2 class="mb-5 text-center justify-center font-light text-2xl">' . $bookArray[1] .'</h2>';
+
+            echo '<div class="p-2 bg-gray-200 rounded-2xl">'; 
+            echo '<p class=""><div class="dropdown dropdown-right flex pr-1 justify-end">
+                  <div tabindex="0" role="button" class="font-bold text-3xl align-text-top">...</div>
+                  <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-14 shadow">
+                    <li>
+                      <a class="p-1 text-center" href="./modifyBook.php">
+                        <img class="size-6" src="./img/edit.png" alt="Modifier">
+                      </a>
+                    </li>
+                    <li>
+                      <a class="p-1 object-center" href="./myBooks.php?delete=' . $bookArray[0] .  '"> 
+                        <img class="size-6" src="./img/delete.png" alt="Supprimer">
+                      </a>
+                    </li>
+                  </ul>
+                      
+                    </div></p>';
+            echo '<a href="./book.php?id=' . $bookArray[0] .'">';
+            echo '<img class="block mx-auto px-8 pb-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[1] . '">';
+            echo '<h2 class="mb-5 text-center justify-center font-light text-2xl hover:font-normal hover:text-green-700">' . $bookArray[1] .'</h2>';
             echo '</a> </div>';  
           }
         }
         else {
-          echo '<p class="p-5 text-lg text-center">Vous n\'avez publié encore aucun ouvrage.</p>';
+          echo '<p class="col-span-5 py-5 text-lg text-center">Vous n\'avez publié encore aucun ouvrage.</p>';
         }
       ?>
+</div>
 
-      
-    </div>
-    
+
+
+</div>
   </main>
 
   <?php include("./views/footer.php"); ?>

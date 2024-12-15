@@ -17,10 +17,12 @@ if (isUserConnected() !== true) {
 }
 
 // Supprime l'ouvrage lors du clic
-if (isset($_GET["delete"])) {
-  delete($db, $_GET["delete"]);
+if (isset($_GET["confirmDelete"])) {
+  delete($db, $_GET["confirmDelete"]);
   header("Location: ./myBooks.php");
 }
+
+var_dump($_GET);
 
 ?>
 
@@ -58,8 +60,25 @@ if (isset($_GET["delete"])) {
                       </a>
                     </li>
                     <li>
-                      <a class="p-1 object-center" href="./myBooks.php?delete=' . $bookArray[0] .  '"> 
-                        <img class="size-6" src="./img/delete.png" alt="Supprimer">
+                      <a class="p-1 object-center"> 
+                        <img class="size-6" onclick="my_modal_5.showModal()" src="./img/delete.png" alt="Supprimer">
+                        <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+                          <div class="modal-box">
+                          <form method="dialog">
+                              <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                            </form>
+                            <h3 class="text-lg font-bold">Supprimer l\'ouvrage</h3>
+                              <p class="py-4">Souhaitez-vous vraiment supprimer <b> '. $bookArray[1] . '</b>.<br>Les notations et commentaires associés disparaitront avec !</p>
+                            <div class="modal-action">
+                              <form method="dialog">
+                                <button class="btn">Annuler</button>
+                              </form>
+                              <form method="get">
+                                <button type="submit" name="confirmDelete" value="' . $bookArray[0] .  '" class="btn bg-red-600 hover:bg-red-700 text-white font-bold">Confirmer</button>
+                              </form>
+                            </div>
+                          </div>
+                        </dialog>
                       </a>
                     </li>
                   </ul>
@@ -75,11 +94,12 @@ if (isset($_GET["delete"])) {
           echo '<p class="col-span-5 py-5 text-lg text-center">Vous n\'avez publié encore aucun ouvrage.</p>';
         }
       ?>
-</div>
+    </div>
 
+    
 
+      
 
-</div>
   </main>
 
   <?php include("./views/footer.php"); ?>

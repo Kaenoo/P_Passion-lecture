@@ -16,6 +16,12 @@ if (isUserConnected() !== true) {
   header("Location: ./index.php");
 }
 
+// Supprime l'ouvrage lors du clic
+if (isset($_GET["delete"])) {
+  delete($db, $_GET["delete"]);
+  header("Location: ./myBooks.php");
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +58,7 @@ if (isUserConnected() !== true) {
                       </a>
                     </li>
                     <li>
-                      <a class="p-1 object-center" href="./myBooks.php?delete=' . $nick .  '"> 
+                      <a class="p-1 object-center" href="./myBooks.php?delete=' . $bookArray[0] .  '"> 
                         <img class="size-6" src="./img/delete.png" alt="Supprimer">
                       </a>
                     </li>
@@ -61,19 +67,19 @@ if (isUserConnected() !== true) {
                     </div></p>';
             echo '<a href="./book.php?id=' . $bookArray[0] .'">';
             echo '<img class="block mx-auto px-8 pb-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[1] . '">';
-            echo '<h2 class="mb-5 text-center justify-center font-light text-2xl">' . $bookArray[1] .'</h2>';
+            echo '<h2 class="mb-5 text-center justify-center font-light text-2xl hover:font-normal hover:text-green-700">' . $bookArray[1] .'</h2>';
             echo '</a> </div>';  
           }
         }
         else {
-          echo '<p class="p-5 text-lg text-center">Vous n\'avez publié encore aucun ouvrage.</p>';
+          echo '<p class="col-span-5 py-5 text-lg text-center">Vous n\'avez publié encore aucun ouvrage.</p>';
         }
       ?>
 </div>
 
-                      <a onClick=<?php delete($db, $bookArray[0]) ?> class="p-1 object-center" href="#">
-                        <img class="size-6" src="./img/delete.png" alt="Supprimer">
-                      </a>
+
+
+</div>
   </main>
 
   <?php include("./views/footer.php"); ?>

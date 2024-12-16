@@ -133,17 +133,16 @@ class Database
     // Vérifie les droits d'un user TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public function getUserRight($userID){
 
-        $query = "";
+        $query = "SELECT `admin` FROM `t_utilisateur` WHERE `utilisateur_id` = :userID";
 
         $binds = [];
         $binds[] = [":userID", $userID, PDO::PARAM_INT];
 
         $req = $this->queryPrepareExecute($query, $binds);
 
-        $verify = $this->formatData($req);
+        $right = $this->formatData($req);
 
-
-        return $verify[0];
+        return $right[0]["admin"];
 
     }
 

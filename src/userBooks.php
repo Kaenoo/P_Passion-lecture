@@ -16,8 +16,8 @@ if (isUserConnected() !== true) {
   header("Location: ./index.php");
 }
 //Si l'user veut voir ses propres ouvrages où l'admin veut voir les ouvrages -> redirection vers la page qui permet de modifier
-else if (isUserAdmin($db, $_SESSION["user"]["userID"]) || $_SESSION["user"]["userID"] == $_GET["userID"]) {
-    header("Location: ./myBooks.php");
+else if (isUserAdmin($db, $_SESSION["user"]["userID"]) === true|| $_SESSION["user"]["userID"] == $_GET["userID"]) {
+  header('Location: ./myBooks.php?userID='. $_GET["userID"] . '');
 }
 ?>
 

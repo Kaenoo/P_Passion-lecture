@@ -29,7 +29,13 @@ function UserPseudo($db, $userID){
 
 // Vérifie si l'user est admin
 function isUserAdmin($db, $userID){
-    // TODO : Vérifier si un user est admin
+    $right =  $db->getUserRight($userID);
+
+    // Si l'user est admin -> retourne true
+    if ($right == 1) {
+        return true;
+    }
+    return false;
 }
 
 //Déconnecte l'utilisateur

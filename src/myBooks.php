@@ -20,8 +20,9 @@ if (isUserConnected() !== true) {
 if (isset($_POST["confirmDelete"])) {
   delete($db, $_POST["confirmDelete"]);
 
-  header("Location: ./myBooks.php");
+ // header("Location: ./myBooks.php");
 }
+var_dump($_GET);
 ?>
 
 <!DOCTYPE html>
@@ -45,8 +46,8 @@ if (isset($_POST["confirmDelete"])) {
       <?php
 
         // Vérifie si l'user a publié des ouvrages
-        if (userHaveBooks($db, $_SESSION["user"]["userID"])) {
-          foreach (showMyBooks($db, $_SESSION["user"]["userID"]) as $index => $bookArray) {
+        if (userHaveBooks($db, $_GET["userID"])) {
+          foreach (showMyBooks($db, $_GET["userID"]) as $index => $bookArray) {
             echo '<div class="mb-5 lg:mb-0 lg:h-full lg:w-full p-2 bg-gray-200 rounded-2xl">'; 
             // Menu dropdown : Modification ou supression de l'ouvrage
             echo '<p class=""><div class="dropdown dropdown-right flex pr-1 justify-end">

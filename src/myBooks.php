@@ -41,13 +41,13 @@ if (isset($_POST["confirmDelete"])) {
 
 
     <!-- /!\ : Remplisseur de page -->
-    <div class="grid grid-cols-1 px-10 lg:grid-cols-5 lg:gap-4 items-center">
+    <div class="grid grid-cols-1 px-8 lg:grid-cols-5 lg:gap-4 items-center">
       <?php
 
         // Vérifie si l'user a publié des ouvrages
         if (userHaveBooks($db, $_SESSION["user"]["userID"])) {
           foreach (showMyBooks($db, $_SESSION["user"]["userID"]) as $index => $bookArray) {
-            echo '<div class="mb-5 lg:mb-0 p-2 bg-gray-200 rounded-2xl">'; 
+            echo '<div class="mb-5 lg:mb-0 lg:h-full lg:w-full p-2 bg-gray-200 rounded-2xl">'; 
             // Menu dropdown : Modification ou supression de l'ouvrage
             echo '<p class=""><div class="dropdown dropdown-right flex pr-1 justify-end">
                   <div tabindex="0" role="button" class="font-bold text-3xl align-text-top">...</div>
@@ -84,7 +84,7 @@ if (isset($_POST["confirmDelete"])) {
                   </div></p>';
             // Affichage de la couverture et du tire de l'ouvrage
             echo '<a href="./book.php?id=' . $bookArray[0] .'">';
-            echo '<img class="block mx-auto px-6 pb-2 lg:p-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[1] . '">';
+            echo '<img class="px-6 pb-2 lg:p-5 lg:object-scale-down lg:h-auto justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[1] . '">';
             echo '<h2 class="mb-5 text-center justify-center font-light text-2xl hover:font-normal hover:text-green-700">' . $bookArray[1] .'</h2>';
             echo '</a> </div>';  
           }

@@ -301,6 +301,8 @@ class Database
         FROM `t_ouvrage`
         WHERE titre LIKE :titre;";
 
+        //$_GET["search"]
+
         //$binds = [];
         foreach ($search as $searching => $word) {
             $wording = "%" . $word . "%";

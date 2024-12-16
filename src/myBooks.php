@@ -17,8 +17,9 @@ if (isUserConnected() !== true) {
 }
 
 // Supprime l'ouvrage lors du clic
-if (isset($_GET["confirmDelete"])) {
-  delete($db, $_GET["confirmDelete"]);
+if (isset($_POST["confirmDelete"])) {
+  delete($db, $_POST["confirmDelete"]);
+
   header("Location: ./myBooks.php");
 }
 ?>
@@ -46,7 +47,6 @@ if (isset($_GET["confirmDelete"])) {
         // Vérifie si l'user a publié des ouvrages
         if (userHaveBooks($db, $_SESSION["user"]["userID"])) {
           foreach (showMyBooks($db, $_SESSION["user"]["userID"]) as $index => $bookArray) {
-
             echo '<div class="mb-5 lg:mb-0 p-2 bg-gray-200 rounded-2xl">'; 
             // Menu dropdown : Modification ou supression de l'ouvrage
             echo '<p class=""><div class="dropdown dropdown-right flex pr-1 justify-end">
@@ -71,7 +71,8 @@ if (isset($_GET["confirmDelete"])) {
                                 <form method="dialog">
                                   <button class="btn">Annuler</button>
                                 </form>
-                                <form method="get">
+                                <form method="post">
+                                  <input type="hidden" name="pathBookCover" value="' . $bookArray[2] . '" >
                                   <button type="submit" name="confirmDelete" value="' . $bookArray[0] .  '" class="btn bg-red-600 hover:bg-red-700 text-white font-bold">Confirmer</button>
                                 </form>
                               </div>
@@ -93,6 +94,7 @@ if (isset($_GET["confirmDelete"])) {
         }
       ?>
     </div>
+
   </main>
 
   <?php include("./views/footer.php"); ?>

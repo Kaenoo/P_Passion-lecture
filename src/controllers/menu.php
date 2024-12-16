@@ -18,7 +18,7 @@
       tabindex="-1"
     >
       <div class="py-1" role="none">
-        <a href="#" class="block px-4 py-2" role="menuitem" tabindex="-1" id="menu-item-0">
+        <a href="../userSettings.php" class="block px-4 py-2" role="menuitem" tabindex="-1" id="menu-item-0">
           <img class="size-7" src="../img/settings.png" alt="Paramètres">
         </a>
         <a href="../myBooks.php" class="block px-4 py-2" role="menuitem" tabindex="-1" id="menu-item-1">

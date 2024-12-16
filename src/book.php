@@ -23,7 +23,6 @@ if (count($_POST) > 0 && verifyReviewUser($db, $_SESSION["user"]["userID"], $dat
   giveReview($db, $dataBook["ouvrage_id"], $_SESSION["user"]["userID"], $_POST["rating-4"], $_POST["review"]);
 
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -46,9 +45,9 @@ if (count($_POST) > 0 && verifyReviewUser($db, $_SESSION["user"]["userID"], $dat
     <div class="grid grid-cols-1 lg:grid-cols-2 lg:px-16 lg:gap-32">
       <!-- Alignement de l'image -->
       <div class="inline-block align-top">
-        <div class="col-start-1 flex justify-end lg:pt-10" >
+        <div class="grid col-start-1 justify-items-center lg:justify-items-end lg:pt-10" >
           <img class="block object-cover mx-auto lg:mx-0 lg:object-contain size lg:w-3/5 h-auto " src="<?= $dataBook["image_couverture"] ?>" alt="Première de couverture de l'ouvrage <?= $dataBook["titre"] ?>">
-
+         
         </div>
       </div>
 
@@ -59,7 +58,10 @@ if (count($_POST) > 0 && verifyReviewUser($db, $_SESSION["user"]["userID"], $dat
         <p class="text-lg">Catégorie : <?= categoryBook($db, $dataBook["categorie_id"]) ?></p>
         <p class="text-lg">Parution : <?= $dataBook["date_edition"] ?></p>
         <p class="text-lg">Publié par : <a class="font-semibold hover:font-semibold hover:text-green-700" href=""><?= UserPseudo($db, $dataBook["utilisateur_id"])?></a></p>
-        <h3 class="py-5 text-2xl font-bold text-green-700 underline decoration-green-700 decoration-8">Résumé</h3>
+        <button class="btn mt-8 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
+          <a href="<?= $dataBook["extrait"] ?>" target="_top">Extrait de l'ouvrage</a>
+        </button>
+        <h3 class="py-5 lg:pt-8 text-2xl font-bold text-green-700 underline decoration-green-700 decoration-8">Résumé</h3>
         <p class="text-lg"><?= $dataBook["resume"] ?></p>
 
         <h3 class="py-5 lg:pt-16 text-2xl font-bold text-green-700 underline decoration-green-700 decoration-8">Avis utilisateurs</h3>

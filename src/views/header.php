@@ -61,7 +61,7 @@ Description :  En-tête du site web
                       </summary>
                       <ul>
                         <li>
-                          <a href="#" class="block px-4 py-2" role="menuitem" tabindex="-1" id="menu-item-0">
+                          <a href="../userSettings.php" class="block px-4 py-2" role="menuitem" tabindex="-1" id="menu-item-0">
                             <img class="size-7" src="../img/settings.png" alt="Paramètres">
                           </a>
                         </li>

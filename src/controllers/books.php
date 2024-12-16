@@ -21,6 +21,10 @@ function booksPresentation($db){
 
 }
 
+function delete($db, $bookID){
+    $db->deleteBook($bookID);
+}
+
 // Vérifie si l'user a publié des ouvrages
 function userHaveBooks($db, $userID){
     $content = $db->userBooks($userID);
@@ -78,13 +82,5 @@ function categories($db){
     }
 
     return $categories;
-}
-
-// Retourne la note d'un ouvrage
-function bookReview($db, $bookID){
-    return $db->getBookReviews($bookID);
-}
-function giveReview($db, $bookID, $userID, $note, $review){
-    $db->giveReviewOnABook($bookID, $userID, $note, $review);
 }
 ?>

@@ -7,7 +7,7 @@ Description :  Page d'acceuil du site web
 <?php
 session_start();
 include("./controllers/user.php");
-include("./models/Database.php");
+include("./models/database.php");
 include("./controllers/books.php");
 $db = new Database();
 
@@ -28,35 +28,37 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
 <body class="m-auto w-full">
   <?php include("./views/header.php"); ?>
 
-  <main class="px-12 text-justify">
-    <h1 class="my-4 text-4xl font-bold text-center">Accueil</h1>
+  <main class="lg:px-12 text-justify">
+    <h1 class="my-4 text-2xl lg:text-4xl font-bold text-center">Accueil</h1>
 
     <!-- Message d'introduction -->
-    <div class="m-5 p-5 bg-green-200 ">
-      <p>Bienvenue sur Passion Lecture, votre espace dédié à la découverte et au partage littéraire ! Que vous soyez un amateur de romans, un passionné d’essais ou un curieux de récits historiques, ce site vous permet :</p>
+    <div class="m-2 p-2 text-base lg:rounded-xl lg:bg-gray-200 lg:m-5 lg:p-5 lg:text-left lg:text-lg">
 
-      <ul class="list-disc pl-8">
-        <li>Explorer de nouvelles lectures : Parcourez une vaste bibliothèque d’ouvrages classés par catégories, genres, ou auteurs.</li>
-        <li>Partager vos avis : Notez les livres que vous avez lus et lisez les commentaires des autres membres de la communauté.</li>
-        <li>Découvrir des recommandations personnalisées : Trouvez votre prochaine lecture grâce à nos suggestions basées sur vos préférences.</li>
-        <li>Suivre vos auteurs favoris : Restez informé des œuvres de vos écrivains préférés.</li>
-      </ul>
-      <p>Les cinq derniers ouvrages ajoutés sont disponibles directement sur cette page pour une exploration immédiate. Bonne lecture ! 📚 <br>
-      Si vous avez des précisions à apporter ou souhaitez une version plus ciblée, faites-le-moi savoir !</p>
+
+      <p class="lg:text-center lg:pb-3">Bienvenue sur Passion Lecture, votre espace dédié à la découverte et au partage littéraire !</p>
+
+      <p>Que vous soyez amateur de romans, passionné d’essais ou curieux de récits historiques, ce site est fait pour vous.
+        Explorez une vaste bibliothèque d’ouvrages classés par catégories, genres et auteurs, et découvrez de nouvelles lectures adaptées à vos goûts.
+        Partagez vos avis avec une communauté de passionnés, et laissez-vous guider par nos recommandations personnalisées pour trouver facilement votre prochaine lecture.
+        Suivez également les actualités de vos écrivains préférés et ne manquez aucune de leurs nouvelles œuvres.
+        Les cinq derniers ouvrages ajoutés sont disponibles directement sur cette page pour une exploration immédiate.
+      </p>
+
+        <p class="lg:text-center lg:pt-3" >Bonne lecture ! 📚</p>
     </div>
 
     <!-- 5 derniers ouvrages -->
-    <h1 class="my-4 text-4xl font-bold text-center">5 derniers ouvrages ajoutés</h1>
+    <h1 class="my-4 text-2xl lg:text-4xl font-bold text-center">5 derniers ouvrages ajoutés</h1>
 
-    <div class="grid grid-cols-5 gap-4 items-center">
+    <div class="grid grid-cols-1 px-10 lg:grid-cols-5 lg:gap-4 items-center">
       <?php
         foreach (booksPresentation(($db)) as $index => $bookArray) {
           echo '<div> <a href="./book.php?id=' . $bookArray[0] .'">';
-          echo '<img class="block mx-auto p-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[0] . '">';
-          echo '<h2 class="mb-5 text-center justify-center font-light text-2xl">' . $bookArray[1] .'</h2>';
+          echo '<img class="block mx-auto px-6 pb-2 lg:p-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[1] . '">';
+          echo '<h2 class="mb-5 text-center justify-center font-light text-xl lg:text-2xl">' . $bookArray[1] .'</h2>';
           echo '</a> </div>';  
         }
-      ?>
+        ?>
     </div>
     
   </main>

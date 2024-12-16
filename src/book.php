@@ -57,7 +57,7 @@ if (count($_POST) > 0 && verifyReviewUser($db, $_SESSION["user"]["userID"], $dat
         <p class="text-lg">Pages : <?= $dataBook["nombre_page"] ?></p>
         <p class="text-lg">Catégorie : <?= categoryBook($db, $dataBook["categorie_id"]) ?></p>
         <p class="text-lg">Parution : <?= $dataBook["date_edition"] ?></p>
-        <p class="text-lg">Publié par : <a class="font-semibold hover:font-semibold hover:text-green-700" href=""><?= UserPseudo($db, $dataBook["utilisateur_id"])?></a></p>
+        <p class="text-lg">Publié par : <a class="font-semibold hover:font-semibold hover:text-green-700" href="../userBooks.php?userID=<?= $dataBook["utilisateur_id"]?>"><?= UserPseudo($db, $dataBook["utilisateur_id"])?></a></p>
         <button class="btn mt-8 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
           <a href="<?= $dataBook["extrait"] ?>" target="_top">Extrait de l'ouvrage</a>
         </button>

@@ -9,9 +9,7 @@ function isUserConnected() {
     if (isset($_SESSION["user"]) && count($_SESSION["user"]) > 1) {
        return true;
     }
-    
     false;
-    
 }
 
 // Connecte l'utilisateur et le redirige à la page d'acceuil
@@ -27,6 +25,11 @@ function getConnectedUser($admin, $userID) {
 // Retourne le pseudo de l'user
 function UserPseudo($db, $userID){
     return $db->getPseudoUser($userID);
+}
+
+// Vérifie si l'user est admin
+function isUserAdmin($db, $userID){
+    // TODO : Vérifier si un user est admin
 }
 
 //Déconnecte l'utilisateur

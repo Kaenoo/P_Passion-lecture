@@ -331,60 +331,101 @@ class Database
 
         // $query = "SELECT DISTINCT o.titre, e.nom, e.prenom, u.pseudo, c.nom;
 
-        //         $query = "SELECT DISTINCT o.titre, e.nom, e.prenom, u.pseudo, c.nom 
-        //         FROM `t_ouvrage` o 
-        //         INNER JOIN `t_ecrivain` e ON o.ecrivain_id = e.ecrivain_id 
-        //         INNER JOIN `t_utilisateur` u ON o.ecrivain_id = u.utilisateur_id 
-        //         INNER JOIN `t_categorie` c ON o.categorie_id = c.categorie_id 
-        //         WHERE o.titre LIKE :titre
-        //         OR e.nom LIKE :nom
-        //         OR e.prenom LIKE :prenom
-        //         OR c.nom LIKE :nom;";
-
-
-        //     foreach ($search as $searching => $word)
-        //     {
-        //         $wording = $word . "%";
-        //         $binds =
-        //         [
-        //             ["o.titre", $wording, PDO::PARAM_STR],
-        //             ["e.nom", $wording, PDO::PARAM_STR],
-        //             ["e.prenom", $wording, PDO::PARAM_STR],
-        //             ["c.nom", $wording, PDO::PARAM_STR],
-
-        //         ];
-        //    }
-
-
-
-
         $query = "SELECT DISTINCT *
-        FROM `t_ouvrage`
-        WHERE titre LIKE :titre;";
+        FROM `t_ouvrage` o 
+        INNER JOIN `t_ecrivain` e ON o.ecrivain_id = e.ecrivain_id 
+        INNER JOIN `t_categorie` c ON o.categorie_id = c.categorie_id 
+        WHERE (o.titre LIKE :titre
+        OR e.nom LIKE :e_nom
+        OR e.prenom LIKE :prenom)
+        AND c.nom LIKE :c_nom;";
 
-        //$_GET["search"]
+        
+        $word = "%" . $search["search"]. "%";
 
-        //$binds = [];
-        foreach ($search as $searching => $word) {
-            $wording = "%" . $word . "%";
-            $binds =
-                [
-                    "titre", $wording, PDO::PARAM_STR,
-                ];
+        $categorie = "%%";
+
+        if ($search["categories"] != "filter")
+        {
+            $categorie = $search["categories"];
         }
-        // Méthode pour executer la requête
+
+        $binds=
+        [
+            ["titre", $word, PDO::PARAM_STR],
+            ["e_nom", $word, PDO::PARAM_STR],
+            ["prenom", $word, PDO::PARAM_STR],
+            ["c_nom", $categorie, PDO::PARAM_STR],
+        ];
+        
+
+
+        // $binds = [];
+        // foreach ($search as $searching => $word) {
+        //     $wording = "%" . $word . "%";
+        //     $binds[] =
+        //         [
+        //             ["titre", $wording, PDO::PARAM_STR],
+        //             ["nom", $word, PDO::PARAM_STR],
+        //         ];
+        // }
+
+
         $req = $this->queryPrepareExecute($query, $binds);
 
         // Mise en forme en tableau
-        //$searchBooks = $this->formatData($req);
+        $searchBooks = $this->formatData($req);
 
         // Retourne le résultat d'une recherche de livre
-        //return $searchBooks;
+        return $searchBooks;
+    }
+
+    public function getRowsNumberOfSearch($search) 
+    {
+        
+        $query = "SELECT COUNT(*)
+        FROM `t_ouvrage` o 
+        INNER JOIN `t_ecrivain` e ON o.ecrivain_id = e.ecrivain_id 
+        INNER JOIN `t_categorie` c ON o.categorie_id = c.categorie_id 
+        WHERE (o.titre LIKE :titre
+        OR e.nom LIKE :e_nom
+        OR e.prenom LIKE :prenom)
+        AND c.nom LIKE :c_nom;";
+
+        
+        $word = "%" . $search["search"]. "%";
+
+        $categorie = "%%";
+
+        if ($search["categories"] != "filter")
+        {
+            $categorie = $search["categories"];
+        }
+
+        $binds=
+        [
+            ["titre", $word, PDO::PARAM_STR],
+            ["e_nom", $word, PDO::PARAM_STR],
+            ["prenom", $word, PDO::PARAM_STR],
+            ["c_nom", $categorie, PDO::PARAM_STR],
+        ];
 
         $req = $this->queryPrepareExecute($query, $binds);
-        $writer = $this->formatData($req);
 
-        return $writer;
+        $count = $req->fetchColumn();
+
+        // Retourne le résultat 
+        return $count;
+    }
+
+    public function getRowsNumberOfList() 
+    {
+        $query = "SELECT COUNT(*) FROM `t_ouvrage`;";
+        $req = $this->querySimpleExecute($query);
+        $count = $req->fetchColumn();
+
+        // Retourne le résultat 
+        return $count;
     }
 
     // Liste les titres des livres

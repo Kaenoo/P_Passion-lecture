@@ -8,15 +8,21 @@
   include("./controllers/books.php");
   $db = new Database();
 
+  $limit = 2;
+  $page = 4;
+
   if ($_GET["search"]) 
   {
-    var_dump($_GET);
+    //var_dump($_GET);
+    //var_dump($_GET[1]);
     //[0]["nom"]
     $listBooks = $db->searchBooks($_GET);
+    $nbOfBooks = $db->getRowsNumberOfSearch($_GET);
   }
   else
   {
     $listBooks = $db->listBooks();
+    $nbOfBooks = $db->getRowsNumberOfList();
   }
 
 ?>
@@ -36,9 +42,10 @@
     ?>
 
     <main>
-      <h1 class="py-4 text-4xl font-bold text-center">Liste des ouvrages</h1>
-      <div class="search-container">
-        <!-- <form action="" method="get">
+      <!-- Lien pour revenir sur l'affichage par défaut -->
+      <h1 class="py-4 text-4xl font-bold text-center"> <a href="booklist.php">Liste des ouvrages </a></h1>
+      <!-- <div class="search-container">
+        <form action="" method="get">
           <input type="text" placeholder="Search.." id="search" name="search" oninput="myFunction()">
           <button type="submit"><i class="fa fa-search"></i></button>
         </form>
@@ -47,10 +54,10 @@
       <script>
       function myFunction() 
       {
-        <? $searchValue = '"document.getElementById("search").value';
-          // $db->searchABook($searchValue);?>
+        $searchValue = '"document.getElementById("search").value'; 
+        $db->searchABook($searchValue);?>
       }
-      </script> -->
+      </script>  -->
 
 
       <!-- Barre de recherche -->
@@ -64,7 +71,7 @@
               </div>
               <select id="categories" name="categories" class="select select-bordered join-item">
                 <option value="filter" selected>Filtre</option>
-                <!-- Afficher dynamiquement les catégories -->
+                <!-- Affichage dynamique des catégories -->
                 <?php 
                     $categories = categories($db);
                     foreach ($categories as $key => $value) {
@@ -78,11 +85,15 @@
             </div>
         </div>
       </form>
-          
+    
+    <!-- Recherche des livres disponibles dans la base de données -->
     <?php      
+      $count = 0;
         
+      //switch ()
         foreach ($listBooks as $dataBook)
         { 
+
           echo "<div class = 'globalDataBook'>";
 
             echo "<tr>";
@@ -107,7 +118,7 @@
               echo "<div class='directDataBook'>";
                 echo "<tr>";
                 echo "<td>";
-                echo '<a href="book.php?id='. $dataBook["ouvrage_id"] .'">' . $dataBook["titre"] . "</a>" . ", ";
+                echo '<a href="publisherData.php?id='. $dataBook["ouvrage_id"] .'">' . $dataBook["titre"] . "</a>" . ", ";
                 echo "</td>";
                 
                 $listAuthorBook = $db->listAuthorBook($dataBook["ecrivain_id"]);
@@ -132,18 +143,31 @@
 
             echo "</tr>";
           echo "</div>";
+          $count ++;
+
+          if ($count == $limit)
+          {
+            $page++;
+            break;
+          }
         }
+
+        
+        if ($nbOfBooks > $limit)
+        {
+          echo '<div class="join grid grid-cols-2">
+          <a class="join-item btn btn-outline" href="booklist.php?id=1">Page précédente</a>
+          <a class="join-item btn btn-outline" href="booklist.php?id='. $page. '">Suivante</a>
+          </div>';
+        }
+  
       ?>
     </main>
 
-    <?php
-    include("./views/footer.php");
-    ?>
-        
+  <?php include("./views/footer.php");?>
 
-
-        <style>
-        .globalDataBook {
+<style>
+   .globalDataBook {
           display : flex;
           /* align-items : center;
           justify-content: center;*/
@@ -193,9 +217,7 @@
         /* flex-wrap : wrap;
         flex-direction: column; */
       }
-    </style>
+</style>
 </body>
 </body>
 </html>
-
-

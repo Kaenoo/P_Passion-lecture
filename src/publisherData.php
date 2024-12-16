@@ -13,9 +13,6 @@ $db = new Database();
 
 $dataBook = dataBook($db, $_GET["id"]);
 
-if (isUserConnected() !== true) {
-  header("Location: ./index.php");
-}
 
 //var_dump($dataBook);
 // Vérifie si l'user a donné un avis

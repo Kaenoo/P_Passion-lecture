@@ -330,54 +330,54 @@ class Database
         }
         return false;
     }
-
-    // Affiche les résultats de la recherche utilisateur
-    public function searchABook($search)
+	
+	// Affiche les résultats de la recherche utilisateur
+    public function searchBooks($search)
     {
         //$query = "SELECT * FROM db_passion_lecture.TABLES LIMIT 0, 5;";
 
         // $query = "SELECT DISTINCT o.titre, e.nom, e.prenom, u.pseudo, c.nom;
 
-        //         $query = "SELECT DISTINCT o.titre, e.nom, e.prenom, u.pseudo, c.nom 
-        //         FROM `t_ouvrage` o 
-        //         INNER JOIN `t_ecrivain` e ON o.ecrivain_id = e.ecrivain_id 
-        //         INNER JOIN `t_utilisateur` u ON o.ecrivain_id = u.utilisateur_id 
-        //         INNER JOIN `t_categorie` c ON o.categorie_id = c.categorie_id 
-        //         WHERE o.titre LIKE :titre
-        //         OR e.nom LIKE :nom
-        //         OR e.prenom LIKE :prenom
-        //         OR c.nom LIKE :nom;";
+        $query = "SELECT DISTINCT *
+        FROM `t_ouvrage` o 
+        INNER JOIN `t_ecrivain` e ON o.ecrivain_id = e.ecrivain_id 
+        INNER JOIN `t_categorie` c ON o.categorie_id = c.categorie_id 
+        WHERE (o.titre LIKE :titre
+        OR e.nom LIKE :e_nom
+        OR e.prenom LIKE :prenom)
+        AND c.nom LIKE :c_nom;";
 
+        
+        $word = "%" . $search["search"]. "%";
 
-        //     foreach ($search as $searching => $word)
-        //     {
-        //         $wording = $word . "%";
-        //         $binds =
-        //         [
-        //             ["o.titre", $wording, PDO::PARAM_STR],
-        //             ["e.nom", $wording, PDO::PARAM_STR],
-        //             ["e.prenom", $wording, PDO::PARAM_STR],
-        //             ["c.nom", $wording, PDO::PARAM_STR],
+        $categorie = "%%";
 
-        //         ];
-        //    }
-
-
-
-
-        $query = "SELECT DISTINCT titre
-        FROM `t_ouvrage`
-        WHERE titre LIKE :titre;";
-
-        foreach ($search as $searching => $word) {
-            $wording = "%" . $word . "%";
-            $binds =
-                [
-                    ["titre", $wording, PDO::PARAM_STR],
-
-                ];
+        if ($search["categories"] != "filter")
+        {
+            $categorie = $search["categories"];
         }
-        // Méthode pour executer la requête
+
+        $binds=
+        [
+            ["titre", $word, PDO::PARAM_STR],
+            ["e_nom", $word, PDO::PARAM_STR],
+            ["prenom", $word, PDO::PARAM_STR],
+            ["c_nom", $categorie, PDO::PARAM_STR],
+        ];
+        
+
+
+        // $binds = [];
+        // foreach ($search as $searching => $word) {
+        //     $wording = "%" . $word . "%";
+        //     $binds[] =
+        //         [
+        //             ["titre", $wording, PDO::PARAM_STR],
+        //             ["nom", $word, PDO::PARAM_STR],
+        //         ];
+        // }
+
+
         $req = $this->queryPrepareExecute($query, $binds);
 
         // Mise en forme en tableau
@@ -385,6 +385,54 @@ class Database
 
         // Retourne le résultat d'une recherche de livre
         return $searchBooks;
+    }
+
+    public function getRowsNumberOfSearch($search) 
+    {
+        
+        $query = "SELECT COUNT(*)
+        FROM `t_ouvrage` o 
+        INNER JOIN `t_ecrivain` e ON o.ecrivain_id = e.ecrivain_id 
+        INNER JOIN `t_categorie` c ON o.categorie_id = c.categorie_id 
+        WHERE (o.titre LIKE :titre
+        OR e.nom LIKE :e_nom
+        OR e.prenom LIKE :prenom)
+        AND c.nom LIKE :c_nom;";
+
+        
+        $word = "%" . $search["search"]. "%";
+
+        $categorie = "%%";
+
+        if ($search["categories"] != "filter")
+        {
+            $categorie = $search["categories"];
+        }
+
+        $binds=
+        [
+            ["titre", $word, PDO::PARAM_STR],
+            ["e_nom", $word, PDO::PARAM_STR],
+            ["prenom", $word, PDO::PARAM_STR],
+            ["c_nom", $categorie, PDO::PARAM_STR],
+        ];
+
+        $req = $this->queryPrepareExecute($query, $binds);
+
+        $count = $req->fetchColumn();
+
+        // Retourne le résultat 
+        return $count;
+    }
+
+    public function getRowsNumberOfList() 
+    {
+        $query = "SELECT COUNT(*) FROM `t_ouvrage`;";
+        $req = $this->querySimpleExecute($query);
+        $count = $req->fetchColumn();
+
+        // Retourne le résultat 
+        return $count;
     }
 
     // Liste les titres des livres
@@ -423,7 +471,7 @@ class Database
     public function listPseudoUser($data)
     {
         // Requête SQL
-        $query = "SELECT pseudo FROM t_utilisateur WHERE utilisateur_id = $data;";
+        $query = "SELECT * FROM t_utilisateur WHERE utilisateur_id = $data;";
 
         // Méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
@@ -443,16 +491,12 @@ class Database
         // Méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
 
-        var_dump($result);
-        die;
         // Mise en forme en tableau
         $this->formatData($result);
 
         // Retourne la catégorie des livres
         return $result;
     }
-
-
 
     /* ---------------- Fonctions (Ajouter un Livre) ---------------- */
     // Permet de ajouter un livre
@@ -533,7 +577,7 @@ class Database
     public function addAuteur($datas)
     {
 
-        //var_dump($_POST);
+        var_dump($_POST);
 
         // Recuperer les données
         $nom = $datas['authorNom'];
@@ -557,7 +601,7 @@ class Database
     // Ajouter un catègorie
     public function addCategorie($datas)
     {
-        //var_dump($_POST);
+        var_dump($_POST);
 
          // Recuperer les données
          $nom = $datas['categorieNom'];

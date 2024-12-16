@@ -1,6 +1,6 @@
 <div class="relative inline-block text-left">
     <img 
-      src="../img/account2.png" 
+      src="../img/account.png" 
       alt="Options" 
       class="size-12"
       id="menu-button" 

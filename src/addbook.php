@@ -4,38 +4,52 @@
  * Date         : 19.11.2024
  * Description  : Le page pour ajouter un livre
  */
+
+
+// Affichage les erreurs
+// echo "<pre>";
+// var_dump($errors);
+// echo "</pre>";
+
 session_start();
 include("./models/database.php");
 include("./controllers/user.php");
 
 // Vérifie que l'user soit bien connecté
-if (isUserConnected() !== true) {
+if (isUserConnected() === false) {
   header("Location: ./index.php");
 }
 
-
 $db = new Database();
+
+$editeurs = $db->listOuvrages();
+
+var_dump($_POST);
+
+// permet de eviter le $_POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST["addAuthor"])) {
+  // addAuteur
+  $author = $db->addAuteur($_POST); 
+  header("Location: ./addBook.php");
+} elseif (isset($_POST["categorieNom"])) {
+  // addCategorie
+  $categorie = $db->addCategorie($_POST);
+  header("Location: ./addBook.php");
+
+} elseif (isset($_POST["editeur"])) {
+  // addEditeur
+  $editeurs = [];
+  $editeurs[] = $db->listOuvrages();
+  var_dump($editeurs);
+  $editeurs[] = $_POST["editeur"];
+} else {
+  //echo "Erreur";
+}
+}
 $categories = $db->listCategories();
 $authors = $db->listAuthors();
 $ouvrages = $db->listOuvrages();
-$author = $db->addAuteur($_POST);
-
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//   $action = $_POST['action'] ?? '';
-
-//   if ($action === 'addAuteur') {
-//     // addAuteur
-//   } elseif ($action === 'addCategorie') {
-//     // addCategorie
-//     $categorie = $db->addCategorie($_POST);
-//   } elseif ($action === 'addEditeur') {
-//     // addEditeur
-//     // $author = $db->addEditeur($_POST);
-//   } else {
-//     echo "Erreur";
-//   }
-// }
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Processus de téléchargement de fichiers
@@ -60,6 +74,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 var_dump($_FILES);
+
+function addList($data, $addData){
+$data[] += $addData;
+}
 
 ?>
 
@@ -117,53 +135,18 @@ var_dump($_FILES);
                   </select>
                 </div>
 
-
-
-
-                <!-- Open the modal using ID.showModal() method -->
-                <!-- <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="my_modal_3.showModal()">+</button>
-                <dialog id="my_modal_1" class="modal">
-                  <div class="modal-box">
-
-                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-
-                    <h3 class="text-lg font-bold">Ajouter un auteur!</h3>
-                    <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
-                    <label class="input input-bordered flex items-center gap-2">
-
-                      <input id="author" name="authorPrenom" type="text" class="grow" placeholder="Prénom" />
-                    </label>
-                    <label class="input input-bordered flex items-center gap-2">
-
-                      <input id="author" name="authorNom" type="text" class="grow" placeholder="Nom" />
-                    </label>
-
-
-
-
-                    <div class="modal-action">
-                      <form action="./addAuteur.php" method="POST"> -->
-                <!-- if there is a button in form, it will close the modal -->
-
-                <!-- <button type="submit" class="btn">Ajouter</button>
-                      </form>
-                    </div>
-                  </div>
-                </dialog> -->
-
-
-                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="my_modal_3.showModal()">+</button>
-                <dialog id="my_modal_3" class="modal">
+                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modalAddAuteur.showModal()">+</button>
+                <dialog id="modalAddAuteur" class="modal">
                   <div class="modal-box">
                     <form method="dialog">
-                      <!-- <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button> -->
+                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
                     </form>
                     <div class="flex items-center justify-center">
-                      <form action="asfdfsf" method="post" class="space-y-4">
+                      <form action="" method="post" class="space-y-4">
                         <h3 class="text-lg font-bold">Ajouter un auteur!</h3>
                         <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
                         <label class="input input-bordered flex items-center gap-2">
-                          <input type="hidden" name="addAuteur" value="addAuteur">
+                          <input type="hidden" name="addAuthor" value="authorName">
                           <input id="author" name="authorPrenom" type="text" class="grow" placeholder="Prénom" />
                         </label>
                         <label class="input input-bordered flex items-center gap-2">
@@ -198,18 +181,18 @@ var_dump($_FILES);
                     <?php endforeach; ?>
                   </select>
                 </div>
-                <!-- <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="my_modal_3.showModal()">+</button>
-                <dialog id="my_modal_3" class="modal">
+
+                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modalAddCategorie.showModal()">+</button>
+                <dialog id="modalAddCategorie" class="modal">
                   <div class="modal-box">
-                    <form method="dialog"> -->
-                      <!-- <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button> -->
-                    <!-- </form>
+                    <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
+                </form>
                     <div class="flex items-center justify-center">
                       <form action="#" method="post" class="space-y-4">
                         <h3 class="text-lg font-bold">Ajouter un aCategorie!</h3>
                         <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
                         <label class="input input-bordered flex items-center gap-2">
-                          <input type="hidden" name="addCategorie" value="addCategorie">
                           <input id="addCategorie" name="categorieNom" type="text" class="grow" placeholder="Categorie" />
                         </label>
                         <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
@@ -219,7 +202,7 @@ var_dump($_FILES);
                     </div>
 
                   </div>
-                </dialog> -->
+                </dialog>
               </div>
 
               <!-- Nombre de pages -->
@@ -254,7 +237,8 @@ var_dump($_FILES);
                 </div>
                 <!-- Droite: Input -->
                 <div class="w-3/4">
-                  <select id="publisher" name="publisher" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
+                  <select id="publisher" name="publisher" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required 
+                  >
                     <option value="" disabled selected>-- Sélectionnez un editeur --</option>
                     <?php foreach ($ouvrages as $ouvrage): ?>
                       <option>
@@ -263,9 +247,27 @@ var_dump($_FILES);
                     <?php endforeach; ?>
                   </select>
                 </div>
-                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow">
-                  +
-                </button>
+                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modalAddEditeur.showModal()">+</button>
+                <dialog id="modalAddEditeur" class="modal">
+                  <div class="modal-box">
+                    <form method="dialog">
+                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
+                    </form>
+                    <div class="flex items-center justify-center">
+                      <form action="" method="post" class="space-y-4">
+                        <h3 class="text-lg font-bold">Ajouter un editeur!</h3>
+                        <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
+                        <label class="input input-bordered flex items-center gap-2">
+                          <input id="editeur" name="editeur" type="text" class="grow" placeholder="Editeur" />
+                        </label>
+                        <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
+                          Ajouter
+                        </button>
+                      </form>
+                    </div>
+
+                  </div>
+                </dialog>
               </div>
 
               <!-- Date d'édition -->

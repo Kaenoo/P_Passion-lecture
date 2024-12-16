@@ -64,6 +64,7 @@ class Database
         // Appeler la méthode pour avoir le résultat sous forme de tableau
         $categories = $this->formatData($req);
 
+        
         return $categories;
     }
 
@@ -493,7 +494,7 @@ class Database
     public function listAuthors()
     {
         // Avoir la requête sql
-        $query = "SELECT * FROM t_ecrivain;";
+        $query = "SELECT * FROM t_ecrivain ORDER BY prenom, nom ASC;";
 
         // Appeler la méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
@@ -506,7 +507,7 @@ class Database
     public function listCategories()
     {
         // Avoir la requête sql
-        $query = "SELECT * FROM t_categorie;";
+        $query = "SELECT * FROM t_categorie ORDER BY nom ASC;";
 
         // Appeler la méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
@@ -519,10 +520,10 @@ class Database
     public function listOuvrages()
     {
         // Avoir la requête sql
-        $query = "SELECT * FROM t_ouvrage;";
+        $query = "SELECT DISTINCT editeur FROM t_ouvrage ORDER BY editeur ASC;";
 
         // Appeler la méthode pour executer la requête
-        $result = $this->querySimpleExecute($query);
+        $result = $this->querySimpleExecute($query); 
 
         // Retour tous les enseignants
         return $result;
@@ -532,7 +533,7 @@ class Database
     public function addAuteur($datas)
     {
 
-        var_dump($_POST);
+        //var_dump($_POST);
 
         // Recuperer les données
         $nom = $datas['authorNom'];
@@ -556,7 +557,7 @@ class Database
     // Ajouter un catègorie
     public function addCategorie($datas)
     {
-        var_dump($_POST);
+        //var_dump($_POST);
 
          // Recuperer les données
          $nom = $datas['categorieNom'];
@@ -575,6 +576,18 @@ class Database
          return $req;
     }
 
+        // Afficher les editeurs
+        public function listEditeurs()
+        {
+            // Avoir la requête sql
+            $query = "SELECT * FROM t_ouvrage";
+    
+            // Appeler la méthode pour executer la requête
+            $result = $this->querySimpleExecute($query);
+    
+            // Retour tous les enseignants
+            return $result;
+        }
 
     // Ajouter un editeur
     // public function addEditeur($datas)

@@ -4,20 +4,81 @@
  * Date         : 19.11.2024
  * Description  : Le page pour ajouter un livre
  */
+
+
+// Affichage les erreurs
+// echo "<pre>";
+// var_dump($errors);
+// echo "</pre>";
+
 session_start();
 include("./models/database.php");
 include("./controllers/user.php");
 
 // Vérifie que l'user soit bien connecté
-if (isUserConnected() !== true) {
+if (isUserConnected() === false) {
   header("Location: ./index.php");
 }
 
-
 $db = new Database();
+
+$editeurs = $db->listOuvrages();
+
+var_dump($_POST);
+
+// permet de eviter le $_POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST["addAuthor"])) {
+  // addAuteur
+  $author = $db->addAuteur($_POST); 
+  header("Location: ./addBook.php");
+} elseif (isset($_POST["categorieNom"])) {
+  // addCategorie
+  $categorie = $db->addCategorie($_POST);
+  header("Location: ./addBook.php");
+
+} elseif (isset($_POST["editeur"])) {
+  // addEditeur
+  $editeurs = [];
+  $editeurs[] = $db->listOuvrages();
+  var_dump($editeurs);
+  $editeurs[] = $_POST["editeur"];
+} else {
+  //echo "Erreur";
+}
+}
 $categories = $db->listCategories();
 $authors = $db->listAuthors();
 $ouvrages = $db->listOuvrages();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // Processus de téléchargement de fichiers
+  if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+    $uploadDir = 'uploads/'; // Répertoire à installer
+    $uploadFile = $uploadDir . basename($_FILES['photo']['name']);
+
+    // Vérifiez l'existence du répertoire et créez-le sinon
+    if (!is_dir($uploadDir)) {
+      mkdir($uploadDir, 0755, true);
+    }
+
+    // Téléchargement du fichier
+    if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile)) {
+      $uploadedFilePath = $uploadFile;
+    } else {
+      $error = "Une erreur s'est produite lors du téléchargement du fichier.";
+    }
+  } else {
+    $error = "Vous n'avez pas sélectionné un fichier valide.";
+  }
+}
+
+var_dump($_FILES);
+
+function addList($data, $addData){
+$data[] += $addData;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -40,7 +101,7 @@ $ouvrages = $db->listOuvrages();
       <!-- Form Section -->
       <h2 class="text-2xl font-semibold text-gray-700 mb-6">Ajouter un ouvrage</h2>
       <div class="p-6">
-        <form action="./checkaddbook.php" method="POST" enctype="multipart/form-data">
+        <form action="./controllers/checkAddBook.php" method="POST" enctype="multipart/form-data">
           <div class="grid grid-cols-2 gap-6">
             <!-- Left Column -->
             <div>
@@ -73,9 +134,34 @@ $ouvrages = $db->listOuvrages();
                     <?php endforeach; ?>
                   </select>
                 </div>
-                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow">
-                  +
-                </button>
+
+                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modalAddAuteur.showModal()">+</button>
+                <dialog id="modalAddAuteur" class="modal">
+                  <div class="modal-box">
+                    <form method="dialog">
+                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
+                    </form>
+                    <div class="flex items-center justify-center">
+                      <form action="" method="post" class="space-y-4">
+                        <h3 class="text-lg font-bold">Ajouter un auteur!</h3>
+                        <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
+                        <label class="input input-bordered flex items-center gap-2">
+                          <input type="hidden" name="addAuthor" value="authorName">
+                          <input id="author" name="authorPrenom" type="text" class="grow" placeholder="Prénom" />
+                        </label>
+                        <label class="input input-bordered flex items-center gap-2">
+
+                          <input id="author" name="authorNom" type="text" class="grow" placeholder="Nom" />
+                        </label>
+                        <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
+                          Ajouter
+                        </button>
+                      </form>
+                    </div>
+
+                  </div>
+                </dialog>
+
               </div>
 
               <!-- Catégorie -->
@@ -95,9 +181,28 @@ $ouvrages = $db->listOuvrages();
                     <?php endforeach; ?>
                   </select>
                 </div>
-                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow">
-                  +
-                </button>
+
+                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modalAddCategorie.showModal()">+</button>
+                <dialog id="modalAddCategorie" class="modal">
+                  <div class="modal-box">
+                    <form method="dialog">
+                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
+                </form>
+                    <div class="flex items-center justify-center">
+                      <form action="#" method="post" class="space-y-4">
+                        <h3 class="text-lg font-bold">Ajouter un aCategorie!</h3>
+                        <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
+                        <label class="input input-bordered flex items-center gap-2">
+                          <input id="addCategorie" name="categorieNom" type="text" class="grow" placeholder="Categorie" />
+                        </label>
+                        <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
+                          Ajouter
+                        </button>
+                      </form>
+                    </div>
+
+                  </div>
+                </dialog>
               </div>
 
               <!-- Nombre de pages -->
@@ -132,7 +237,8 @@ $ouvrages = $db->listOuvrages();
                 </div>
                 <!-- Droite: Input -->
                 <div class="w-3/4">
-                  <select id="publisher" name="publisher" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
+                  <select id="publisher" name="publisher" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required 
+                  >
                     <option value="" disabled selected>-- Sélectionnez un editeur --</option>
                     <?php foreach ($ouvrages as $ouvrage): ?>
                       <option>
@@ -141,9 +247,27 @@ $ouvrages = $db->listOuvrages();
                     <?php endforeach; ?>
                   </select>
                 </div>
-                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow">
-                  +
-                </button>
+                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modalAddEditeur.showModal()">+</button>
+                <dialog id="modalAddEditeur" class="modal">
+                  <div class="modal-box">
+                    <form method="dialog">
+                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
+                    </form>
+                    <div class="flex items-center justify-center">
+                      <form action="" method="post" class="space-y-4">
+                        <h3 class="text-lg font-bold">Ajouter un editeur!</h3>
+                        <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
+                        <label class="input input-bordered flex items-center gap-2">
+                          <input id="editeur" name="editeur" type="text" class="grow" placeholder="Editeur" />
+                        </label>
+                        <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
+                          Ajouter
+                        </button>
+                      </form>
+                    </div>
+
+                  </div>
+                </dialog>
               </div>
 
               <!-- Date d'édition -->
@@ -176,16 +300,27 @@ $ouvrages = $db->listOuvrages();
             <div>
               <div class="mb-4">
                 <p class="text-gray-600 font-medium mb-2 py-5">Image</p>
-                <input type="file" id="image" name="image" hidden>
-                <label class="border border-gray-300 rounded-lg px-4 py-5 w-full" for="image">Insérer une image</label>
+                <!-- <input type="file" id="image" name="image" hidden>
+                <label class="border border-gray-300 rounded-lg px-4 py-5 w-full" for="image">Insérer une image</label> -->
+                <form action="" method="post" enctype="multipart/form-data">
+                  <label for="photo"></label>
+                  <input type="file" name="photo" id="photo" accept="image/*">
+                  <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Charger</button>
+                </form>
               </div>
-
-              <div class="max-w-sm rounded overflow-hidden shadow-lg">
+              <div class="col-start-1 flex justify-center">
                 <div class="flex justify-center items-center py-5">
-                  <img class=" w-1/4 object-cover" src="./imgCoverBook/La-Treve.jpg" alt="Sunset in the mountains">
+                  <!-- <img class="object-contain w-3/5 h-auto" src="./imgCoverBook/La-Treve.jpg" alt="Sunset in the mountains"> -->
+                  <?php if (!empty($error)): ?>
+                    <p style="color: red;">Erreur: <?php echo htmlspecialchars($error); ?></p>
+                  <?php endif; ?>
+
+                  <?php if (!empty($uploadedFilePath)): ?>
+                    <img class="object-contain w-3/5 h-auto" src="<?php echo htmlspecialchars($uploadedFilePath); ?>" alt="Photo téléchargée" style="max-width: 100%; height: auto;">
+                  <?php endif; ?>
                 </div>
-                <div class="font-bold text-xl mb-2">The Coldest Sunset</div>
-              </div>            
+              </div>
+              <div class="font-bold text-xl mb-2"><?php echo $_FILES['photo']['name'] ?></div>
             </div>
           </div>
 

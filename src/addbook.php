@@ -18,38 +18,54 @@ include("./controllers/user.php");
 // Vérifie que l'user soit bien connecté
 if (isUserConnected() === false) {
   header("Location: ./index.php");
+  exit;
 }
 
 $db = new Database();
 
-$editeurs = $db->listOuvrages();
+// pour stocker les editeurs
+$editeurs = [];
+$ouvrages = $db->listOuvrages();
 
-var_dump($_POST);
-
-// permet de eviter le $_POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-if (isset($_POST["addAuthor"])) {
-  // addAuteur
-  $author = $db->addAuteur($_POST); 
-  header("Location: ./addBook.php");
-} elseif (isset($_POST["categorieNom"])) {
-  // addCategorie
-  $categorie = $db->addCategorie($_POST);
-  header("Location: ./addBook.php");
-
-} elseif (isset($_POST["editeur"])) {
-  // addEditeur
-  $editeurs = [];
-  $editeurs[] = $db->listOuvrages();
-  var_dump($editeurs);
-  $editeurs[] = $_POST["editeur"];
-} else {
-  //echo "Erreur";
+// permet de mettre les editeurs dans le list
+foreach ($ouvrages as $ouvrage) {
+  $editeurs[] = $ouvrage['editeur'];
 }
+
+
+
+
+// permet d'eviter le $_POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+  if (isset($_POST["authorNom"])) {
+
+    // Ajouter un auteur
+    $author = $db->addAuteur($_POST);
+    header("Location: ./addBook.php");
+  } elseif (isset($_POST["categorieNom"])) {
+    
+    // Ajouter un catégorie
+    $categorie = $db->addCategorie($_POST);
+    header("Location: ./addBook.php");
+  } elseif (isset($_POST["editeur"])) {
+    
+    // Ajouter un editeur
+    $editeurs[] = $_POST["editeur"];
+    header("Location: ./addBook.php");
+  } else {
+    
+    echo "Erreur";
+  }
 }
 $categories = $db->listCategories();
 $authors = $db->listAuthors();
-$ouvrages = $db->listOuvrages();
+
+
+
+echo "<pre>";
+var_dump($_POST);
+echo "</pre>";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Processus de téléchargement de fichiers
@@ -75,8 +91,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 var_dump($_FILES);
 
-function addList($data, $addData){
-$data[] += $addData;
+function addList($data, $addData)
+{
+  $data[] += $addData;
 }
 
 ?>
@@ -139,18 +156,16 @@ $data[] += $addData;
                 <dialog id="modalAddAuteur" class="modal">
                   <div class="modal-box">
                     <form method="dialog">
-                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
+                      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
                     </form>
                     <div class="flex items-center justify-center">
                       <form action="" method="post" class="space-y-4">
                         <h3 class="text-lg font-bold">Ajouter un auteur!</h3>
                         <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
                         <label class="input input-bordered flex items-center gap-2">
-                          <input type="hidden" name="addAuthor" value="authorName">
                           <input id="author" name="authorPrenom" type="text" class="grow" placeholder="Prénom" />
                         </label>
                         <label class="input input-bordered flex items-center gap-2">
-
                           <input id="author" name="authorNom" type="text" class="grow" placeholder="Nom" />
                         </label>
                         <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
@@ -158,7 +173,6 @@ $data[] += $addData;
                         </button>
                       </form>
                     </div>
-
                   </div>
                 </dialog>
 
@@ -186,11 +200,11 @@ $data[] += $addData;
                 <dialog id="modalAddCategorie" class="modal">
                   <div class="modal-box">
                     <form method="dialog">
-                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
-                </form>
+                      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
+                    </form>
                     <div class="flex items-center justify-center">
                       <form action="#" method="post" class="space-y-4">
-                        <h3 class="text-lg font-bold">Ajouter un aCategorie!</h3>
+                        <h3 class="text-lg font-bold">Ajouter un categorie!</h3>
                         <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
                         <label class="input input-bordered flex items-center gap-2">
                           <input id="addCategorie" name="categorieNom" type="text" class="grow" placeholder="Categorie" />
@@ -200,7 +214,6 @@ $data[] += $addData;
                         </button>
                       </form>
                     </div>
-
                   </div>
                 </dialog>
               </div>
@@ -237,12 +250,11 @@ $data[] += $addData;
                 </div>
                 <!-- Droite: Input -->
                 <div class="w-3/4">
-                  <select id="publisher" name="publisher" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required 
-                  >
+                  <select id="publisher" name="publisher" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
                     <option value="" disabled selected>-- Sélectionnez un editeur --</option>
-                    <?php foreach ($ouvrages as $ouvrage): ?>
+                    <?php foreach ($editeurs as $editeur): ?>
                       <option>
-                        <?= $ouvrage['editeur']; ?>
+                        <?= $editeur; ?>
                       </option>
                     <?php endforeach; ?>
                   </select>
@@ -251,21 +263,20 @@ $data[] += $addData;
                 <dialog id="modalAddEditeur" class="modal">
                   <div class="modal-box">
                     <form method="dialog">
-                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
+                      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
                     </form>
                     <div class="flex items-center justify-center">
-                      <form action="" method="post" class="space-y-4">
+                      <form action="#" method="post" class="space-y-4">
                         <h3 class="text-lg font-bold">Ajouter un editeur!</h3>
                         <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
                         <label class="input input-bordered flex items-center gap-2">
-                          <input id="editeur" name="editeur" type="text" class="grow" placeholder="Editeur" />
+                          <input id="addEditeur" name="editeur" type="text" class="grow" placeholder="Editeur" />
                         </label>
                         <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
                           Ajouter
                         </button>
                       </form>
                     </div>
-
                   </div>
                 </dialog>
               </div>

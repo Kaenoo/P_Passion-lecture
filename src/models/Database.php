@@ -577,7 +577,7 @@ class Database
     public function addAuteur($datas)
     {
 
-        //var_dump($_POST);
+        var_dump($_POST);
 
         // Recuperer les données
         $nom = $datas['authorNom'];
@@ -601,7 +601,7 @@ class Database
     // Ajouter un catègorie
     public function addCategorie($datas)
     {
-        //var_dump($_POST);
+        var_dump($_POST);
 
          // Recuperer les données
          $nom = $datas['categorieNom'];

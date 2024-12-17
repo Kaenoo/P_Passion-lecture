@@ -2580,12 +2580,12 @@ html {
   z-index: 1;
 }
 
-.z-\[0\] {
-  z-index: 0;
-}
-
 .col-span-2 {
   grid-column: span 2 / span 2;
+}
+
+.col-span-3 {
+  grid-column: span 3 / span 3;
 }
 
 .col-start-1 {
@@ -2594,6 +2594,10 @@ html {
 
 .col-start-2 {
   grid-column-start: 2;
+}
+
+.col-start-3 {
+  grid-column-start: 3;
 }
 
 .m-2 {
@@ -2656,6 +2660,10 @@ html {
 
 .mt-8 {
   margin-top: 2rem;
+}
+
+.mb-1 {
+  margin-bottom: 0.25rem;
 }
 
 .block {
@@ -2750,6 +2758,10 @@ html {
   width: max-content;
 }
 
+.w-56 {
+  width: 14rem;
+}
+
 .max-w-sm {
   max-width: 24rem;
 }
@@ -2780,6 +2792,10 @@ html {
 
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .flex-col {
@@ -2913,6 +2929,11 @@ html {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 
+.bg-base-200 {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity, 1)));
+}
+
 .bg-opacity-20 {
   --tw-bg-opacity: 0.2;
 }
@@ -3020,6 +3041,18 @@ html {
   padding-top: 1.25rem;
 }
 
+.pl-4 {
+  padding-left: 1rem;
+}
+
+.pl-8 {
+  padding-left: 2rem;
+}
+
+.pt-4 {
+  padding-top: 1rem;
+}
+
 .text-left {
   text-align: left;
 }
@@ -3034,6 +3067,10 @@ html {
 
 .align-top {
   vertical-align: top;
+}
+
+.align-middle {
+  vertical-align: middle;
 }
 
 .align-text-top {
@@ -3083,6 +3120,11 @@ html {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 
 .font-bold {
@@ -3148,8 +3190,16 @@ html {
   text-decoration-color: #15803d;
 }
 
+.decoration-white {
+  text-decoration-color: #fff;
+}
+
 .decoration-8 {
   text-decoration-thickness: 8px;
+}
+
+.decoration-4 {
+  text-decoration-thickness: 4px;
 }
 
 .opacity-0 {
@@ -3357,6 +3407,10 @@ html {
     grid-column: span 5 / span 5;
   }
 
+  .lg\:col-span-1 {
+    grid-column: span 1 / span 1;
+  }
+
   .lg\:col-start-1 {
     grid-column-start: 1;
   }
@@ -3393,6 +3447,10 @@ html {
 
   .lg\:mt-0 {
     margin-top: 0px;
+  }
+
+  .lg\:mb-4 {
+    margin-bottom: 1rem;
   }
 
   .lg\:flex {
@@ -3523,6 +3581,10 @@ html {
 
   .lg\:pt-8 {
     padding-top: 2rem;
+  }
+
+  .lg\:pl-8 {
+    padding-left: 2rem;
   }
 
   .lg\:text-left {

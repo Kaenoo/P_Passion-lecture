@@ -53,10 +53,12 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
     <div class="grid grid-cols-1 px-10 lg:grid-cols-5 lg:gap-4 items-center">
       <?php
         foreach (booksPresentation(($db)) as $index => $bookArray) {
-          echo '<div> <a href="./book.php?id=' . $bookArray[0] .'">';
-          echo '<img class="block mx-auto px-6 pb-2 lg:p-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[1] . '">';
-          echo '<h2 class="mb-5 text-center justify-center font-light text-xl lg:text-2xl">' . $bookArray[1] .'</h2>';
-          echo '</a> </div>';  
+          $html = '<div> <a href="./book.php?id=' . $bookArray[0] .'">';
+          $html .= '<img class="block mx-auto px-6 pb-2 lg:p-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[1] . '">';
+          $html .= '<h2 class="mb-5 text-center justify-center font-light text-xl lg:text-2xl">' . $bookArray[1] .'</h2>';
+          $html .= '</a> </div>';
+
+          echo $html;
         }
         ?>
     </div>

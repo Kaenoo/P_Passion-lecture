@@ -3,6 +3,24 @@ Auteur : Kaeno Eyer
 Date : 03.12.2024
 Description :  Pied de page du site web
 -->
-<footer class="flex mt-8 justify-center items-center py-5 bg-green-700 text-white">
-    <p class="px-8 text-center text-xs lg:text-sm">Site créé par Kaeno Eyer, Mustafa Yildiz et Sarah Dongmo. <a class="font-semibold hover:underline" href="mailto:kaeno.eyer@eduvaud.ch">Nous contacter</a></p>
+<footer class="grid grid-cols-3 mt-8 justify-center py-6 bg-green-700 text-white">
+    <div class="pl-4 col-start-1 col-span-3 lg:col-span-1 lg:col-start-2 lg:px-8 text-center text-xs lg:text-sm inline-block align-middle">
+        <p>© ETML. Tous droits réservées</p>
+        <p>Site créé par Kaeno Eyer, Mustafa Yildiz et Sarah Dongmo.</p>
+
+    </div>
+    <div class="col-start-1 pl-4 lg:pl-8">
+    <details open>
+            <summary class="mb-2 pt-4 lg:mb-4 font-semibold">Contact</summary>
+            <ul>
+              <li><a class="text-sm mb-1 lg:mb-0 hover:underline" href="mailto:kaeno.eyer@eduvaud.ch">Kaeno.eyer@eduvaud.ch</a></li>
+              <li><a class="text-sm mb-1 lg:mb-0 hover:underline" href="mailto:Sarah.dongmo@eduvaud.ch">Sarah.dongmo@eduvaud.ch</a></li>
+              <li><a class="text-sm mb-1 lg:mb-0 hover:underline" href="mailto:Mustafa.Yildiz@eduvaud.ch">Mustafa.Yildiz@eduvaud.ch</a></li>
+            </ul>
+          </details>
+
+    </div>
+
+    
+    
 </footer>

@@ -15,6 +15,10 @@ $db = new Database();
 if (isUserConnected() !== true) {
   header("Location: ./index.php");
 }
+// Vérifie si l'user est admin ou auteur de cette page
+elseif (isUserAdmin($db, $_SESSION["user"]["userID"]) === false && $_SESSION["user"]["userID"] != $_GET["userID"]) {
+  header('Location: ./userbooks.php?userID='. $_GET["userID"] . '');
+}
 
 // Supprime l'ouvrage lors du clic
 if (isset($_POST["confirmDelete"])) {
@@ -22,7 +26,7 @@ if (isset($_POST["confirmDelete"])) {
 
  // header("Location: ./myBooks.php");
 }
-var_dump($_GET);
+
 ?>
 
 <!DOCTYPE html>
@@ -48,9 +52,9 @@ var_dump($_GET);
         // Vérifie si l'user a publié des ouvrages
         if (userHaveBooks($db, $_GET["userID"])) {
           foreach (showMyBooks($db, $_GET["userID"]) as $index => $bookArray) {
-            echo '<div class="mb-5 lg:mb-0 lg:h-full lg:w-full p-2 bg-gray-200 rounded-2xl">'; 
+            $html = '<div class="mb-5 lg:mb-0 lg:h-full lg:w-full p-2 bg-gray-200 rounded-2xl">'; 
             // Menu dropdown : Modification ou supression de l'ouvrage
-            echo '<p class=""><div class="dropdown dropdown-right flex pr-1 justify-end">
+            $html .= '<p class=""><div class="dropdown dropdown-right flex pr-1 justify-end">
                   <div tabindex="0" role="button" class="font-bold text-3xl align-text-top">...</div>
                     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-14 shadow">
                       <li>
@@ -84,14 +88,18 @@ var_dump($_GET);
                     </ul>  
                   </div></p>';
             // Affichage de la couverture et du tire de l'ouvrage
-            echo '<a href="./book.php?id=' . $bookArray[0] .'">';
-            echo '<img class="px-6 pb-2 lg:p-5 lg:object-scale-down lg:h-auto justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[1] . '">';
-            echo '<h2 class="mb-5 text-center justify-center font-light text-2xl hover:font-normal hover:text-green-700">' . $bookArray[1] .'</h2>';
-            echo '</a> </div>';  
+            $html .= '<a href="./book.php?id=' . $bookArray[0] .'">';
+            $html .= '<img class="px-6 pb-2 lg:p-5 lg:object-scale-down lg:h-auto justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[1] . '">';
+            $html .= '<h2 class="mb-5 text-center justify-center font-light text-2xl hover:font-normal hover:text-green-700">' . $bookArray[1] .'</h2>';
+            $html .= '</a> </div>';
+
+            echo $html;
           }
         }
         else {
-          echo '<p class="lg:col-span-5 py-5 text-base lg:text-lg text-center">Vous n\'avez publié encore aucun ouvrage.</p>';
+          $html = '<p class="lg:col-span-5 py-5 text-base lg:text-lg text-center">Vous n\'avez publié encore aucun ouvrage.</p>';
+
+          echo $html;
         }
       ?>
     </div>

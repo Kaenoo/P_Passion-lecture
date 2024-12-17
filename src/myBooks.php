@@ -15,12 +15,18 @@ $db = new Database();
 if (isUserConnected() !== true) {
   header("Location: ./index.php");
 }
+// Vérifie si l'user est admin ou auteur de cette page
+elseif (isUserAdmin($db, $_SESSION["user"]["userID"]) === false && $_SESSION["user"]["userID"] != $_GET["userID"]) {
+  header('Location: ./userbooks.php?userID='. $_GET["userID"] . '');
+}
 
 // Supprime l'ouvrage lors du clic
-if (isset($_GET["confirmDelete"])) {
-  delete($db, $_GET["confirmDelete"]);
-  header("Location: ./myBooks.php");
+if (isset($_POST["confirmDelete"])) {
+  delete($db, $_POST["confirmDelete"]);
+
+ // header("Location: ./myBooks.php");
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -40,16 +46,15 @@ if (isset($_GET["confirmDelete"])) {
 
 
     <!-- /!\ : Remplisseur de page -->
-    <div class="grid grid-cols-1 px-10 lg:grid-cols-5 lg:gap-4 items-center">
+    <div class="grid grid-cols-1 px-8 lg:grid-cols-5 lg:gap-4 items-center">
       <?php
 
         // Vérifie si l'user a publié des ouvrages
-        if (userHaveBooks($db, $_SESSION["user"]["userID"])) {
-          foreach (showMyBooks($db, $_SESSION["user"]["userID"]) as $index => $bookArray) {
-
-            echo '<div class="mb-5 lg:mb-0 p-2 bg-gray-200 rounded-2xl">'; 
+        if (userHaveBooks($db, $_GET["userID"])) {
+          foreach (showMyBooks($db, $_GET["userID"]) as $index => $bookArray) {
+            $html = '<div class="mb-5 lg:mb-0 lg:h-full lg:w-full p-2 bg-gray-200 rounded-2xl">'; 
             // Menu dropdown : Modification ou supression de l'ouvrage
-            echo '<p class=""><div class="dropdown dropdown-right flex pr-1 justify-end">
+            $html .= '<p class=""><div class="dropdown dropdown-right flex pr-1 justify-end">
                   <div tabindex="0" role="button" class="font-bold text-3xl align-text-top">...</div>
                     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-14 shadow">
                       <li>
@@ -71,7 +76,8 @@ if (isset($_GET["confirmDelete"])) {
                                 <form method="dialog">
                                   <button class="btn">Annuler</button>
                                 </form>
-                                <form method="get">
+                                <form method="post">
+                                  <input type="hidden" name="pathBookCover" value="' . $bookArray[2] . '" >
                                   <button type="submit" name="confirmDelete" value="' . $bookArray[0] .  '" class="btn bg-red-600 hover:bg-red-700 text-white font-bold">Confirmer</button>
                                 </form>
                               </div>
@@ -82,17 +88,22 @@ if (isset($_GET["confirmDelete"])) {
                     </ul>  
                   </div></p>';
             // Affichage de la couverture et du tire de l'ouvrage
-            echo '<a href="./book.php?id=' . $bookArray[0] .'">';
-            echo '<img class="block mx-auto px-6 pb-2 lg:p-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[1] . '">';
-            echo '<h2 class="mb-5 text-center justify-center font-light text-2xl hover:font-normal hover:text-green-700">' . $bookArray[1] .'</h2>';
-            echo '</a> </div>';  
+            $html .= '<a href="./book.php?id=' . $bookArray[0] .'">';
+            $html .= '<img class="px-6 pb-2 lg:p-5 lg:object-scale-down lg:h-auto justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[1] . '">';
+            $html .= '<h2 class="mb-5 text-center justify-center font-light text-2xl hover:font-normal hover:text-green-700">' . $bookArray[1] .'</h2>';
+            $html .= '</a> </div>';
+
+            echo $html;
           }
         }
         else {
-          echo '<p class="lg:col-span-5 py-5 text-base lg:text-lg text-center">Vous n\'avez publié encore aucun ouvrage.</p>';
+          $html = '<p class="lg:col-span-5 py-5 text-base lg:text-lg text-center">Vous n\'avez publié encore aucun ouvrage.</p>';
+
+          echo $html;
         }
       ?>
     </div>
+
   </main>
 
   <?php include("./views/footer.php"); ?>

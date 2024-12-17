@@ -83,4 +83,11 @@ function categories($db){
 
     return $categories;
 }
+
+// Supprime la page de couverture d'un ouvrage supprimé -> répertoire imgCoverBook
+function deleteImgCoverBook($path){
+    if (file_exists($path)) {
+        unlink($path);
+    }
+}
 ?>

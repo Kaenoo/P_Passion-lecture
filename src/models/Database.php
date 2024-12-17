@@ -131,6 +131,22 @@ class Database
         return false;
     }
 
+    // Vérifie les droits d'un user TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    public function getUserRight($userID){
+
+        $query = "SELECT `admin` FROM `t_utilisateur` WHERE `utilisateur_id` = :userID";
+
+        $binds = [];
+        $binds[] = [":userID", $userID, PDO::PARAM_INT];
+
+        $req = $this->queryPrepareExecute($query, $binds);
+
+        $right = $this->formatData($req);
+
+        return $right[0]["admin"];
+
+    }
+
     // Créer un compte à l'user
     public function CreateAccount($lastName, $firstName, $pseudo, $password, $date)
     {

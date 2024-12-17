@@ -2552,12 +2552,20 @@ html {
   position: relative;
 }
 
+.sticky {
+  position: sticky;
+}
+
 .right-0 {
   right: 0px;
 }
 
 .right-2 {
   right: 0.5rem;
+}
+
+.top-0 {
+  top: 0px;
 }
 
 .top-2 {
@@ -2576,8 +2584,8 @@ html {
   grid-column: span 2 / span 2;
 }
 
-.col-span-5 {
-  grid-column: span 5 / span 5;
+.col-span-3 {
+  grid-column: span 3 / span 3;
 }
 
 .col-span-3 {
@@ -2590,6 +2598,10 @@ html {
 
 .col-start-2 {
   grid-column-start: 2;
+}
+
+.col-start-3 {
+  grid-column-start: 3;
 }
 
 .m-2 {
@@ -2658,8 +2670,13 @@ html {
   margin-top: 2rem;
 }
 
+<<<<<<< HEAD
 .mr-4 {
   margin-right: 1rem;
+=======
+.mb-1 {
+  margin-bottom: 0.25rem;
+>>>>>>> Kaeno
 }
 
 .block {
@@ -2697,9 +2714,9 @@ html {
   height: 1.75rem;
 }
 
-.size-8 {
-  width: 2rem;
-  height: 2rem;
+.size-9 {
+  width: 2.25rem;
+  height: 2.25rem;
 }
 
 .size-fit {
@@ -2749,8 +2766,18 @@ html {
   width: 100%;
 }
 
+<<<<<<< HEAD
 .w-3\/5 {
   width: 60%;
+=======
+.w-max {
+  width: -moz-max-content;
+  width: max-content;
+}
+
+.w-56 {
+  width: 14rem;
+>>>>>>> Kaeno
 }
 
 .max-w-sm {
@@ -2785,8 +2812,8 @@ html {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.grid-cols-5 {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+.grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .grid-cols-4 {
@@ -2817,18 +2844,12 @@ html {
   justify-content: space-between;
 }
 
-.gap-4 {
-  gap: 1rem;
+.justify-items-center {
+  justify-items: center;
 }
 
 .gap-6 {
   gap: 1.5rem;
-}
-
-.space-x-10 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(2.5rem * var(--tw-space-x-reverse));
-  margin-left: calc(2.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {
@@ -2936,6 +2957,11 @@ html {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 
+.bg-base-200 {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-b2,oklch(var(--b2)/var(--tw-bg-opacity, 1)));
+}
+
 .bg-opacity-20 {
   --tw-bg-opacity: 0.2;
 }
@@ -3036,16 +3062,24 @@ html {
   padding-bottom: 0.5rem;
 }
 
-.pb-8 {
-  padding-bottom: 2rem;
-}
-
 .pr-1 {
   padding-right: 0.25rem;
 }
 
 .pt-5 {
   padding-top: 1.25rem;
+}
+
+.pl-4 {
+  padding-left: 1rem;
+}
+
+.pl-8 {
+  padding-left: 2rem;
+}
+
+.pt-4 {
+  padding-top: 1rem;
 }
 
 .text-left {
@@ -3062,6 +3096,10 @@ html {
 
 .align-top {
   vertical-align: top;
+}
+
+.align-middle {
+  vertical-align: middle;
 }
 
 .align-text-top {
@@ -3111,6 +3149,11 @@ html {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 
 .font-bold {
@@ -3176,8 +3219,16 @@ html {
   text-decoration-color: #15803d;
 }
 
+.decoration-white {
+  text-decoration-color: #fff;
+}
+
 .decoration-8 {
   text-decoration-thickness: 8px;
+}
+
+.decoration-4 {
+  text-decoration-thickness: 4px;
 }
 
 .opacity-0 {
@@ -3373,12 +3424,20 @@ html {
 }
 
 @media (min-width: 1024px) {
+  .lg\:visible {
+    visibility: visible;
+  }
+
   .lg\:col-span-3 {
     grid-column: span 3 / span 3;
   }
 
   .lg\:col-span-5 {
     grid-column: span 5 / span 5;
+  }
+
+  .lg\:col-span-1 {
+    grid-column: span 1 / span 1;
   }
 
   .lg\:col-start-1 {
@@ -3403,6 +3462,14 @@ html {
     margin-bottom: 1rem;
   }
 
+  .lg\:mb-0 {
+    margin-bottom: 0px;
+  }
+
+  .lg\:ml-auto {
+    margin-left: auto;
+  }
+
   .lg\:mr-4 {
     margin-right: 1rem;
   }
@@ -3411,8 +3478,16 @@ html {
     margin-top: 0px;
   }
 
-  .lg\:mb-0 {
-    margin-bottom: 0px;
+  .lg\:mb-4 {
+    margin-bottom: 1rem;
+  }
+
+  .lg\:flex {
+    display: flex;
+  }
+
+  .lg\:hidden {
+    display: none;
   }
 
   .lg\:size-12 {
@@ -3420,8 +3495,20 @@ html {
     height: 3rem;
   }
 
+  .lg\:h-auto {
+    height: auto;
+  }
+
+  .lg\:h-full {
+    height: 100%;
+  }
+
   .lg\:w-3\/5 {
     width: 60%;
+  }
+
+  .lg\:w-full {
+    width: 100%;
   }
 
   .lg\:grid-cols-2 {
@@ -3434,6 +3521,10 @@ html {
 
   .lg\:grid-cols-5 {
     grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .lg\:justify-items-end {
+    justify-items: end;
   }
 
   .lg\:gap-2 {
@@ -3466,6 +3557,11 @@ html {
   .lg\:object-contain {
     -o-object-fit: contain;
        object-fit: contain;
+  }
+
+  .lg\:object-scale-down {
+    -o-object-fit: scale-down;
+       object-fit: scale-down;
   }
 
   .lg\:p-5 {
@@ -3510,6 +3606,18 @@ html {
 
   .lg\:pt-3 {
     padding-top: 0.75rem;
+  }
+
+  .lg\:pt-8 {
+    padding-top: 2rem;
+  }
+
+  .lg\:pl-8 {
+    padding-left: 2rem;
+  }
+
+  .lg\:pt-0 {
+    padding-top: 0px;
   }
 
   .lg\:text-left {

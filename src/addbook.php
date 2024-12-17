@@ -14,6 +14,7 @@
 session_start();
 include("./models/database.php");
 include("./controllers/user.php");
+$editeurs = [];
 
 // Vérifie que l'user soit bien connecté
 if (isUserConnected() === false) {
@@ -24,15 +25,12 @@ if (isUserConnected() === false) {
 $db = new Database();
 
 // pour stocker les editeurs
-$editeurs = [];
 $ouvrages = $db->listOuvrages();
 
 // permet de mettre les editeurs dans le list
 foreach ($ouvrages as $ouvrage) {
   $editeurs[] = $ouvrage['editeur'];
 }
-
-
 
 
 // permet d'eviter le $_POST
@@ -42,26 +40,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Ajouter un auteur
     $author = $db->addAuteur($_POST);
-    header("Location: ./addBook.php");
+    //header("Location: ./addBook.php");
   } elseif (isset($_POST["categorieNom"])) {
-    
+
     // Ajouter un catégorie
     $categorie = $db->addCategorie($_POST);
-    header("Location: ./addBook.php");
+    //header("Location: ./addBook.php");
   } elseif (isset($_POST["editeur"])) {
-    
+
     // Ajouter un editeur
     $editeurs[] = $_POST["editeur"];
-    header("Location: ./addBook.php");
   } else {
-    
+
     echo "Erreur";
   }
 }
+
 $categories = $db->listCategories();
 $authors = $db->listAuthors();
-
-
 
 echo "<pre>";
 var_dump($_POST);
@@ -112,13 +108,12 @@ function addList($data, $addData)
   <?php
   include("./views/header.php");
   ?>
-
   <main>
     <div class="text-center">
       <!-- Form Section -->
       <h2 class="text-2xl font-semibold text-gray-700 mb-6">Ajouter un ouvrage</h2>
       <div class="p-6">
-        <form action="./controllers/checkAddBook.php" method="POST" enctype="multipart/form-data">
+        <form action="./controllers/checkAddBook.php" method="post" enctype="multipart/form-data">
           <div class="grid grid-cols-2 gap-6">
             <!-- Left Column -->
             <div>
@@ -306,6 +301,7 @@ function addList($data, $addData)
               </div>
             </div>
 
+
             <!-- Right Column -->
             <!-- Image -->
             <div>
@@ -314,7 +310,6 @@ function addList($data, $addData)
                 <!-- <input type="file" id="image" name="image" hidden>
                 <label class="border border-gray-300 rounded-lg px-4 py-5 w-full" for="image">Insérer une image</label> -->
                 <form action="" method="post" enctype="multipart/form-data">
-                  <label for="photo"></label>
                   <input type="file" name="photo" id="photo" accept="image/*">
                   <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Charger</button>
                 </form>
@@ -332,13 +327,31 @@ function addList($data, $addData)
                 </div>
               </div>
               <div class="font-bold text-xl mb-2"><?php echo $_FILES['photo']['name'] ?></div>
+
+
+              <!-- <input type="file" accept="image/*" onchange="loadFile(event)">
+              <img id="output" />
+              <script>
+                var loadFile = function(event) {
+                  var output = document.getElementById('output');
+                  output.src = URL.createObjectURL(event.target.files[0]);
+                  output.onload = function() {
+                    URL.revokeObjectURL(output.src) // free memory
+                  }
+                };
+              </script> 
+
+              <button type="submit">test</button> -->
+
+
+              <!-- Submit Button -->
+              <div class="mt-6 flex justify-end">
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Enregistrer</button>
+              </div>
             </div>
           </div>
 
-          <!-- Submit Button -->
-          <div class="mt-6 flex justify-end">
-            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Enregistrer</button>
-          </div>
+
         </form>
       </div>
   </main>

@@ -6,10 +6,18 @@
  */
 session_start();
 include("./models/Database.php");
+echo "<pre>";
+var_dump($_POST);
+echo "</pre>";
+
+echo "<pre>";
+var_dump($_FILES);
+echo "</pre>";
 $db = new Database();
 
+
 // Permet de ajouter un livre
-$db->addBook($_POST, $_FILES, $_SESSION['user']['userID']);
+//$db->addBook($_POST, $_FILES, $_SESSION['user']['userID']);
 
 // Aller au page accueil après ajouter un livre
 header("location: ./index.php");

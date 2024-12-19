@@ -36,7 +36,7 @@ class Database
         foreach ($binds as $bind) {
             $req->bindValue($bind[0], $bind[1], $bind[2]);
         }
-        
+
         $req->execute();
 
         return $req;
@@ -64,6 +64,7 @@ class Database
         // Appeler la méthode pour avoir le résultat sous forme de tableau
         $categories = $this->formatData($req);
 
+        
         return $categories;
     }
 
@@ -162,7 +163,8 @@ class Database
     }
 
     // Récupère le pseudo d'un user
-    public function getPseudoUser($userID){
+    public function getPseudoUser($userID)
+    {
         $query = "SELECT `pseudo` FROM `t_utilisateur` WHERE `utilisateur_id` = :userID";
 
         $binds = [];
@@ -173,7 +175,7 @@ class Database
         $pseudo = $this->formatData($req);
 
         return $pseudo[0]["pseudo"];
-    } 
+    }
 
     /* ---------------- Fonctions (Livres) ---------------- */
 
@@ -220,7 +222,8 @@ class Database
     }
 
     // Récupère les données de l'écrivain
-    public function getBookWriter($writerID){
+    public function getBookWriter($writerID)
+    {
         $query = "SELECT * FROM `t_ecrivain` WHERE `ecrivain_id` = :writerID";
 
         $binds = [];
@@ -234,7 +237,8 @@ class Database
     }
 
     // Récupère la catégorie d'un ouvrage
-    public function getBookCategory($categoryID){
+    public function getBookCategory($categoryID)
+    {
         $query = "SELECT `nom` FROM `t_categorie` WHERE `categorie_id` = :categoryID";
 
         $binds = [];
@@ -259,7 +263,8 @@ class Database
     }
 
     // Supprime un ouvrage
-    public function deleteBook($bookID){
+    public function deleteBook($bookID)
+    {
         $query = "DELETE FROM t_apprecier WHERE ouvrage_id = :bookID; ";
         $query2 = "DELETE FROM t_ouvrage WHERE ouvrage_id = :bookID";
 
@@ -272,7 +277,8 @@ class Database
     /* ---------------- Fonctions (Avis utilisateurs) ---------------- */
 
     // Récupère les notations arrondies des users sur un ouvrage
-    public function getBookReviews($bookID){
+    public function getBookReviews($bookID)
+    {
 
         $query = "SELECT  ROUND(AVG(`note`)) FROM `t_apprecier` WHERE `ouvrage_id`= :bookID ";
 
@@ -291,7 +297,8 @@ class Database
     }
 
     // Donne une notation et un avis d'un user sur un ouvrage
-    public function giveReviewOnABook($bookID, $userID, $note, $review){
+    public function giveReviewOnABook($bookID, $userID, $note, $review)
+    {
 
         $query = "INSERT INTO `t_apprecier`(`ouvrage_id`, `utilisateur_id`, `note`, `commentaire`) VALUES (:bookID, :userID, :note, :review)";
 
@@ -300,93 +307,93 @@ class Database
         $binds[] = [":userID", $userID, PDO::PARAM_INT];
         $binds[] = [":note", $note, PDO::PARAM_INT];
         $binds[] = [":review", $review, PDO::PARAM_STR];
-        
+
 
         $this->queryPrepareExecute($query, $binds);
-
     }
 
     // Récupère tous les avis et notation d'un ouvrage
-    public function getAllReviewsBook($bookID){
+    public function getAllReviewsBook($bookID)
+    {
         $query = "SELECT `utilisateur_id`, `note`, `commentaire` FROM `t_apprecier` WHERE `ouvrage_id` = :bookID";
 
         $binds = [];
         $binds[] = [":bookID", $bookID, PDO::PARAM_INT];
 
         $req = $this->queryPrepareExecute($query, $binds);
-        
+
         $reviews = $this->formatData($req);
-        
+
 
         return $reviews;
     }
 
     // Récupère l'avis d'un user sur un ouvrage (Si c'est le cas, il ne peut plus en poster sur celui là)
-    public function userReviewBook($userID, $bookID){
+    public function userReviewBook($userID, $bookID)
+    {
         $query = "SELECT * FROM `t_apprecier` WHERE `utilisateur_id` = :userID and `ouvrage_id` = :bookID";
 
         $binds = [];
         $binds[] = [":userID", $userID, PDO::PARAM_INT];
         $binds[] = [":bookID", $bookID, PDO::PARAM_INT];
-        
+
         $req = $this->queryPrepareExecute($query, $binds);
-        
+
         $review = $this->formatData($req);
 
         if (count($review) > 0) {
             return true;
         }
         return false;
-
     }
 	
 	// Affiche les résultats de la recherche utilisateur
-    public function searchABook($search)
+    public function searchBooks($search)
     {
         //$query = "SELECT * FROM db_passion_lecture.TABLES LIMIT 0, 5;";
 
         // $query = "SELECT DISTINCT o.titre, e.nom, e.prenom, u.pseudo, c.nom;
 
-        //         $query = "SELECT DISTINCT o.titre, e.nom, e.prenom, u.pseudo, c.nom 
-        //         FROM `t_ouvrage` o 
-        //         INNER JOIN `t_ecrivain` e ON o.ecrivain_id = e.ecrivain_id 
-        //         INNER JOIN `t_utilisateur` u ON o.ecrivain_id = u.utilisateur_id 
-        //         INNER JOIN `t_categorie` c ON o.categorie_id = c.categorie_id 
-        //         WHERE o.titre LIKE :titre
-        //         OR e.nom LIKE :nom
-        //         OR e.prenom LIKE :prenom
-        //         OR c.nom LIKE :nom;";
+        $query = "SELECT DISTINCT *
+        FROM `t_ouvrage` o 
+        INNER JOIN `t_ecrivain` e ON o.ecrivain_id = e.ecrivain_id 
+        INNER JOIN `t_categorie` c ON o.categorie_id = c.categorie_id 
+        WHERE (o.titre LIKE :titre
+        OR e.nom LIKE :e_nom
+        OR e.prenom LIKE :prenom)
+        AND c.nom LIKE :c_nom;";
 
+        
+        $word = "%" . $search["search"]. "%";
 
-        //     foreach ($search as $searching => $word)
-        //     {
-        //         $wording = $word . "%";
-        //         $binds =
-        //         [
-        //             ["o.titre", $wording, PDO::PARAM_STR],
-        //             ["e.nom", $wording, PDO::PARAM_STR],
-        //             ["e.prenom", $wording, PDO::PARAM_STR],
-        //             ["c.nom", $wording, PDO::PARAM_STR],
+        $categorie = "%%";
 
-        //         ];
-        //    }
-
-
-
-
-        $query = "SELECT DISTINCT titre
-        FROM `t_ouvrage`
-        WHERE titre LIKE :titre;";
-
-        foreach ($search as $searching => $word) {
-            $wording = "%" . $word . "%";
-            $binds =
-                [
-                    ["titre", $wording, PDO::PARAM_STR],
-
-                ];
+        if ($search["categories"] != "filter")
+        {
+            $categorie = $search["categories"];
         }
-        // Méthode pour executer la requête
+
+        $binds=
+        [
+            ["titre", $word, PDO::PARAM_STR],
+            ["e_nom", $word, PDO::PARAM_STR],
+            ["prenom", $word, PDO::PARAM_STR],
+            ["c_nom", $categorie, PDO::PARAM_STR],
+        ];
+        
+
+
+        // $binds = [];
+        // foreach ($search as $searching => $word) {
+        //     $wording = "%" . $word . "%";
+        //     $binds[] =
+        //         [
+        //             ["titre", $wording, PDO::PARAM_STR],
+        //             ["nom", $word, PDO::PARAM_STR],
+        //         ];
+        // }
+
+
         $req = $this->queryPrepareExecute($query, $binds);
 
         // Mise en forme en tableau
@@ -394,6 +401,54 @@ class Database
 
         // Retourne le résultat d'une recherche de livre
         return $searchBooks;
+    }
+
+    public function getRowsNumberOfSearch($search) 
+    {
+        
+        $query = "SELECT COUNT(*)
+        FROM `t_ouvrage` o 
+        INNER JOIN `t_ecrivain` e ON o.ecrivain_id = e.ecrivain_id 
+        INNER JOIN `t_categorie` c ON o.categorie_id = c.categorie_id 
+        WHERE (o.titre LIKE :titre
+        OR e.nom LIKE :e_nom
+        OR e.prenom LIKE :prenom)
+        AND c.nom LIKE :c_nom;";
+
+        
+        $word = "%" . $search["search"]. "%";
+
+        $categorie = "%%";
+
+        if ($search["categories"] != "filter")
+        {
+            $categorie = $search["categories"];
+        }
+
+        $binds=
+        [
+            ["titre", $word, PDO::PARAM_STR],
+            ["e_nom", $word, PDO::PARAM_STR],
+            ["prenom", $word, PDO::PARAM_STR],
+            ["c_nom", $categorie, PDO::PARAM_STR],
+        ];
+
+        $req = $this->queryPrepareExecute($query, $binds);
+
+        $count = $req->fetchColumn();
+
+        // Retourne le résultat 
+        return $count;
+    }
+
+    public function getRowsNumberOfList() 
+    {
+        $query = "SELECT COUNT(*) FROM `t_ouvrage`;";
+        $req = $this->querySimpleExecute($query);
+        $count = $req->fetchColumn();
+
+        // Retourne le résultat 
+        return $count;
     }
 
     // Liste les titres des livres
@@ -432,7 +487,7 @@ class Database
     public function listPseudoUser($data)
     {
         // Requête SQL
-        $query = "SELECT pseudo FROM t_utilisateur WHERE utilisateur_id = $data;";
+        $query = "SELECT * FROM t_utilisateur WHERE utilisateur_id = $data;";
 
         // Méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
@@ -452,16 +507,12 @@ class Database
         // Méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
 
-        var_dump($result);
-        die;
         // Mise en forme en tableau
         $this->formatData($result);
 
         // Retourne la catégorie des livres
         return $result;
     }
-
-
 
     /* ---------------- Fonctions (Ajouter un Livre) ---------------- */
     // Permet de ajouter un livre
@@ -503,7 +554,7 @@ class Database
     public function listAuthors()
     {
         // Avoir la requête sql
-        $query = "SELECT * FROM t_ecrivain;";
+        $query = "SELECT * FROM t_ecrivain ORDER BY prenom, nom ASC;";
 
         // Appeler la méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
@@ -516,7 +567,7 @@ class Database
     public function listCategories()
     {
         // Avoir la requête sql
-        $query = "SELECT * FROM t_categorie;";
+        $query = "SELECT * FROM t_categorie ORDER BY nom ASC;";
 
         // Appeler la méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
@@ -529,12 +580,96 @@ class Database
     public function listOuvrages()
     {
         // Avoir la requête sql
-        $query = "SELECT * FROM t_ouvrage;";
+        $query = "SELECT DISTINCT editeur FROM t_ouvrage ORDER BY editeur ASC;";
 
         // Appeler la méthode pour executer la requête
-        $result = $this->querySimpleExecute($query);
+        $result = $this->querySimpleExecute($query); 
 
         // Retour tous les enseignants
         return $result;
     }
+
+    // Ajouter un auteur
+    public function addAuteur($datas)
+    {
+
+        var_dump($_POST);
+
+        // Recuperer les données
+        $nom = $datas['authorNom'];
+        $prenom = $datas['authorPrenom'];
+
+        // Avoir la requête sql
+        $query = "INSERT INTO `t_ecrivain`(`ecrivain_id`, `nom`, `prenom`) VALUES (DEFAULT,:nom,:prenom)";
+
+        // Avoir la list PDO pour requête prépare sql
+        $binds = [];
+        $binds[] = [":nom", $nom, PDO::PARAM_STR];
+        $binds[] = [":prenom", $prenom, PDO::PARAM_STR];
+
+        // Méthode pour executer la requête
+        $req = $this->queryPrepareExecute($query, $binds);
+
+        // Retour tous les enseignants
+        return $req;
+    }
+
+    // Ajouter un catègorie
+    public function addCategorie($datas)
+    {
+        var_dump($_POST);
+
+         // Recuperer les données
+         $nom = $datas['categorieNom'];
+
+         // Avoir la requête sql
+         $query = "INSERT INTO `t_categorie`(`categorie_id`, `nom`) VALUES (DEFAULT,:nom)";
+
+         // Avoir la list PDO pour requête prépare sql
+        $binds = [];
+        $binds[] = [":nom", $nom, PDO::PARAM_STR];
+
+         // Méthode pour executer la requête
+         $req = $this->queryPrepareExecute($query, $binds);
+
+         // Retour tous les enseignants
+         return $req;
+    }
+
+        // Afficher les editeurs
+        public function listEditeurs()
+        {
+            // Avoir la requête sql
+            $query = "SELECT * FROM t_ouvrage";
+    
+            // Appeler la méthode pour executer la requête
+            $result = $this->querySimpleExecute($query);
+    
+            // Retour tous les enseignants
+            return $result;
+        }
+
+    // Ajouter un editeur
+    // public function addEditeur($datas)
+    // {
+
+    //     var_dump($_POST);
+
+    //      // Recuperer les données
+    //      $nom = $datas['authorNom'];
+    //      $prenom = $datas['authorPrenom'];
+
+    //      // Avoir la requête sql
+    //      $query = "INSERT INTO `t_categorie`(`categorie_id`, `nom`) VALUES (DEFAULT,:nom)";
+
+    //      // Avoir la list PDO pour requête prépare sql
+    //     $binds = [];
+    //     $binds[] = [":nom", $nom, PDO::PARAM_STR];
+
+    //      // Méthode pour executer la requête
+    //      $req = $this->queryPrepareExecute($query, $binds);
+
+    //      // Retour tous les enseignants
+    //      return $req;
+    // }
 }

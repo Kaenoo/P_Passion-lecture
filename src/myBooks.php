@@ -52,7 +52,7 @@ if (isset($_POST["confirmDelete"])) {
         // Vérifie si l'user a publié des ouvrages
         if (userHaveBooks($db, $_GET["userID"])) {
           foreach (showMyBooks($db, $_GET["userID"]) as $index => $bookArray) {
-            $modalID = "modal_" . $index;
+            $modalID = "modal_" . $index; // Un modal par ouvrage
             $html = '<div class="mb-5 lg:mb-0 sm:h-full sm:w-full p-2 bg-gray-200 rounded-2xl">'; 
             // Menu dropdown : Modification ou supression de l'ouvrage
             $html .= '<p class=""><div class="dropdown dropdown-bottom lg:dropdown-right flex pr-1 justify-end">

@@ -33,12 +33,12 @@ else if (isUserAdmin($db, $_SESSION["user"]["userID"]) === true || $_SESSION["us
   <?php include("./views/header.php"); ?>
 
   <main class="lg:px-12 text-justify">
-    <h1 class="my-4 text-2xl lg:text-4xl font-bold text-center">Mes publications d'ouvrages</h1>
+    <h1 class="mt-4 mb-8 text-2xl lg:text-4xl font-bold text-center">Mes publications d'ouvrages</h1>
 
 
 
     <!-- /!\ : Remplisseur de page -->
-    <div class="grid grid-cols-1 px-8 lg:grid-cols-5 lg:gap-4 items-center">
+    <div class="grid grid-cols-1 px-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:gap-4 items-center">
       <?php
 
         // Vérifie si l'user a publié des ouvrages

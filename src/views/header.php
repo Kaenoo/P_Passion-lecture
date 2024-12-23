@@ -3,7 +3,7 @@ Auteur : Kaeno Eyer
 Date : 03.12.2024
 Description :  En-tête du site web
 -->
-<header class="sticky top-0 flex items-center py-6 px-4 lg:px-28 bg-green-700">
+<header class="sticky z-50 top-0 flex items-center py-6 px-4 lg:px-28 bg-green-700">
     <a href="../index.php">
       <h1 class="text-3xl font-bold lg:text-4xl ">Passion Lecture</h1>
     </a>
@@ -35,7 +35,7 @@ Description :  En-tête du site web
     <div class="lg:hidden flex ml-auto">
       <div class="dropdown dropdown-end">
         <img tabindex="0" class="size-9" src="../img/menu_Hamburger.svg" alt="menu Hamburger">
-        <ul tabindex="0" class="dropdown-content menu bg-base-100 z-[1] mt-6 w-max p-2 shadow">
+        <ul tabindex="0" class="dropdown-content menu bg-base-100 z-50 mt-6 w-max p-2 shadow">
           <li>
             <?php if (isset($_SESSION["user"])) {
               echo '<a href="./addBook.php">

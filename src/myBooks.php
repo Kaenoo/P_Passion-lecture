@@ -41,12 +41,12 @@ if (isset($_POST["confirmDelete"])) {
   <?php include("./views/header.php"); ?>
 
   <main class="lg:px-12 text-justify">
-    <h1 class="my-4 text-2xl lg:text-4xl font-bold text-center">Mes publications d'ouvrages</h1>
+    <h1 class="mt-4 mb-8 text-2xl lg:text-4xl font-bold text-center">Mes publications d'ouvrages</h1>
 
 
 
     <!-- /!\ : Remplisseur de page -->
-    <div class="grid grid-cols-1 px-8 lg:grid-cols-5 lg:gap-4 items-center">
+    <div class="grid grid-cols-1 px-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:gap-4 items-center">
       <?php
 
         // Vérifie si l'user a publié des ouvrages
@@ -54,9 +54,9 @@ if (isset($_POST["confirmDelete"])) {
           foreach (showMyBooks($db, $_GET["userID"]) as $index => $bookArray) {
             $html = '<div class="mb-5 lg:mb-0 lg:h-full lg:w-full p-2 bg-gray-200 rounded-2xl">'; 
             // Menu dropdown : Modification ou supression de l'ouvrage
-            $html .= '<p class=""><div class="dropdown dropdown-right flex pr-1 justify-end">
-                  <div tabindex="0" role="button" class="font-bold text-3xl align-text-top">...</div>
-                    <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-14 shadow">
+            $html .= '<p class=""><div class="dropdown dropdown-right relative flex pr-1 justify-end">
+                  <div tabindex="0" role="button" class="font-bold relative text-3xl align-text-top">...</div>
+                    <ul tabindex="0" class="dropdown-content menu relative bg-base-100 rounded-box z-[1] w-14 shadow">
                       <li>
                         <a class="p-1 text-center" href="./modifyBook.php">
                           <img class="size-6" src="./img/edit.png" alt="Modifier">

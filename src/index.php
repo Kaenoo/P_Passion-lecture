@@ -32,10 +32,10 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
     <h1 class="my-4 text-2xl lg:text-4xl font-bold text-center">Accueil</h1>
 
     <!-- Message d'introduction -->
-    <div class="m-2 p-2 text-base lg:rounded-xl lg:bg-gray-200 lg:m-5 lg:p-5 lg:text-left lg:text-lg">
+    <div class="m-2 p-6 text-base md:rounded-xl md:bg-gray-200 lg:m-5 lg:p-5 lg:text-left lg:text-lg">
 
 
-      <p class="lg:text-center lg:pb-3">Bienvenue sur Passion Lecture, votre espace dédié à la découverte et au partage littéraire !</p>
+      <p class="md:text-center md:pb-3">Bienvenue sur Passion Lecture, votre espace dédié à la découverte et au partage littéraire !</p>
 
       <p>Que vous soyez amateur de romans, passionné d’essais ou curieux de récits historiques, ce site est fait pour vous.
         Explorez une vaste bibliothèque d’ouvrages classés par catégories, genres et auteurs, et découvrez de nouvelles lectures adaptées à vos goûts.
@@ -44,16 +44,17 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
         Les cinq derniers ouvrages ajoutés sont disponibles directement sur cette page pour une exploration immédiate.
       </p>
 
-        <p class="lg:text-center lg:pt-3" >Bonne lecture ! 📚</p>
+        <p class="md:text-center lg:pt-3" >Bonne lecture ! 📚</p>
     </div>
 
     <!-- 5 derniers ouvrages -->
     <h1 class="my-4 text-2xl lg:text-4xl font-bold text-center">5 derniers ouvrages ajoutés</h1>
 
-    <div class="grid grid-cols-1 px-10 lg:grid-cols-5 lg:gap-4 items-center">
+    <div class="grid grid-cols-1 px-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:gap-4 items-center">
       <?php
         foreach (booksPresentation(($db)) as $index => $bookArray) {
-          $html = '<div> <a href="./book.php?id=' . $bookArray[0] .'">';
+          $html = '<div '; 
+          $html = '<div class="mb-5 pt-6 lg:pt-0 lg:mb-0 sm:h-full sm:w-full p-2 bg-gray-200 rounded-2xl"> <a href="./book.php?id=' . $bookArray[0] .'">';
           $html .= '<img class="block mx-auto px-6 pb-2 lg:p-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[1] . '">';
           $html .= '<h2 class="mb-5 text-center justify-center font-light text-xl lg:text-2xl">' . $bookArray[1] .'</h2>';
           $html .= '</a> </div>';

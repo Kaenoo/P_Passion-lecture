@@ -52,7 +52,7 @@ if (isset($_POST["confirmDelete"])) {
         // Vérifie si l'user a publié des ouvrages
         if (userHaveBooks($db, $_GET["userID"])) {
           foreach (showMyBooks($db, $_GET["userID"]) as $index => $bookArray) {
-            $html = '<div class="mb-5 lg:mb-0 lg:h-full lg:w-full p-2 bg-gray-200 rounded-2xl">'; 
+            $html = '<div class="mb-5 lg:mb-0 sm:h-full sm:w-full p-2 bg-gray-200 rounded-2xl">'; 
             // Menu dropdown : Modification ou supression de l'ouvrage
             $html .= '<p class=""><div class="dropdown dropdown-right relative flex pr-1 justify-end">
                   <div tabindex="0" role="button" class="font-bold relative text-3xl align-text-top">...</div>

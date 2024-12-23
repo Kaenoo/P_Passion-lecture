@@ -5,7 +5,8 @@ Description :  En-tête du site web
 -->
 <header class="sticky z-50 top-0 flex items-center py-6 px-4 lg:px-28 bg-green-700">
     <a href="../index.php">
-      <h1 class="text-3xl font-bold lg:text-4xl ">Passion Lecture</h1>
+      <img class="w-52 sm:w-80" src="./img/inconWebsite.png" alt="Logo du site">  
+    <!-- <h1 class="text-3xl font-bold lg:text-4xl ">Passion Lecture</h1> -->
     </a>
 
     <!-- Menu version ordinateur -->

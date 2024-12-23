@@ -44,7 +44,7 @@ else if (isUserAdmin($db, $_SESSION["user"]["userID"]) === true || $_SESSION["us
         // Vérifie si l'user a publié des ouvrages
         if (userHaveBooks($db, $_GET["userID"])) {
           foreach (showMyBooks($db, $_GET["userID"]) as $index => $bookArray) {
-            $html = '<div class="mb-5 lg:mb-0 lg:h-full lg:w-full p-2 bg-gray-200 rounded-2xl">'; 
+            $html = '<div class="pt-6 lg:pt-0 mb-5 lg:mb-0 sm:h-full sm:w-full p-2 bg-gray-200 rounded-2xl">'; 
             
             // Affichage de la couverture et du tire de l'ouvrage
             $html .= '<a href="./book.php?id=' . $bookArray[0] .'">';

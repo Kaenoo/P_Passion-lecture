@@ -12,14 +12,22 @@ $db = new Database();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
-  //Vérifie si le login fait parti de la DB, si c'est la cas -> création de session
-  if ($db->verifyAccount($_POST["pseudo"], $_POST["password"]) === true) {
-    
-    $valueUser = $db->getDataAccount($_POST["pseudo"]);
-
-    //Connecte l'utilisateur à la session
-    getConnectedUser($valueUser["admin"], $valueUser["utilisateur_id"]);
+  if ($db->verifyPseudoExistence($_POST["pseudo"]) !== false) {
+    //Vérifie si le login fait parti de la DB, si c'est la cas -> création de session
+    if ($db->verifyAccount($_POST["pseudo"], $_POST["password"]) === true) 
+    {  
+      $valueUser = $db->getDataAccount($_POST["pseudo"]);
+  
+      //Connecte l'utilisateur à la session
+      getConnectedUser($valueUser["admin"], $valueUser["utilisateur_id"]);
     }
+    else {
+      $error = "Mot de passe incorrect";
+    }
+  }
+  else {
+    $error = "Pseudo incorrect";
+  }
 }
 ?>
 
@@ -61,6 +69,12 @@ include("./views/header.php");
           <input id="password" name="password" type="password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
         </div>
       </div>
+        
+        <p class="text-center font-semibold text-red-700"><?php
+          if (isset($error)) {
+            echo $error;
+          }
+        ?></p>
 
       <div>
         <button type="submit" class="flex w-full justify-center rounded-md bg-green-700 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700">Connexion</button>

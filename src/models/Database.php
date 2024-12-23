@@ -112,7 +112,6 @@ class Database
     // Vérifie si le pseudo existe dans la db
     public function verifyPseudoExistence($pseudo)
     {
-
         $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
 
         $binds = [];
@@ -123,8 +122,6 @@ class Database
         $verify = $this->formatData($req);
 
         if (count($verify) > 0) {
-
-
             return true;
         }
 

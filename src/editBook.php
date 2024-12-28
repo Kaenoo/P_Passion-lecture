@@ -1,15 +1,9 @@
 <?php
 /*
  * Auteur       : Mustafa Yildiz
- * Date         : 19.11.2024
- * Description  : Le page pour ajouter un livre
+ * Date         : 24.12.2024
+ * Description  : Le page pour editer un livre
  */
-
-
-// Affichage les erreurs
-// echo "<pre>";
-// var_dump($errors);
-// echo "</pre>";
 
 session_start();
 include("./models/database.php");
@@ -25,7 +19,22 @@ if (isUserConnected() === false) {
 $db = new Database();
 
 // pour stocker les editeurs
-$ouvrages = $db->listOuvrages();
+$ouvrages = $db->listBooks();
+
+// pour stocker actuel livre
+$actuelBook;
+
+// permet de mettre les editeurs dans le list
+foreach ($ouvrages as $ouvrage) {
+  if ($_GET['id'] == $ouvrage['ouvrage_id']) {
+    $actuelBook = $ouvrage;
+  }
+}
+
+// Affichage les erreurs
+echo "<pre>";
+var_dump($actuelBook);
+echo "</pre>";
 
 // permet de mettre les editeurs dans le list
 foreach ($ouvrages as $ouvrage) {
@@ -63,59 +72,27 @@ echo "<pre>";
 var_dump($_POST);
 echo "</pre>";
 
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//   // Processus de téléchargement de fichiers
-//   if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-//     $uploadDir = 'uploads/'; // Répertoire à installer
-//     $uploadFile = $uploadDir . basename($_FILES['photo']['name']);
-
-//     // Vérifiez l'existence du répertoire et créez-le sinon
-//     if (!is_dir($uploadDir)) {
-//       mkdir($uploadDir, 0755, true);
-//     }
-
-//     // Téléchargement du fichier
-//     if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile)) {
-//       $uploadedFilePath = $uploadFile;
-//     } else {
-//       $error = "Une erreur s'est produite lors du téléchargement du fichier.";
-//     }
-//   } else {
-//     $error = "Vous n'avez pas sélectionné un fichier valide.";
-//   }
-// }
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // Processus de téléchargement de fichiers
   if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-      $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
-      $fileMimeType = mime_content_type($_FILES['photo']['tmp_name']);
-      
-      if (in_array($fileMimeType, $allowedMimeTypes)) {
-          $uploadDir = 'uploads/';
-          $uploadFile = $uploadDir . basename($_FILES['photo']['name']);
-          
-          if (!is_dir($uploadDir)) {
-              mkdir($uploadDir, 0755, true);
-          }
+    $uploadDir = 'uploads/'; // Répertoire à installer
+    $uploadFile = $uploadDir . basename($_FILES['photo']['name']);
 
-          if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile)) {
-              $uploadedFilePath = $uploadFile;
-          } else {
-              $error = "Une erreur s'est produite lors du téléchargement du fichier.";
-          }
-      } else {
-          $error = "Format de fichier non valide. Veuillez télécharger une image.";
-      }
+    // Vérifiez l'existence du répertoire et créez-le sinon
+    if (!is_dir($uploadDir)) {
+      mkdir($uploadDir, 0755, true);
+    }
+
+    // Téléchargement du fichier
+    if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile)) {
+      $uploadedFilePath = $uploadFile;
+    } else {
+      $error = "Une erreur s'est produite lors du téléchargement du fichier.";
+    }
   } else {
-      $error = "Vous n'avez pas sélectionné un fichier valide.";
+    $error = "Vous n'avez pas sélectionné un fichier valide.";
   }
 }
-
-
-
-
-
 
 var_dump($_FILES);
 
@@ -145,7 +122,7 @@ function addList($data, $addData)
       <!-- Form Section -->
       <h2 class="text-2xl font-semibold text-gray-700 mb-6">Ajouter un ouvrage</h2>
       <div class="p-6">
-        <form action="./controllers/checkAddBook.php" method="post" enctype="multipart/form-data">
+        <form action="./controllers/checkEditBook.php" method="post" enctype="multipart/form-data">
           <div class="grid grid-cols-2 gap-6">
             <!-- Left Column -->
             <div>
@@ -153,11 +130,12 @@ function addList($data, $addData)
               <div class="flex items-start space-x-4 border-2 border-gray-500 rounded-lg p-4 mb-4">
                 <!-- Gauche: Label -->
                 <div class="w-1/4">
+                <input type="hidden" name="ouvrage_id" value="<?php echo $actuelBook['ouvrage_id']?>">
                   <label for="title" class="block text-gray-600 font-medium">Titre</label>
                 </div>
                 <!-- Droite: Input -->
                 <div class="w-3/4">
-                  <input type="text" id="title" name="title" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
+                  <input type="text" id="title" name="title" class="border border-gray-300 rounded-lg px-4 py-2 w-full" value="<?php echo $actuelBook['titre']?>" required>
                 </div>
               </div>
 
@@ -172,6 +150,15 @@ function addList($data, $addData)
                   <select id="author" name="author" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
                     <option value="" disabled selected>-- Sélectionnez un auteur --</option>
                     <?php foreach ($authors as $author): ?>
+                      
+
+
+                    <?php if($actuelBook['ecrivain_id'] == $author['ecrivain_id']){
+                        echo "lkjgbkc";
+                        
+                    }?>
+
+
                       <option value=<?= $author['ecrivain_id']; ?>>
                         <?= $author['prenom'] . " " . $author['nom']; ?>
                       </option>
@@ -253,7 +240,7 @@ function addList($data, $addData)
                 </div>
                 <!-- Droite: Input -->
                 <div class="w-3/4">
-                  <input id="pages" name="pages" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
+                  <input id="pages" name="pages" class="border border-gray-300 rounded-lg px-4 py-2 w-full" value="<?php echo $actuelBook['nombre_page']?>">
                 </div>
               </div>
 
@@ -265,7 +252,7 @@ function addList($data, $addData)
                 </div>
                 <!-- Droite: Input -->
                 <div class="w-3/4">
-                  <input type="text" id="extrait" name="extrait" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
+                  <input type="text" id="extrait" name="extrait" class="border border-gray-300 rounded-lg px-4 py-2 w-full" value="<?php echo $actuelBook['extrait']?>">
                 </div>
               </div>
 
@@ -316,7 +303,7 @@ function addList($data, $addData)
                 </div>
                 <!-- Droite: Input -->
                 <div class="w-3/4">
-                  <input type="number" id="published_date" name="published_date" class="border border-gray-300 rounded-lg px-4 py-2 w-full" min="1000" max="9999" placeholder="YYYY">
+                  <input type="number" id="published_date" name="published_date" class="border border-gray-300 rounded-lg px-4 py-2 w-full" min="1000" max="9999" placeholder="YYYY" value="<?php echo $actuelBook['date_edition']?>">
                 </div>
               </div>
 
@@ -328,7 +315,7 @@ function addList($data, $addData)
                 </div>
                 <!-- Droite: Input -->
                 <div class="w-3/4">
-                  <textarea id="summary" name="summary" class="border border-gray-300 rounded-lg px-4 py-2 w-full"></textarea>
+                  <textarea id="summary" name="summary" class="border border-gray-300 rounded-lg px-4 py-2 w-full" <?php echo $actuelBook['resume']?>><?php echo $actuelBook['resume']?></textarea>
                 </div>
               </div>
             </div>
@@ -339,7 +326,7 @@ function addList($data, $addData)
             <div>
               <div class="mb-4">
                 <p class="text-gray-600 font-medium mb-2 py-5">Image</p>
-                <input action="./controllers/checkAddBook.php" type="file" name="image" id="image" onchange="loadFile(event)" method="post" enctype="multipart/form-data" >
+                <input action="./controllers/checkAddBook.php" type="file" name="image" id="image" onchange="loadFile(event)" method="post" enctype="multipart/form-data">
                 <img id="output" />
                 <script>
                   var loadFile = function(event) {
@@ -351,12 +338,12 @@ function addList($data, $addData)
                   };
                 </script>
               </div>
-                <!-- Submit Button -->
-                <div class="mt-6 flex justify-end">
-                  <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Enregistrer</button>
-                </div>
+              <!-- Submit Button -->
+              <div class="mt-6 flex justify-end">
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Enregistrer</button>
               </div>
             </div>
+          </div>
         </form>
       </div>
   </main>

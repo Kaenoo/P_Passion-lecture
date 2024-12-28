@@ -547,6 +547,57 @@ class Database
         $req = $this->queryPrepareExecute($query, $binds);
     }
 
+
+        // Permet de ajouter un livre
+        public function editBook($datas, $files, $userID)
+        {
+
+            // Recuperer les données
+            $id_ouvrage = $datas['ouvrage_id'];
+            $titre = $datas['title'];
+            $ecrivain_id = $datas['author'];
+            $categorie_id = $datas['category'];
+            $pages = $datas['pages'];
+            $extrait = $datas['extrait'];
+            $editeur = $datas['publisher'];
+            $dateEdition = $datas['published_date'];
+            $resume = $datas['summary'];
+            $image_couverture = $files['image']['tmp_name'];
+
+
+            if (!is_uploaded_file($files['image']['tmp_name'])) {
+                throw new RuntimeException("Le fichier téléchargé n'est pas valide.");
+            }
+
+            $destination = '/path/to/uploads/' . basename($files['image']['name']);
+            if (!move_uploaded_file($files['image']['tmp_name'], $destination)) {
+                throw new RuntimeException("Le fichier n'a pas pu être déplacé.");
+            }
+    
+            // Avoir la requête sql
+            // $query = "INSERT INTO `t_ouvrage`(`ouvrage_id`, `titre`, `nombre_page`, `extrait`, `resume`, `date_edition`, `image_couverture`, `editeur`, `ecrivain_id`, `utilisateur_id`, `categorie_id`) 
+            //                         VALUES (DEFAULT, :titre, :pages, :extrait, :resume, :dateEdition, :image_couverture ,:editeur ,:ecrivain_id , :utilisateur_id, :categorie_id )";
+    
+            $query = "UPDATE `t_ouvrage` SET `titre`=:titre,`nombre_page`=:pages,`extrait`=:extrait,`resume`=:resume,`date_edition`=:dateEdition,`image_couverture`=:image_couverture,`editeur`=:editeur,`ecrivain_id`=:ecrivain_id,`utilisateur_id`=:utilisateur_id,`categorie_id`=:categorie_id WHERE `ouvrage_id`= :ouvrage_id";
+
+            // Avoir la list PDO pour requête prépare sql
+            $binds = [];
+            $binds[] = [":ouvrage_id", $id_ouvrage, PDO::PARAM_INT];
+            $binds[] = [":titre", $titre, PDO::PARAM_STR];
+            $binds[] = [":pages", $pages, PDO::PARAM_INT];
+            $binds[] = [":extrait", $extrait, PDO::PARAM_STR];
+            $binds[] = [":resume", $resume, PDO::PARAM_STR];
+            $binds[] = [":dateEdition", $dateEdition, PDO::PARAM_INT];
+            $binds[] = [":image_couverture", $image_couverture, PDO::PARAM_STR];
+            $binds[] = [":editeur", $editeur, PDO::PARAM_STR];
+            $binds[] = [":ecrivain_id", $ecrivain_id, PDO::PARAM_INT];
+            $binds[] = [":utilisateur_id", $userID, PDO::PARAM_INT];
+            $binds[] = [":categorie_id", $categorie_id, PDO::PARAM_INT];
+    
+            // Méthode pour executer la requête
+            $req = $this->queryPrepareExecute($query, $binds);
+        }
+
     // Afficher les auteurs
     public function listAuthors()
     {
@@ -556,11 +607,11 @@ class Database
         // Appeler la méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
 
-        // Retour tous les enseignants
+        // Retour tous les auteurs
         return $result;
     }
 
-    // Afficher les ouvrages
+    // Afficher les catégories
     public function listCategories()
     {
         // Avoir la requête sql
@@ -569,11 +620,11 @@ class Database
         // Appeler la méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
 
-        // Retour tous les enseignants
+        // Retour tous les catégories
         return $result;
     }
 
-    // Afficher les ouvrages
+    // Afficher les editeurs
     public function listOuvrages()
     {
         // Avoir la requête sql
@@ -582,7 +633,7 @@ class Database
         // Appeler la méthode pour executer la requête
         $result = $this->querySimpleExecute($query); 
 
-        // Retour tous les enseignants
+        // Retour tous les editeurs
         return $result;
     }
 
@@ -646,27 +697,4 @@ class Database
             return $result;
         }
 
-    // Ajouter un editeur
-    // public function addEditeur($datas)
-    // {
-
-    //     var_dump($_POST);
-
-    //      // Recuperer les données
-    //      $nom = $datas['authorNom'];
-    //      $prenom = $datas['authorPrenom'];
-
-    //      // Avoir la requête sql
-    //      $query = "INSERT INTO `t_categorie`(`categorie_id`, `nom`) VALUES (DEFAULT,:nom)";
-
-    //      // Avoir la list PDO pour requête prépare sql
-    //     $binds = [];
-    //     $binds[] = [":nom", $nom, PDO::PARAM_STR];
-
-    //      // Méthode pour executer la requête
-    //      $req = $this->queryPrepareExecute($query, $binds);
-
-    //      // Retour tous les enseignants
-    //      return $req;
-    // }
 }

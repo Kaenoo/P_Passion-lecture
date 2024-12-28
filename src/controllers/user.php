@@ -13,12 +13,13 @@ function isUserConnected() {
 }
 
 // Connecte l'utilisateur et le redirige à la page d'acceuil
-function getConnectedUser($admin, $userID) {
+function getConnectedUser($userData) {
     $_SESSION["user"] = [];
+    $_SESSION["user"]["surname"] = $userData["nom"];
+    $_SESSION["user"]["forename"] = $userData["prenom"];
     $_SESSION["user"]["pseudo"] = $_POST["pseudo"];
-    $_SESSION["user"]["password"] = $_POST["password"];
-    $_SESSION["user"]["admin"] = $admin;
-    $_SESSION["user"]["userID"] = $userID;
+    $_SESSION["user"]["admin"] = $userData["admin"];
+    $_SESSION["user"]["userID"] = $userData["utilisateur_id"];
     header("Location: ./index.php");
 }
 

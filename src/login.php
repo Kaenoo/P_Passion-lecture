@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
       $valueUser = $db->getDataAccount($_POST["pseudo"]);
   
       //Connecte l'utilisateur à la session
-      getConnectedUser($valueUser["admin"], $valueUser["utilisateur_id"]);
+      getConnectedUser($valueUser);
     }
     else {
       $error = "Mot de passe incorrect";

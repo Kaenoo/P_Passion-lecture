@@ -15,6 +15,8 @@ $db = new Database();
 if (isset($_GET["login"]) && $_GET["login"] === "out") {
   header("Location: ./index.php");
 }
+
+
 var_dump($_POST);
 ?>
 
@@ -40,23 +42,23 @@ var_dump($_POST);
       <div class="flex flex-col items-center gap-4 mt-5">
         <label class="flex items-center justify-center input input-bordered w-72">
           <span class="flex-none font-bold mr-2">Nom :</span>
-          <input type="text" name="surname" id="surname" class="grow" placeholder="<?= $_SESSION["user"]["surname"] ?>" />
+          <input type="text" name="surname" id="surname" pattern="[A-Za-z]+" class="grow" placeholder="<?= $_SESSION["user"]["surname"] ?>" />
         </label>
         <label class="flex items-center justify-center input input-bordered w-72">
           <span class="flex-none font-bold mr-2">Prénom :</span>
-          <input type="text" name="forename" id="forename" class="grow" placeholder="<?= $_SESSION["user"]["forename"] ?>" />
+          <input type="text" name="forename" id="forename" pattern="[A-Za-z]+" class="grow" placeholder="<?= $_SESSION["user"]["forename"] ?>" />
         </label>
         <label class="flex items-center justify-start input input-bordered w-72">
           <span class="flex-none font-bold mr-2">Pseudo :</span>
-          <input type="text" name="pseudo" id="pseudo" class="grow" placeholder="<?= $_SESSION["user"]["pseudo"] ?>" />
+          <input type="text" name="pseudo" id="pseudo" pattern="[A-Za-z0-9]+" class="grow" placeholder="<?= $_SESSION["user"]["pseudo"] ?>" />
         </label>
         <button class="btn bg-green-700 text-lg text-white font-semibold hover:bg-green-600" type="submit">Sauvegarder</button>
       </div>
     </form>
 
     <!-- Modal pour changer de mot de passe -->
-    <div class="flex gap-4 items-center justify-center mt-8">
-      <button class="text-lg hover:bg-gray-300" onclick="my_modal_3.showModal()">Changer de mot de passe</button>
+    <div class="flex gap-4 items-center justify-center mt-2">
+      <button class="text-base hover:underline" onclick="my_modal_3.showModal()">Changer de mot de passe</button>
       <dialog id="my_modal_3" class="modal">
         <div class="modal-box">
           <form method="dialog">

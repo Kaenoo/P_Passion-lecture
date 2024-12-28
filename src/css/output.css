@@ -2985,6 +2985,8 @@ html {
 
 .w-48 {
   width: 12rem;
+.w-48 {
+  width: 12rem;
 }
 
 .w-52 {
@@ -3010,6 +3012,10 @@ html {
 .w-max {
   width: -moz-max-content;
   width: max-content;
+}
+
+.w-3\/5 {
+  width: 60%;
 }
 
 .flex-none {
@@ -3395,6 +3401,11 @@ html {
   line-height: 1rem;
 }
 
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -3453,6 +3464,11 @@ html {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
+}
+
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
 }
 
 .underline {

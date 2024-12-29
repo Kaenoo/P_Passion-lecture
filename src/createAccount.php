@@ -65,21 +65,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
         <div>
             <label for="lastName" class="block text-sm/6 font-medium text-gray-900">Nom de famille</label>
             <div class="mt-2">
-                <input id="lastName" name="lastName" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
+                <input id="lastName" name="lastName" pattern="[A-Za-z]+" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
             </div>
         </div>
 
         <div>
             <label for="firstName" class="block text-sm/6 font-medium text-gray-900">Prénom</label>
             <div class="mt-2">
-                <input id="firstName" name="firstName" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
+                <input id="firstName" name="firstName" pattern="[A-Za-z]+" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
             </div>
         </div> 
 
       <div>
         <label for="pseudo" class="block text-sm/6 font-medium text-gray-900">Pseudo</label>
         <div class="mt-2">
-          <input id="pseudo" name="pseudo" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
+          <input id="pseudo" name="pseudo" pattern="[A-Za-z0-9]+" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
         </div>
       </div>
 
@@ -103,11 +103,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
       </div>
 
       <!-- En cas d'erreur, le message s'affiche ici -->
-      <p class="text-center font-semibold text-red-700"><?php
+      <?php
           if (isset($error)) {
-            echo $error;
+            echo '<p class="text-center font-semibold text-red-700">' . $error . '</p>';
           }
-        ?></p>
+        ?>
 
       <!-- Validation du compte -->
       <div>

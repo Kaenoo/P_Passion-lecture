@@ -59,7 +59,7 @@ if (isset($_POST["confirmDelete"])) {
             <div tabindex="0" role="button" class="font-bold text-3xl align-text-top">...</div>
             <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-14 shadow">
               <li>
-                <a class="p-1 text-center" href="./modifyBook.php">
+                <a class="p-1 text-center" href="./editBook.php">
                   <img class="size-6" src="./img/edit.png" alt="Modifier">
                 </a>
               </li>

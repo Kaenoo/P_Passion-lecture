@@ -57,7 +57,7 @@ include("./views/header.php");
       <div>
         <label for="pseudo" class="block text-sm/6 font-medium text-gray-900">Pseudo</label>
         <div class="mt-2">
-          <input id="pseudo" name="pseudo" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
+          <input id="pseudo" name="pseudo" pattern="[A-Za-z0-9]+" type="text" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
         </div>
       </div>
 
@@ -71,11 +71,11 @@ include("./views/header.php");
       </div>
         
         <!-- En cas d'erreur, le message s'affiche ici -->
-        <p class="text-center font-semibold text-red-700"><?php
+        <?php
           if (isset($error)) {
-            echo $error;
+            echo '<p class="text-center font-semibold text-red-700">' . $error . '</p>';
           }
-        ?></p>
+        ?>
 
       <div>
         <button type="submit" class="flex w-full justify-center rounded-md bg-green-700 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700">Connexion</button>

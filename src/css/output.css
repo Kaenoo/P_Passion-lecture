@@ -2983,12 +2983,6 @@ html {
   width: 75%;
 }
 
-.w-3\/5 {
-  width: 60%;
-}
-
-.w-48 {
-  width: 12rem;
 .w-48 {
   width: 12rem;
 }
@@ -3396,11 +3390,6 @@ html {
   line-height: 1.5rem;
 }
 
-.text-xl {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-}
-
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
@@ -3464,11 +3453,6 @@ html {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
-}
-
-.text-black {
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity, 1));
 }
 
 .underline {

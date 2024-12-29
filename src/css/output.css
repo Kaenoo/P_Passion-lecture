@@ -2983,6 +2983,10 @@ html {
   width: 75%;
 }
 
+.w-3\/5 {
+  width: 60%;
+}
+
 .w-48 {
   width: 12rem;
 .w-48 {
@@ -3012,10 +3016,6 @@ html {
 .w-max {
   width: -moz-max-content;
   width: max-content;
-}
-
-.w-3\/5 {
-  width: 60%;
 }
 
 .flex-none {
@@ -3396,14 +3396,14 @@ html {
   line-height: 1.5rem;
 }
 
-.text-xs {
-  font-size: 0.75rem;
-  line-height: 1rem;
-}
-
 .text-xl {
   font-size: 1.25rem;
   line-height: 1.75rem;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+  line-height: 1rem;
 }
 
 .font-bold {
@@ -3599,11 +3599,6 @@ html {
 .hover\:bg-gray-100:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
-}
-
-.hover\:bg-gray-300:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(209 213 219 / var(--tw-bg-opacity, 1));
 }
 
 .hover\:bg-green-600:hover {

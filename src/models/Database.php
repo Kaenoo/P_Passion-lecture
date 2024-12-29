@@ -128,7 +128,7 @@ class Database
         return false;
     }
 
-    // Vérifie les droits d'un user TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // Vérifie les droits d'un user
     public function getUserRight($userID){
 
         $query = "SELECT `admin` FROM `t_utilisateur` WHERE `utilisateur_id` = :userID";
@@ -142,6 +142,46 @@ class Database
 
         return $right[0]["admin"];
 
+    }
+
+    // Récupère le mot de passe haché d'un user
+    public function getPasswordUser($userID){
+
+        $query = "SELECT `mot_de_passe` FROM `t_utilisateur` WHERE `utilisateur_id` = :userID";
+
+        $binds = [];
+        $binds[] = [":userID", $userID, PDO::PARAM_INT];
+
+        $req = $this->queryPrepareExecute($query, $binds);
+
+        $password = $this->formatData($req);
+
+        return $password[0]["mot_de_passe"];
+    }
+
+    // Change le mot de passe d'un user
+    public function changePassword($userID, $newPassword){
+        $query = "UPDATE `t_utilisateur` SET `mot_de_passe` = :newPassword WHERE `utilisateur_id` = :userID";
+
+        $binds = [];
+        $binds[] = [":userID", $userID, PDO::PARAM_INT];
+        $binds[] = [":newPassword", $newPassword, PDO::PARAM_STR];
+
+        $this->queryPrepareExecute($query, $binds);
+
+    }
+
+    // Change les donnnées personnelles de l'user
+    public function changeDataUser($userID, $surname, $forename, $pseudo){
+        $query = "UPDATE `t_utilisateur` SET `pseudo`= :pseudo,`nom`= :surname,`prenom`= :forename WHERE `utilisateur_id` = :userID";
+
+        $binds = [];
+        $binds[] = [":userID", $userID, PDO::PARAM_INT];
+        $binds[] = [":surname", $surname, PDO::PARAM_STR];
+        $binds[] = [":forename", $forename, PDO::PARAM_STR];
+        $binds[] = [":pseudo", $pseudo, PDO::PARAM_STR];
+
+        $this->queryPrepareExecute($query, $binds);
     }
 
     // Créer un compte à l'user

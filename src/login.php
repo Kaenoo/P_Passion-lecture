@@ -71,11 +71,11 @@ include("./views/header.php");
       </div>
         
         <!-- En cas d'erreur, le message s'affiche ici -->
-        <p class="text-center font-semibold text-red-700"><?php
+        <?php
           if (isset($error)) {
-            echo $error;
+            echo '<p class="text-center font-semibold text-red-700">' . $error . '</p>';
           }
-        ?></p>
+        ?>
 
       <div>
         <button type="submit" class="flex w-full justify-center rounded-md bg-green-700 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700">Connexion</button>

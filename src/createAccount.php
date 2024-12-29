@@ -103,11 +103,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
       </div>
 
       <!-- En cas d'erreur, le message s'affiche ici -->
-      <p class="text-center font-semibold text-red-700"><?php
+      <?php
           if (isset($error)) {
-            echo $error;
+            echo '<p class="text-center font-semibold text-red-700">' . $error . '</p>';
           }
-        ?></p>
+        ?>
 
       <!-- Validation du compte -->
       <div>

@@ -80,7 +80,7 @@ class booksController {
 
     // Retourne les catégories
     public function categories(){
-        $arrayCategories = $this->db->getCategories();
+        $arrayCategories = $this->db->getAllCategories();
         $categories = [];
 
         foreach ($arrayCategories as $key => $keyCategorie) {

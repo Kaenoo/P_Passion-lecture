@@ -8,10 +8,11 @@
 session_start();
 include("./models/database.php");
 include("./controllers/user.php");
+$userController = new userController();
 $editeurs = [];
 
 // Vérifie que l'user soit bien connecté
-if (isUserConnected() === false) {
+if ($userController->isUserConnected() === false) {
   header("Location: ./index.php");
   exit;
 }
@@ -61,6 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $categories = $db->listCategories();
+var_dump($categories);
+
 $authors = $db->listAuthors();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -213,6 +216,27 @@ function addList($data, $addData)
                   </div>
                 </dialog>
               </div>
+
+              <?php
+            $data[0][0] = "Nombre de pages";
+            $data[0][1] = "pages";
+            $data[0][2] = $actuelBook['nombre_page'];
+            $data[1][0] = "Extrait";
+            $data[1][1] = "extrait";
+            $data[1][2] = $actuelBook['extrait'];
+/*
+            for ($i = 0; $i < 2; $i++) {
+              $html = '<div class="flex items-start space-x-4 border-2 border-gray-500 rounded-lg p-4 mb-4">
+                        <div class="w-1/4">
+                        <label for="' . $data[$i][1] . '" class="block text-gray-600 font-medium">' . $data[$i][0] . '</label>
+                        </div>
+                        <div class="w-3/4">
+                        <input id="' . $data[$i][1] . '" name="' . $data[$i][1] . '" class="border border-gray-300 rounded-lg px-4 py-2 w-full" value="' . $data[$i][2] . '">
+                        </div>
+                        </div>';
+              echo $html;
+            }*/
+            ?>
 
               <!-- Nombre de pages -->
               <div class="flex items-start space-x-4 border-2 border-gray-500 rounded-lg p-4 mb-4">

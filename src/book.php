@@ -25,7 +25,7 @@ if ($userController->isUserConnected() !== true) {
 
 // Vérifie si l'user a donné un avis
 if (count($_POST) > 0 && $reviewController->verifyReviewUser($userID, $dataBook["ouvrage_id"]) === false) {
-  $reviewController->giveReview($dataBook["ouvrage_id"], $userID, $_POST["rating-4"], $_POST["review"]);
+  $reviewController->giveReview($dataBook["ouvrage_id"], $userID, $_POST["rating-4"], htmlspecialchars($_POST["review"], ENT_QUOTES));
 }
 ?>
 

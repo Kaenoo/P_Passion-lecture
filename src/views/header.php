@@ -16,7 +16,7 @@ Description :  En-tête du site web
         echo '<a href="./addBook.php">
         <img class="lg:size-12" src="img/addBook.png" alt="Ajouter un ouvrage">
       </a>';}?>
-      <a href="./booklist.php">
+      <a href="./bookList.php">
         <img class="lg:size-12" src="img/book_list.png" alt="Liste des ouvrages">
       </a>
 
@@ -44,7 +44,7 @@ Description :  En-tête du site web
               </a>';}?>
           </li>
           <li>
-            <a href="./booklist.php">
+            <a href="./bookList.php">
               <img class="size-7" src="img/book_list.png" alt="Liste des ouvrages">
             </a>
           </li>

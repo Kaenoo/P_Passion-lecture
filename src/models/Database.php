@@ -55,18 +55,6 @@ class Database
         return $req->closeCursor();
     }
 
-    // permet de recupérer les catégories
-    public function getAllCategorie()
-    {
-        $query = "SELECT * FROM t_categorie";
-        $req = $this->querySimpleExecute($query);
-
-        // Appeler la méthode pour avoir le résultat sous forme de tableau
-        $categories = $this->formatData($req);
-
-
-        return $categories;
-    }
 
     /* ---------------- Fonctions (Compte utilisateur) ---------------- */
     // Vérifie l'existence du compte dans la DB, si c'est le cas -> return les valeurs associées
@@ -117,7 +105,7 @@ class Database
        return $verify;
     }
 
-    // Vérifie les droits d'un user TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // Vérifie les droits d'un user
     public function getUserRight($userID)
     {
 
@@ -278,7 +266,7 @@ class Database
     }
 
     // Récupère les catégories
-    public function getCategories()
+    public function getAllCategories()
     {
         $query = "SELECT `nom` FROM `t_categorie`";
         $req = $this->querySimpleExecute($query);
@@ -286,7 +274,7 @@ class Database
         $categories = $this->formatData($req);
 
         return $categories;
-    }
+    }    
 
     // Supprime un ouvrage
     public function deleteBook($bookID)
@@ -700,7 +688,7 @@ class Database
     public function listCategories()
     {
         // Avoir la requête sql
-        $query = "SELECT * FROM t_categorie ORDER BY nom ASC;";
+        $query = "SELECT * FROM t_categorie ORDER BY nom ASC";
 
         // Appeler la méthode pour executer la requête
         $result = $this->querySimpleExecute($query);

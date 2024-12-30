@@ -12,13 +12,12 @@ include("./controllers/reviews.php");
 $db = new Database();
 
 $dataBook = dataBook($db, $_GET["id"]);
-$idBook = $_GET['id'];
+$bookID = $_GET['id'];
 
 if (isUserConnected() !== true) {
   header("Location: ./index.php");
 }
 
-//var_dump($dataBook);
 // Vérifie si l'user a donné un avis
 if (count($_POST) > 0 && verifyReviewUser($db, $_SESSION["user"]["userID"], $dataBook["ouvrage_id"]) === false) {
   giveReview($db, $dataBook["ouvrage_id"], $_SESSION["user"]["userID"], $_POST["rating-4"], $_POST["review"]);
@@ -47,7 +46,7 @@ if (count($_POST) > 0 && verifyReviewUser($db, $_SESSION["user"]["userID"], $dat
       <div class="inline-block align-top">
         <div class="grid col-start-1 justify-items-center lg:justify-items-end lg:pt-10" >
           <img class="block object-cover mx-auto lg:mx-0 lg:object-contain size lg:w-3/5 h-auto " src="<?= $dataBook["image_couverture"] ?>" alt="Première de couverture de l'ouvrage <?= $dataBook["titre"] ?>">
-          <a href="./editBook.php?id=<?php echo $idBook?>"><img src="./img/edit.png"></a> 
+          <a href="./editBook.php?id=<?php echo $bookID?>"><img src="./img/edit.png"></a> 
         </div>
       </div>
 

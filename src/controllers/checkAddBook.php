@@ -5,7 +5,7 @@
  * Description  : Le page pour ajouter un livre
  */
 session_start();
-include("C:\Users\Mustafa\Desktop\Projets\P_Passion-lecture\src\models\Database.php");
+include("../models/Database.php");
 echo "<pre>";
 var_dump($_POST);
 echo "</pre>";

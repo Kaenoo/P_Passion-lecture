@@ -70,7 +70,7 @@ class Database
 
     /* ---------------- Fonctions (Compte utilisateur) ---------------- */
     // Vérifie l'existence du compte dans la DB, si c'est le cas -> return les valeurs associées
-    public function verifyAccount($login, $password)
+    public function checkAccount($login, $password)
     {
 
 
@@ -83,34 +83,11 @@ class Database
 
         $verify = $this->formatData($req);
 
-        // Retourne false si le pseudo n'est pas trouvé ou que le mot de passe n'est pas bon
-        if (count($verify) == 0) {
-            return false;
-        } elseif (password_verify($password, $verify[0]["mot_de_passe"]) === false) {
-            return false;
-        }
-
-        return true;
+       return $verify;
     }
 
     // Récupère les donnéees du compte utilisateur
-    public function getDataAccount($login)
-    {
-        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
-
-        $binds = [];
-        $binds[] = [":pseudo", $login, PDO::PARAM_STR];
-
-        $req = $this->queryPrepareExecute($query, $binds);
-
-        $verify = $this->formatData($req);
-
-
-        return $verify[0];
-    }
-
-    // Vérifie si le pseudo existe dans la db
-    public function verifyPseudoExistence($pseudo)
+    public function getDataAccount($pseudo)
     {
         $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
 
@@ -121,11 +98,23 @@ class Database
 
         $verify = $this->formatData($req);
 
-        if (count($verify) > 0) {
-            return true;
-        }
 
-        return false;
+        return $verify[0];
+    }
+
+    // Vérifie si le pseudo existe dans la db
+    public function checkPseudoExistence($pseudo)
+    {
+        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
+
+        $binds = [];
+        $binds[] = [":pseudo", $pseudo, PDO::PARAM_STR];
+
+        $req = $this->queryPrepareExecute($query, $binds);
+
+        $verify = $this->formatData($req);
+
+       return $verify;
     }
 
     // Vérifie les droits d'un user TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

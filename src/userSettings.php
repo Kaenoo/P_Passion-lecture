@@ -6,10 +6,9 @@ Description :  Page d'acceuil du site web
 
 <?php
 session_start();
+
 include("./controllers/user.php");
-include("./models/database.php");
-$db = new Database();
-var_dump($_POST);
+$userController = new userController();
 
 //Si l'user veut se déconnecter
 if (isset($_GET["login"]) && $_GET["login"] === "out") {
@@ -18,12 +17,12 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
 
 //Si changement de données personnelles
 if (isset($_POST["pseudo"])) {
-  $information = verifyAndChangeData($db, $_POST["surname"], $_POST["forename"], $_POST["pseudo"]);
+  $information = $userController->verifyAndChangeData($_POST["surname"], $_POST["forename"], $_POST["pseudo"]);
 }
 
 //Si changement de mot de passe
 if (isset($_POST["password"])) {
-  $information =  verifyAndChangePassword($db, $_SESSION["user"]["userID"], $_POST["password"], $_POST["newpassword"], $_POST["newpassword2"]);
+  $information =  $userController->verifyAndChangePassword($_SESSION["user"]["userID"], $_POST["password"], $_POST["newpassword"], $_POST["newpassword2"]);
 }
 ?>
 

@@ -5,15 +5,14 @@ Description :  Page de création de compte
 -->
 <?php
 session_start();
-include("./models/database.php");
 include("./controllers/user.php");
-$db = new Database();
+$userController = new userController();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
 
   var_dump($_POST);
     // Vérifie si le pseudo existe dans la db, si ce n'est pas le cas -> Création de compte
-    if ($db->verifyPseudoExistence($_POST["pseudo"]) !== true) {
+    if ($userController->verifyPseudoExistence($_POST["pseudo"]) !== true) {
       
       // Vérifie si l'user ne s'est pas trompé dans l'entrée des mots de passe
       if ($_POST["password"] === $_POST["password2"]) {
@@ -21,14 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
         $date = date("Y-m-d");
         $password = password_hash($_POST["pseudo"], PASSWORD_DEFAULT);
   
-        $db->CreateAccount($_POST["lastName"], $_POST["firstName"], $_POST["pseudo"], $password, $date);
-        
-        // Récupère l'id de l'user
-        $userData = $db->getDataAccount($_POST["pseudo"]);
-        $idUser = $userData["utilisateur_id"];
+        $userController->createAccountUser($_POST["lastName"], $_POST["firstName"], $_POST["pseudo"], $password, $date);
         
         //Créer une session au nouvel user
-        getConnectedUser(0, $idUser);
+        $userController->getConnectedUser($_POST["pseudo"]);
       }
       else {
         $error = 'Les mots de passe entrés sont différents !';

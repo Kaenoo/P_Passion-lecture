@@ -7,13 +7,14 @@ Description :  Page d'acceuil du site web
 <?php
 session_start();
 include("./controllers/user.php");
-include("./models/Database.php");
 include("./controllers/books.php");
-$db = new Database();
+$userController = new userController();
+
+$booksController = new booksController();
 
 //Si l'user veut se déconnecter
 if (isset($_GET["login"]) && $_GET["login"] === "out") {   
- deconnectUser();
+ $userController->deconnectUser();
 }
 ?>
 
@@ -50,7 +51,7 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
 
     <div class="grid grid-cols-5 gap-4 items-center">
       <?php
-        foreach (booksPresentation(($db)) as $index => $bookArray) {
+        foreach ($booksController->booksPresentation() as $index => $bookArray) {
           echo '<div> <a href="./book.php?id=' . $bookArray[0] .'">';
           echo '<img class="block mx-auto p-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[0] . '">';
           echo '<h2 class="mb-5 text-center justify-center font-light text-2xl">' . $bookArray[1] .'</h2>';

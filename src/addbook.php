@@ -14,10 +14,11 @@
 session_start();
 include("./models/database.php");
 include("./controllers/user.php");
+$userController = new userController();
 $editeurs = [];
 
 // Vérifie que l'user soit bien connecté
-if (isUserConnected() === false) {
+if ($userController->isUserConnected() === false) {
   header("Location: ./index.php");
   exit;
 }
@@ -281,4 +282,5 @@ function addList($data, $addData)
   ?>
 
 </body>
+
 </html>

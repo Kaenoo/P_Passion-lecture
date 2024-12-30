@@ -6,6 +6,7 @@
   session_start();
   include("./models/database.php");
   include("./controllers/books.php");
+  $booksController = new booksController();
   $db = new Database();
 
   $limit = 2;
@@ -43,7 +44,7 @@
 
     <main>
       <!-- Lien pour revenir sur l'affichage par défaut -->
-      <h1 class="py-4 text-4xl font-bold text-center"> <a href="booklist.php">Liste des ouvrages </a></h1>
+      <h1 class="py-4 text-4xl font-bold text-center"> <a href="bookList.php">Liste des ouvrages </a></h1>
       <!-- <div class="search-container">
         <form action="" method="get">
           <input type="text" placeholder="Search.." id="search" name="search" oninput="myFunction()">
@@ -73,7 +74,7 @@
                 <option value="filter" selected>Filtre</option>
                 <!-- Affichage dynamique des catégories -->
                 <?php 
-                    $categories = categories($db);
+                    $categories = $booksController->categories($db);
                     foreach ($categories as $key => $value) {
                       echo '<option value="'. $value . '">' . $value . '</option>';
                     }
@@ -156,8 +157,8 @@
         if ($nbOfBooks > $limit)
         {
           echo '<div class="join grid grid-cols-2">
-          <a class="join-item btn btn-outline" href="booklist.php?id=1">Page précédente</a>
-          <a class="join-item btn btn-outline" href="booklist.php?id='. $page. '">Suivante</a>
+          <a class="join-item btn btn-outline" href="bookList.php?id=1">Page précédente</a>
+          <a class="join-item btn btn-outline" href="bookList.php?id='. $page. '">Suivante</a>
           </div>';
         }
   

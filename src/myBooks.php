@@ -7,23 +7,24 @@ Description :  Page qui affiche les ouvrages publiés d'un user
 <?php
 session_start();
 include("./controllers/user.php");
-include("./models/database.php");
+$userController =new userController();
+
 include("./controllers/books.php");
-$db = new Database();
+$booksController = new booksController();
 
 // Vérifie que l'user soit bien connecté
-if (isUserConnected() !== true) {
+if ($userController->isUserConnected() !== true) {
   header("Location: ./index.php");
 }
 // Vérifie si l'user est admin ou auteur de cette page
-elseif (isUserAdmin($db, $_SESSION["user"]["userID"]) === false && $_SESSION["user"]["userID"] != $_GET["userID"]) {
+elseif ($userController->isUserAdmin($_SESSION["user"]["userID"]) === false && $_SESSION["user"]["userID"] != $_GET["userID"]) {
   header('Location: ./userbooks.php?userID='. $_GET["userID"] . '');
 }
 
 // Supprime l'ouvrage lors du clic
 if (isset($_POST["confirmDelete"])) {
-  delete($db, $_POST["confirmDelete"]);
-  deleteImgCoverBook($_POST["pathBookCover"]);
+  $booksController->delete($_POST["confirmDelete"]);
+  $booksController->deleteImgCoverBook($_POST["pathBookCover"]);
   header('Location: ./myBooks.php?userID='. $_GET["userID"] . '');
 }
 
@@ -50,8 +51,8 @@ if (isset($_POST["confirmDelete"])) {
         <?php
 
         // Vérifie si l'user a publié des ouvrages
-        if (userHaveBooks($db, $_GET["userID"])) {
-          foreach (showMyBooks($db, $_GET["userID"]) as $index => $bookArray) {
+        if ($booksController->userHaveBooks($_GET["userID"])) {
+          foreach ($booksController->showMyBooks($_GET["userID"]) as $index => $bookArray) {
             $modalID = "modal_" . $index; // Un modal par ouvrage
             $html = '<div class="mb-5 lg:mb-0 sm:h-full sm:w-full p-2 bg-gray-200 rounded-2xl">'; 
             // Menu dropdown : Modification ou supression de l'ouvrage

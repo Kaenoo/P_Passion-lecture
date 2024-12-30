@@ -5,7 +5,7 @@
  * Description  : Le page pour contrôlere de editer un livre
  */
 session_start();
-include("../models/Database.php");
+include_once("../models/Database.php");
 
 // if (!$this->isUserAuthorized($userID, $id_ouvrage)) {
 //     throw new RuntimeException("Vous n'êtes pas autorisé à mettre à jour ce livre.");

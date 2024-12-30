@@ -5,22 +5,27 @@ Description :  Page affichant les informations d'un ouvrage à l'aide son ID
 -->
 <?php
 session_start();
+
 include("./controllers/user.php");
-include("./models/database.php");
-include("./controllers/books.php");
+$userController = new userController();
+
 include("./controllers/reviews.php");
-$db = new Database();
+$reviewController = new reviewController();
 
-$dataBook = dataBook($db, $_GET["id"]);
-$bookID = $_GET['id'];
+include("./controllers/books.php");
+$booksController = new booksController();
 
-if (isUserConnected() !== true) {
+// Défintion de variables
+$dataBook = $booksController->dataBook($_GET["id"]);
+$userID = $_SESSION["user"]["userID"];
+
+if ($userController->isUserConnected() !== true) {
   header("Location: ./index.php");
 }
 
 // Vérifie si l'user a donné un avis
-if (count($_POST) > 0 && verifyReviewUser($db, $_SESSION["user"]["userID"], $dataBook["ouvrage_id"]) === false) {
-  giveReview($db, $dataBook["ouvrage_id"], $_SESSION["user"]["userID"], $_POST["rating-4"], $_POST["review"]);
+if (count($_POST) > 0 && $reviewController->verifyReviewUser($userID, $dataBook["ouvrage_id"]) === false) {
+  $reviewController->giveReview($dataBook["ouvrage_id"], $userID, $_POST["rating-4"], $_POST["review"]);
 }
 ?>
 
@@ -39,14 +44,13 @@ if (count($_POST) > 0 && verifyReviewUser($db, $_SESSION["user"]["userID"], $dat
 
   <main class="px-12 text-justify">
     <h1 class="mt-2 lg:my-4 text-2xl lg:text-4xl font-bold text-center"><?= $dataBook["titre"] ?></h1>
-    <h2 class="mb-4 lg:my-4 text-base lg:text-xl text-center"><?= writerBook($db, $dataBook["ecrivain_id"]) ?></h2>
+    <h2 class="mb-4 lg:my-4 text-base lg:text-xl text-center"><?= $booksController->writerBook($dataBook["ecrivain_id"]) ?></h2>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 lg:px-16 lg:gap-32">
       <!-- Alignement de l'image -->
       <div class="inline-block align-top">
         <div class="grid col-start-1 justify-items-center lg:justify-items-end lg:pt-10" >
           <img class="block object-cover mx-auto lg:mx-0 lg:object-contain size lg:w-3/5 h-auto " src="<?= $dataBook["image_couverture"] ?>" alt="Première de couverture de l'ouvrage <?= $dataBook["titre"] ?>">
-          <a href="./editBook.php?id=<?php echo $bookID?>"><img src="./img/edit.png"></a> 
         </div>
       </div>
 
@@ -54,9 +58,9 @@ if (count($_POST) > 0 && verifyReviewUser($db, $_SESSION["user"]["userID"], $dat
       <div class="text-center lg:text-left lg:col-start-2">
         <p class="pt-5 lg:pt-10 text-lg">Éditeur : <?= $dataBook["editeur"] ?></p>
         <p class="text-lg">Pages : <?= $dataBook["nombre_page"] ?></p>
-        <p class="text-lg">Catégorie : <?= categoryBook($db, $dataBook["categorie_id"]) ?></p>
+        <p class="text-lg">Catégorie : <?= $booksController->categoryBook($dataBook["categorie_id"]) ?></p>
         <p class="text-lg">Parution : <?= $dataBook["date_edition"] ?></p>
-        <p class="text-lg">Publié par : <a class="font-semibold hover:font-semibold hover:text-green-700" href="./userBooks.php?userID=<?= $dataBook["utilisateur_id"]?>"><?= UserPseudo($db, $dataBook["utilisateur_id"])?></a></p>
+        <p class="text-lg">Publié par : <a class="font-semibold hover:font-semibold hover:text-green-700" href="./userBooks.php?userID=<?= $dataBook["utilisateur_id"]?>"><?= $userController->UserPseudo($dataBook["utilisateur_id"])?></a></p>
         <?php
           //Vérifie si la donnée contient .pdf
           if (str_contains($dataBook["extrait"], ".pdf")) {
@@ -77,8 +81,8 @@ if (count($_POST) > 0 && verifyReviewUser($db, $_SESSION["user"]["userID"], $dat
         <div class="rating">
           <?php
           // Si l'ouvrage a des notations, affichage des étoiles
-          if (bookReview($db, $dataBook["ouvrage_id"]) != null) {
-            $review = bookReview($db, $dataBook["ouvrage_id"]);
+          if ($reviewController->bookReview($dataBook["ouvrage_id"]) != null) {
+            $review = $reviewController->bookReview($dataBook["ouvrage_id"]);
             for ($i = 1; $i <= 5; $i++) {
               if ($review >= $i) {
                 echo '<input name="rating-4" class="mask mask-star-2 bg-green-700"/>';
@@ -95,7 +99,7 @@ if (count($_POST) > 0 && verifyReviewUser($db, $_SESSION["user"]["userID"], $dat
           
         <!-- Option : Donner son avis -->
         <?php
-        if (verifyReviewUser($db, $_SESSION["user"]["userID"], $dataBook["ouvrage_id"]) === false) {
+        if ($reviewController->verifyReviewUser($userID, $dataBook["ouvrage_id"]) === false) {
           
           echo '<div class="mt-8">
           <button class="btn bg-green-700 text-lg text-white font-semibold hover:bg-green-600" onclick="my_modal_3.showModal()">Donner son avis</button>
@@ -129,7 +133,7 @@ if (count($_POST) > 0 && verifyReviewUser($db, $_SESSION["user"]["userID"], $dat
         
         <!-- Avis des utilisateurs -->
          <?php
-         $reviews = allReviewsBook($db, $dataBook["ouvrage_id"]);
+         $reviews = $reviewController->allReviewsBook($dataBook["ouvrage_id"]);
          foreach ($reviews as $user => $dataArray) { 
           if ($dataArray["note"] != null) { ?>
             
@@ -137,7 +141,7 @@ if (count($_POST) > 0 && verifyReviewUser($db, $_SESSION["user"]["userID"], $dat
              
             <!-- Pseudo -->
             <div class="col-start-1">
-                <?= '<p class="font-semibold text-lg">' . UserPseudo($db, $dataArray["utilisateur_id"]) . '</p>' ?>
+                <?= '<p class="font-semibold text-lg">' . $userController->UserPseudo($dataArray["utilisateur_id"]) . '</p>' ?>
               </div>
 
               <!-- Étoiles -->

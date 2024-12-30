@@ -5,7 +5,7 @@
  * Description  : Le page pour ajouter un livre
  */
 session_start();
-include("../models/Database.php");
+include_once("../models/Database.php");
 echo "<pre>";
 var_dump($_POST);
 echo "</pre>";

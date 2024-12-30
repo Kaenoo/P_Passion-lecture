@@ -6,20 +6,17 @@ Description :  Page de connexion du site web
 
 <?php
 session_start();
-include("./models/database.php");
-include("./controllers/user.php");
-$db = new Database();
 
+include("./controllers/user.php");
+$userController = new userController();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
-  if ($db->verifyPseudoExistence($_POST["pseudo"]) !== false) {
+  if ($userController->verifyPseudoExistence($_POST["pseudo"]) !== false) {
     //Vérifie si le login fait parti de la DB, si c'est la cas -> création de session
-    if ($db->verifyAccount($_POST["pseudo"], $_POST["password"]) === true) 
+    if ($userController->verifyLogin($_POST["pseudo"], $_POST["password"]) === true) 
     {  
-      $valueUser = $db->getDataAccount($_POST["pseudo"]);
-  
       //Connecte l'utilisateur à la session
-      getConnectedUser($valueUser);
+      $userController->getConnectedUser($_POST["pseudo"]);
     }
     else {
       $error = "Mot de passe incorrect";

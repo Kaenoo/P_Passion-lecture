@@ -31,11 +31,6 @@ foreach ($ouvrages as $ouvrage) {
   }
 }
 
-// Affichage les erreurs
-echo "<pre>";
-var_dump($actuelBook);
-echo "</pre>";
-
 // permet de mettre les editeurs dans le list
 foreach ($ouvrages as $ouvrage) {
   $editeurs[] = $ouvrage['editeur'];
@@ -68,10 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $categories = $db->listCategories();
 $authors = $db->listAuthors();
 
-echo "<pre>";
-var_dump($_POST);
-echo "</pre>";
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Processus de téléchargement de fichiers
   if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
@@ -93,8 +84,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $error = "Vous n'avez pas sélectionné un fichier valide.";
   }
 }
-
-var_dump($_FILES);
 
 function addList($data, $addData)
 {
@@ -130,12 +119,12 @@ function addList($data, $addData)
               <div class="flex items-start space-x-4 border-2 border-gray-500 rounded-lg p-4 mb-4">
                 <!-- Gauche: Label -->
                 <div class="w-1/4">
-                <input type="hidden" name="ouvrage_id" value="<?php echo $actuelBook['ouvrage_id']?>">
+                  <input type="hidden" name="ouvrage_id" value="<?php echo $actuelBook['ouvrage_id'] ?>">
                   <label for="title" class="block text-gray-600 font-medium">Titre</label>
                 </div>
                 <!-- Droite: Input -->
                 <div class="w-3/4">
-                  <input type="text" id="title" name="title" class="border border-gray-300 rounded-lg px-4 py-2 w-full" value="<?php echo $actuelBook['titre']?>" required>
+                  <input type="text" id="title" name="title" class="border border-gray-300 rounded-lg px-4 py-2 w-full" value="<?php echo $actuelBook['titre'] ?>" required>
                 </div>
               </div>
 
@@ -150,15 +139,8 @@ function addList($data, $addData)
                   <select id="author" name="author" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
                     <option value="" disabled selected>-- Sélectionnez un auteur --</option>
                     <?php foreach ($authors as $author): ?>
-                      
-
-
-                    <?php if($actuelBook['ecrivain_id'] == $author['ecrivain_id']){
-                        echo "lkjgbkc";
-                        
-                    }?>
-
-
+                      <?php if ($actuelBook['ecrivain_id'] == $author['ecrivain_id']) {
+                      } ?>
                       <option value=<?= $author['ecrivain_id']; ?>>
                         <?= $author['prenom'] . " " . $author['nom']; ?>
                       </option>
@@ -240,7 +222,7 @@ function addList($data, $addData)
                 </div>
                 <!-- Droite: Input -->
                 <div class="w-3/4">
-                  <input id="pages" name="pages" class="border border-gray-300 rounded-lg px-4 py-2 w-full" value="<?php echo $actuelBook['nombre_page']?>">
+                  <input id="pages" name="pages" class="border border-gray-300 rounded-lg px-4 py-2 w-full" value="<?php echo $actuelBook['nombre_page'] ?>">
                 </div>
               </div>
 
@@ -252,7 +234,7 @@ function addList($data, $addData)
                 </div>
                 <!-- Droite: Input -->
                 <div class="w-3/4">
-                  <input type="text" id="extrait" name="extrait" class="border border-gray-300 rounded-lg px-4 py-2 w-full" value="<?php echo $actuelBook['extrait']?>">
+                  <input type="text" id="extrait" name="extrait" class="border border-gray-300 rounded-lg px-4 py-2 w-full" value="<?php echo $actuelBook['extrait'] ?>">
                 </div>
               </div>
 
@@ -303,7 +285,7 @@ function addList($data, $addData)
                 </div>
                 <!-- Droite: Input -->
                 <div class="w-3/4">
-                  <input type="number" id="published_date" name="published_date" class="border border-gray-300 rounded-lg px-4 py-2 w-full" min="1000" max="9999" placeholder="YYYY" value="<?php echo $actuelBook['date_edition']?>">
+                  <input type="number" id="published_date" name="published_date" class="border border-gray-300 rounded-lg px-4 py-2 w-full" min="1000" max="9999" placeholder="YYYY" value="<?php echo $actuelBook['date_edition'] ?>">
                 </div>
               </div>
 
@@ -315,7 +297,7 @@ function addList($data, $addData)
                 </div>
                 <!-- Droite: Input -->
                 <div class="w-3/4">
-                  <textarea id="summary" name="summary" class="border border-gray-300 rounded-lg px-4 py-2 w-full" <?php echo $actuelBook['resume']?>><?php echo $actuelBook['resume']?></textarea>
+                  <textarea id="summary" name="summary" class="border border-gray-300 rounded-lg px-4 py-2 w-full" <?php echo $actuelBook['resume'] ?>><?php echo $actuelBook['resume'] ?></textarea>
                 </div>
               </div>
             </div>
@@ -327,7 +309,7 @@ function addList($data, $addData)
               <div class="mb-4">
                 <p class="text-gray-600 font-medium mb-2 py-5">Image</p>
                 <input action="./controllers/checkAddBook.php" type="file" name="image" id="image" onchange="loadFile(event)" method="post" enctype="multipart/form-data">
-                <img id="output" />
+                <img id="output" src="<?php echo $actuelBook['image_couverture'] ?>" />
                 <script>
                   var loadFile = function(event) {
                     var output = document.getElementById('output');

@@ -59,66 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $categories = $db->listCategories();
 $authors = $db->listAuthors();
 
-echo "<pre>";
-var_dump($_POST);
-echo "</pre>";
-
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//   // Processus de téléchargement de fichiers
-//   if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-//     $uploadDir = 'uploads/'; // Répertoire à installer
-//     $uploadFile = $uploadDir . basename($_FILES['photo']['name']);
-
-//     // Vérifiez l'existence du répertoire et créez-le sinon
-//     if (!is_dir($uploadDir)) {
-//       mkdir($uploadDir, 0755, true);
-//     }
-
-//     // Téléchargement du fichier
-//     if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile)) {
-//       $uploadedFilePath = $uploadFile;
-//     } else {
-//       $error = "Une erreur s'est produite lors du téléchargement du fichier.";
-//     }
-//   } else {
-//     $error = "Vous n'avez pas sélectionné un fichier valide.";
-//   }
-// }
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-      $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
-      $fileMimeType = mime_content_type($_FILES['photo']['tmp_name']);
-      
-      if (in_array($fileMimeType, $allowedMimeTypes)) {
-          $uploadDir = 'uploads/';
-          $uploadFile = $uploadDir . basename($_FILES['photo']['name']);
-          
-          if (!is_dir($uploadDir)) {
-              mkdir($uploadDir, 0755, true);
-          }
-
-          if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile)) {
-              $uploadedFilePath = $uploadFile;
-          } else {
-              $error = "Une erreur s'est produite lors du téléchargement du fichier.";
-          }
-      } else {
-          $error = "Format de fichier non valide. Veuillez télécharger une image.";
-      }
-  } else {
-      $error = "Vous n'avez pas sélectionné un fichier valide.";
-  }
-}
-
-
-
-
-
-
-var_dump($_FILES);
-
 function addList($data, $addData)
 {
   $data[] += $addData;

@@ -64,7 +64,7 @@ class Database
         // Appeler la méthode pour avoir le résultat sous forme de tableau
         $categories = $this->formatData($req);
 
-        
+
         return $categories;
     }
 
@@ -128,8 +128,9 @@ class Database
         return false;
     }
 
-    // Vérifie les droits d'un user
-    public function getUserRight($userID){
+    // Vérifie les droits d'un user TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    public function getUserRight($userID)
+    {
 
         $query = "SELECT `admin` FROM `t_utilisateur` WHERE `utilisateur_id` = :userID";
 
@@ -141,7 +142,6 @@ class Database
         $right = $this->formatData($req);
 
         return $right[0]["admin"];
-
     }
 
     // Récupère le mot de passe haché d'un user
@@ -383,8 +383,8 @@ class Database
         }
         return false;
     }
-	
-	// Affiche les résultats de la recherche utilisateur
+
+    // Affiche les résultats de la recherche utilisateur
     public function searchBooks($search)
     {
         //$query = "SELECT * FROM db_passion_lecture.TABLES LIMIT 0, 5;";
@@ -400,24 +400,23 @@ class Database
         OR e.prenom LIKE :prenom)
         AND c.nom LIKE :c_nom;";
 
-        
-        $word = "%" . $search["search"]. "%";
+
+        $word = "%" . $search["search"] . "%";
 
         $categorie = "%%";
 
-        if ($search["categories"] != "filter")
-        {
+        if ($search["categories"] != "filter") {
             $categorie = $search["categories"];
         }
 
-        $binds=
-        [
-            ["titre", $word, PDO::PARAM_STR],
-            ["e_nom", $word, PDO::PARAM_STR],
-            ["prenom", $word, PDO::PARAM_STR],
-            ["c_nom", $categorie, PDO::PARAM_STR],
-        ];
-        
+        $binds =
+            [
+                ["titre", $word, PDO::PARAM_STR],
+                ["e_nom", $word, PDO::PARAM_STR],
+                ["prenom", $word, PDO::PARAM_STR],
+                ["c_nom", $categorie, PDO::PARAM_STR],
+            ];
+
 
 
         // $binds = [];
@@ -440,9 +439,9 @@ class Database
         return $searchBooks;
     }
 
-    public function getRowsNumberOfSearch($search) 
+    public function getRowsNumberOfSearch($search)
     {
-        
+
         $query = "SELECT COUNT(*)
         FROM `t_ouvrage` o 
         INNER JOIN `t_ecrivain` e ON o.ecrivain_id = e.ecrivain_id 
@@ -452,23 +451,22 @@ class Database
         OR e.prenom LIKE :prenom)
         AND c.nom LIKE :c_nom;";
 
-        
-        $word = "%" . $search["search"]. "%";
+
+        $word = "%" . $search["search"] . "%";
 
         $categorie = "%%";
 
-        if ($search["categories"] != "filter")
-        {
+        if ($search["categories"] != "filter") {
             $categorie = $search["categories"];
         }
 
-        $binds=
-        [
-            ["titre", $word, PDO::PARAM_STR],
-            ["e_nom", $word, PDO::PARAM_STR],
-            ["prenom", $word, PDO::PARAM_STR],
-            ["c_nom", $categorie, PDO::PARAM_STR],
-        ];
+        $binds =
+            [
+                ["titre", $word, PDO::PARAM_STR],
+                ["e_nom", $word, PDO::PARAM_STR],
+                ["prenom", $word, PDO::PARAM_STR],
+                ["c_nom", $categorie, PDO::PARAM_STR],
+            ];
 
         $req = $this->queryPrepareExecute($query, $binds);
 
@@ -478,7 +476,7 @@ class Database
         return $count;
     }
 
-    public function getRowsNumberOfList() 
+    public function getRowsNumberOfList()
     {
         $query = "SELECT COUNT(*) FROM `t_ouvrage`;";
         $req = $this->querySimpleExecute($query);
@@ -564,7 +562,8 @@ class Database
         $editeur = $datas['publisher'];
         $dateEdition = $datas['published_date'];
         $resume = $datas['summary'];
-        $image_couverture = $files['image']['tmp_name'];
+        $image_couverture = "./imgCoverBook/" . $files['image']['full_path'];
+        //$image_couverture = $files['image']['tmp_name'];
 
         // Avoir la requête sql
         $query = "INSERT INTO `t_ouvrage`(`ouvrage_id`, `titre`, `nombre_page`, `extrait`, `resume`, `date_edition`, `image_couverture`, `editeur`, `ecrivain_id`, `utilisateur_id`, `categorie_id`) 
@@ -583,60 +582,100 @@ class Database
         $binds[] = [":utilisateur_id", $userID, PDO::PARAM_INT];
         $binds[] = [":categorie_id", $categorie_id, PDO::PARAM_INT];
 
+        $source = $_FILES["image"]["tmp_name"];
+
+        //La destination permet de définir non seulement le chemin du ficher, mais aussi
+        //un nouveau nom si nécessaire
+        
+        $destination = "./imgCoverBook/" . $_FILES["image"]["name"];
+        move_uploaded_file($source, $destination);
+
         // Méthode pour executer la requête
         $req = $this->queryPrepareExecute($query, $binds);
     }
 
 
-        // Permet de ajouter un livre
-        public function editBook($datas, $files, $userID)
-        {
+    // Permet de ajouter un livre
+    public function editBook($datas, $files, $userID)
+    {
 
-            // Recuperer les données
-            $id_ouvrage = $datas['ouvrage_id'];
-            $titre = $datas['title'];
-            $ecrivain_id = $datas['author'];
-            $categorie_id = $datas['category'];
-            $pages = $datas['pages'];
-            $extrait = $datas['extrait'];
-            $editeur = $datas['publisher'];
-            $dateEdition = $datas['published_date'];
-            $resume = $datas['summary'];
-            $image_couverture = $files['image']['tmp_name'];
+        // Recuperer les données
+        $id_ouvrage = $datas['ouvrage_id'];
+        $titre = $datas['title'];
+        $ecrivain_id = $datas['author'];
+        $categorie_id = $datas['category'];
+        $pages = $datas['pages'];
+        $extrait = $datas['extrait'];
+        $editeur = $datas['publisher'];
+        $dateEdition = $datas['published_date'];
+        $resume = $datas['summary'];
+        $image_couverture = "./imgCoverBook/" . $files['image']['full_path'];
 
 
-            if (!is_uploaded_file($files['image']['tmp_name'])) {
-                throw new RuntimeException("Le fichier téléchargé n'est pas valide.");
-            }
+        // if (!is_uploaded_file($files['image']['tmp_name'])) {
+        //     throw new RuntimeException("Le fichier téléchargé n'est pas valide.");
+        // }
 
-            $destination = '/path/to/uploads/' . basename($files['image']['name']);
-            if (!move_uploaded_file($files['image']['tmp_name'], $destination)) {
-                throw new RuntimeException("Le fichier n'a pas pu être déplacé.");
-            }
-    
-            // Avoir la requête sql
-            // $query = "INSERT INTO `t_ouvrage`(`ouvrage_id`, `titre`, `nombre_page`, `extrait`, `resume`, `date_edition`, `image_couverture`, `editeur`, `ecrivain_id`, `utilisateur_id`, `categorie_id`) 
-            //                         VALUES (DEFAULT, :titre, :pages, :extrait, :resume, :dateEdition, :image_couverture ,:editeur ,:ecrivain_id , :utilisateur_id, :categorie_id )";
-    
-            $query = "UPDATE `t_ouvrage` SET `titre`=:titre,`nombre_page`=:pages,`extrait`=:extrait,`resume`=:resume,`date_edition`=:dateEdition,`image_couverture`=:image_couverture,`editeur`=:editeur,`ecrivain_id`=:ecrivain_id,`utilisateur_id`=:utilisateur_id,`categorie_id`=:categorie_id WHERE `ouvrage_id`= :ouvrage_id";
+        // $destination = 'C:/Users/Mustafa/Desktop/Projets/P_Passion-lecture/src/imgCoverBook/' . basename($files['image']['name']);
+        // if (!move_uploaded_file($files['image']['tmp_name'], $destination)) {
+        //     throw new RuntimeException("Le fichier n'a pas pu être déplacé.");
+        // }
 
-            // Avoir la list PDO pour requête prépare sql
-            $binds = [];
-            $binds[] = [":ouvrage_id", $id_ouvrage, PDO::PARAM_INT];
-            $binds[] = [":titre", $titre, PDO::PARAM_STR];
-            $binds[] = [":pages", $pages, PDO::PARAM_INT];
-            $binds[] = [":extrait", $extrait, PDO::PARAM_STR];
-            $binds[] = [":resume", $resume, PDO::PARAM_STR];
-            $binds[] = [":dateEdition", $dateEdition, PDO::PARAM_INT];
-            $binds[] = [":image_couverture", $image_couverture, PDO::PARAM_STR];
-            $binds[] = [":editeur", $editeur, PDO::PARAM_STR];
-            $binds[] = [":ecrivain_id", $ecrivain_id, PDO::PARAM_INT];
-            $binds[] = [":utilisateur_id", $userID, PDO::PARAM_INT];
-            $binds[] = [":categorie_id", $categorie_id, PDO::PARAM_INT];
-    
-            // Méthode pour executer la requête
-            $req = $this->queryPrepareExecute($query, $binds);
-        }
+        // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //     if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+        //         $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        //         $fileMimeType = mime_content_type($_FILES['photo']['tmp_name']);
+
+        //         if (in_array($fileMimeType, $allowedMimeTypes)) {
+        //             $uploadDir = 'C:/Users/Mustafa/Desktop/Projets/P_Passion-lecture/src/imgCoverBook/' . basename($files['image']['name']);
+        //             $uploadFile = $uploadDir . basename($_FILES['photo']['name']);
+        //             var_dump($uploadFile);
+
+        //             if (!move_uploaded_file($files['image']['tmp_name'], $uploadFile)) {
+        //                 throw new RuntimeException("Le fichier n'a pas pu être déplacé.");
+        //             }
+
+        //             if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile)) {
+        //                 $uploadedFilePath = $uploadFile;
+        //             } else {
+        //                 $error = "Une erreur s'est produite lors du téléchargement du fichier.";
+        //             }
+        //         } else {
+        //             $error = "Format de fichier non valide. Veuillez télécharger une image.";
+        //         }
+        //     } else {
+        //         $error = "Vous n'avez pas sélectionné un fichier valide.";
+        //     }
+        // }
+
+        $source = $_FILES["image"]["tmp_name"];
+
+        //La destination permet de définir non seulement le chemin du ficher, mais aussi
+        //un nouveau nom si nécessaire
+        $destination = "./imgCoverBook/" . $_FILES["image"]["name"];
+        
+        move_uploaded_file($source, $destination);
+
+        // Avoir la requête sql
+        $query = "UPDATE `t_ouvrage` SET `titre`=:titre,`nombre_page`=:pages,`extrait`=:extrait,`resume`=:resume,`date_edition`=:dateEdition,`image_couverture`=:image_couverture,`editeur`=:editeur,`ecrivain_id`=:ecrivain_id,`utilisateur_id`=:utilisateur_id,`categorie_id`=:categorie_id WHERE `ouvrage_id`= :ouvrage_id";
+
+        // Avoir la list PDO pour requête prépare sql
+        $binds = [];
+        $binds[] = [":ouvrage_id", $id_ouvrage, PDO::PARAM_INT];
+        $binds[] = [":titre", $titre, PDO::PARAM_STR];
+        $binds[] = [":pages", $pages, PDO::PARAM_INT];
+        $binds[] = [":extrait", $extrait, PDO::PARAM_STR];
+        $binds[] = [":resume", $resume, PDO::PARAM_STR];
+        $binds[] = [":dateEdition", $dateEdition, PDO::PARAM_INT];
+        $binds[] = [":image_couverture", $image_couverture, PDO::PARAM_STR];
+        $binds[] = [":editeur", $editeur, PDO::PARAM_STR];
+        $binds[] = [":ecrivain_id", $ecrivain_id, PDO::PARAM_INT];
+        $binds[] = [":utilisateur_id", $userID, PDO::PARAM_INT];
+        $binds[] = [":categorie_id", $categorie_id, PDO::PARAM_INT];
+
+        // Méthode pour executer la requête
+        $req = $this->queryPrepareExecute($query, $binds);
+    }
 
     // Afficher les auteurs
     public function listAuthors()
@@ -671,7 +710,7 @@ class Database
         $query = "SELECT DISTINCT editeur FROM t_ouvrage ORDER BY editeur ASC;";
 
         // Appeler la méthode pour executer la requête
-        $result = $this->querySimpleExecute($query); 
+        $result = $this->querySimpleExecute($query);
 
         // Retour tous les editeurs
         return $result;
@@ -707,34 +746,33 @@ class Database
     {
         var_dump($_POST);
 
-         // Recuperer les données
-         $nom = $datas['categorieNom'];
+        // Recuperer les données
+        $nom = $datas['categorieNom'];
 
-         // Avoir la requête sql
-         $query = "INSERT INTO `t_categorie`(`categorie_id`, `nom`) VALUES (DEFAULT,:nom)";
+        // Avoir la requête sql
+        $query = "INSERT INTO `t_categorie`(`categorie_id`, `nom`) VALUES (DEFAULT,:nom)";
 
-         // Avoir la list PDO pour requête prépare sql
+        // Avoir la list PDO pour requête prépare sql
         $binds = [];
         $binds[] = [":nom", $nom, PDO::PARAM_STR];
 
-         // Méthode pour executer la requête
-         $req = $this->queryPrepareExecute($query, $binds);
+        // Méthode pour executer la requête
+        $req = $this->queryPrepareExecute($query, $binds);
 
-         // Retour tous les enseignants
-         return $req;
+        // Retour tous les enseignants
+        return $req;
     }
 
-        // Afficher les editeurs
-        public function listEditeurs()
-        {
-            // Avoir la requête sql
-            $query = "SELECT * FROM t_ouvrage";
-    
-            // Appeler la méthode pour executer la requête
-            $result = $this->querySimpleExecute($query);
-    
-            // Retour tous les enseignants
-            return $result;
-        }
+    // Afficher les editeurs
+    public function listEditeurs()
+    {
+        // Avoir la requête sql
+        $query = "SELECT * FROM t_ouvrage";
 
+        // Appeler la méthode pour executer la requête
+        $result = $this->querySimpleExecute($query);
+
+        // Retour tous les enseignants
+        return $result;
+    }
 }

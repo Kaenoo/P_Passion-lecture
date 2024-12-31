@@ -80,14 +80,32 @@ class booksController {
 
     // Retourne les catégories
     public function categories(){
-        $arrayCategories = $this->db->getAllCategories();
-        $categories = [];
+        return $this->db->getAllCategories();
+    }
 
-        foreach ($arrayCategories as $key => $keyCategorie) {
-            $categories[] = $keyCategorie["nom"];
-        }
+    // Retourne tous les éditeurs
+    public function editors(){
+        return $this->db->getAllEditors();
+    }
 
-        return $categories;
+    // Retourne tous les éditeurs
+    public function authors(){
+        return $this->db->getAllAuthors();
+    }
+
+    // Ajoute un auteur dans la db
+    public function updateAuthor($surname, $forename){
+        return $this->db->addAuteur($surname, $forename);
+    }
+
+    // Ajoute une catégorie dans la db
+    public function updateCategory($categoryName){
+        return $this->db->addCategory($categoryName);
+    }
+
+     // Ajoute une catégorie dans la db
+     public function updateBook($data, $files, $userID){
+        return $this->db->addBook($data, $files, $userID);
     }
 
     // Supprime la page de couverture d'un ouvrage supprimé -> répertoire imgCoverBook

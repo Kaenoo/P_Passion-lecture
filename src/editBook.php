@@ -6,10 +6,11 @@
  */
 
 session_start();
-include("./models/database.php");
+
 include("./controllers/user.php");
+include("./controllers/books.php");
 $userController = new userController();
-$editeurs = [];
+$booksController = new booksController();
 
 // Vérifie que l'user soit bien connecté
 if ($userController->isUserConnected() === false) {
@@ -17,10 +18,15 @@ if ($userController->isUserConnected() === false) {
   exit;
 }
 
-$db = new Database();
+// Instanciation de variables
+$categories = $booksController->categories();
+$authors = $booksController->authors();
 
-// pour stocker les editeurs
-$ouvrages = $db->listBooks();
+if (!isset($_SESSION["user"]["editeurs"])) {
+  $_SESSION["user"]["editeurs"] = $booksController->editors();
+}
+$editeurs = $_SESSION["user"]["editeurs"];
+
 
 // pour stocker actuel livre
 $actuelBook;
@@ -32,67 +38,42 @@ foreach ($ouvrages as $ouvrage) {
   }
 }
 
-// permet de mettre les editeurs dans le list
-foreach ($ouvrages as $ouvrage) {
-  $editeurs[] = $ouvrage['editeur'];
-}
-
-
-// permet d'eviter le $_POST
+// S'il y a une requête POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+
+  // Ajoute un auteur
   if (isset($_POST["authorNom"])) {
-
-    // Ajouter un auteur
-    $author = $db->addAuteur($_POST);
-    //header("Location: ./addBook.php");
-  } elseif (isset($_POST["categorieNom"])) {
-
-    // Ajouter un catégorie
-    $categorie = $db->addCategorie($_POST);
-    //header("Location: ./addBook.php");
-  } elseif (isset($_POST["editeur"])) {
-
-    // Ajouter un editeur
-    $editeurs[] = $_POST["editeur"];
-  } else {
-
-    echo "Erreur";
+    $author = $booksController->updateAuthor($_POST["authorNom"], $_POST["authorPrenom"],);
+  } 
+  // Ajoute une catégorie
+  elseif (isset($_POST["categorieNom"])) {
+    $categorie = $booksController->updateCategory($_POST["categorieNom"]);
+  } 
+  // Ajoute un éditeur
+  elseif (isset($_POST["editeur"])) {
+    $newEditeurs = $editeurs;
+    $newEditeurs[] = ["editeur" => $_POST["editeur"]];
+    $editeurs = $newEditeurs;
+    $_SESSION["user"]["editeurs"] = $newEditeurs;
   }
-}
 
-$categories = $db->listCategories();
-var_dump($categories);
+  // Ajoute un ouvrage si les conditions sont remplies
+  if (isset($_FILES) && count($_FILES) > 0) {
 
-$authors = $db->listAuthors();
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  // Processus de téléchargement de fichiers
-  if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-    $uploadDir = 'uploads/'; // Répertoire à installer
-    $uploadFile = $uploadDir . basename($_FILES['photo']['name']);
-
-    // Vérifiez l'existence du répertoire et créez-le sinon
-    if (!is_dir($uploadDir)) {
-      mkdir($uploadDir, 0755, true);
-    }
-
-    // Téléchargement du fichier
-    if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile)) {
-      $uploadedFilePath = $uploadFile;
-    } else {
-      $error = "Une erreur s'est produite lors du téléchargement du fichier.";
-    }
-  } else {
-    $error = "Vous n'avez pas sélectionné un fichier valide.";
+    $source = $_FILES["image"]["tmp_name"];
+    $destination = "./imgCoverBook/" . $_FILES["image"]["name"]; // permet de définir le chemin du ficher ainsi que son nom
+    move_uploaded_file($source, $destination);
+    
+    $booksController->updateBook($_POST, $_FILES, $_SESSION['user']['userID']);
+    
+    header("Location: ./index.php");
+    exit;
   }
-}
 
-function addList($data, $addData)
-{
-  $data[] += $addData;
+  header("Location: ./addBook.php");
+  exit;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -140,27 +121,25 @@ function addList($data, $addData)
                 <!-- Droite: Input -->
                 <div class="w-3/4">
                   <select id="author" name="author" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
-                    <option value="" disabled selected>-- Sélectionnez un auteur --</option>
-                    <?php foreach ($authors as $author): ?>
-                      <?php if ($actuelBook['ecrivain_id'] == $author['ecrivain_id']) {
-                      } ?>
-                      <option value=<?= $author['ecrivain_id']; ?>>
-                        <?= $author['prenom'] . " " . $author['nom']; ?>
-                      </option>
-                    <?php endforeach; ?>
+                    <option value="" selected>Mettre l'auteur actuel</option>
+                    <?php  
+                    foreach ($authors as $key => $author) {
+                      $html = '<option>' . $author["prenom"] . ' ' . $author["nom"] . '</option>';
+                      echo $html;
+                  }?>
                   </select>
                 </div>
 
                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modalAddAuteur.showModal()">+</button>
                 <dialog id="modalAddAuteur" class="modal">
                   <div class="modal-box">
-                    <form method="dialog">
+                  <form method="dialog">
                       <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
                     </form>
                     <div class="flex items-center justify-center">
                       <form action="" method="post" class="space-y-4">
                         <h3 class="text-lg font-bold">Ajouter un auteur!</h3>
-                        <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
+                        <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour quitter</p>
                         <label class="input input-bordered flex items-center gap-2">
                           <input id="author" name="authorPrenom" type="text" class="grow" placeholder="Prénom" />
                         </label>
@@ -186,17 +165,16 @@ function addList($data, $addData)
                 <!-- Droite: Input -->
                 <div class="w-3/4">
                   <select id="category" name="category" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
-                    <option value="" disabled selected>-- Sélectionnez une catégorie --</option>
-                    <?php foreach ($categories as $category): ?>
-                      <option value=<?= $category['categorie_id']; ?>>
-                        <?= $category['nom']; ?>
-                      </option>
-                    <?php endforeach; ?>
+                    <option value="" selected>mettre la catégorie actuelle</option>
+                    <?php 
+                    foreach ($categories as $key => $categorie) {
+                      $html = '<option>' . $categorie["nom"] . '</option>';
+                      echo $html;}?>
                   </select>
                 </div>
 
-                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modalAddCategorie.showModal()">+</button>
-                <dialog id="modalAddCategorie" class="modal">
+                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modaladdCategory.showModal()">+</button>
+                <dialog id="modaladdCategory" class="modal">
                   <div class="modal-box">
                     <form method="dialog">
                       <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
@@ -204,9 +182,9 @@ function addList($data, $addData)
                     <div class="flex items-center justify-center">
                       <form action="#" method="post" class="space-y-4">
                         <h3 class="text-lg font-bold">Ajouter un categorie!</h3>
-                        <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
+                        <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour quitter</p>
                         <label class="input input-bordered flex items-center gap-2">
-                          <input id="addCategorie" name="categorieNom" type="text" class="grow" placeholder="Categorie" />
+                          <input id="addCategory" name="categorieNom" type="text" class="grow" placeholder="Catégorie" />
                         </label>
                         <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
                           Ajouter
@@ -221,7 +199,7 @@ function addList($data, $addData)
             $data[0][0] = "Nombre de pages";
             $data[0][1] = "pages";
             $data[0][2] = $actuelBook['nombre_page'];
-            $data[1][0] = "Extrait";
+            $data[1][0] = "Extrait (.pdf)";
             $data[1][1] = "extrait";
             $data[1][2] = $actuelBook['extrait'];
 /*
@@ -271,12 +249,11 @@ function addList($data, $addData)
                 <!-- Droite: Input -->
                 <div class="w-3/4">
                   <select id="publisher" name="publisher" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
-                    <option value="" disabled selected>-- Sélectionnez un editeur --</option>
-                    <?php foreach ($editeurs as $editeur): ?>
-                      <option>
-                        <?= $editeur; ?>
-                      </option>
-                    <?php endforeach; ?>
+                    <option value="" selected>Mettre l'éditeur actuel</option>
+                    <?php 
+                    foreach ($editeurs as $key => $editeur){ 
+                      $html = '<option>' . $editeur["editeur"] . '</option>';
+                      echo $html;} ?>
                   </select>
                 </div>
                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modalAddEditeur.showModal()">+</button>
@@ -288,9 +265,9 @@ function addList($data, $addData)
                     <div class="flex items-center justify-center">
                       <form action="#" method="post" class="space-y-4">
                         <h3 class="text-lg font-bold">Ajouter un editeur!</h3>
-                        <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
+                        <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour quitter</p>
                         <label class="input input-bordered flex items-center gap-2">
-                          <input id="addEditeur" name="editeur" type="text" class="grow" placeholder="Editeur" />
+                          <input id="addEditeur" name="editeur" type="text" class="grow" placeholder="Éditeur" />
                         </label>
                         <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
                           Ajouter
@@ -331,18 +308,10 @@ function addList($data, $addData)
             <!-- Image -->
             <div>
               <div class="mb-4">
-                <p class="text-gray-600 font-medium mb-2 py-5">Image</p>
+                <p class="text-gray-600 font-medium mb-2 py-5">Image de couverture</p>
                 <input action="./controllers/checkAddBook.php" type="file" name="image" id="image" onchange="loadFile(event)" method="post" enctype="multipart/form-data">
                 <img id="output" src="<?php echo $actuelBook['image_couverture'] ?>" />
-                <script>
-                  var loadFile = function(event) {
-                    var output = document.getElementById('output');
-                    output.src = URL.createObjectURL(event.target.files[0]);
-                    output.onload = function() {
-                      URL.revokeObjectURL(output.src) // free memory
-                    }
-                  };
-                </script>
+                <script src="./js/loadFile.js"></script>
               </div>
               <!-- Submit Button -->
               <div class="mt-6 flex justify-end">

@@ -10,7 +10,6 @@ $userController = new userController();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
 
-  var_dump($_POST);
     // Vérifie si le pseudo existe dans la db, si ce n'est pas le cas -> Création de compte
     if ($userController->verifyPseudoExistence($_POST["pseudo"]) !== true) {
       

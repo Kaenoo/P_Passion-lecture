@@ -596,14 +596,6 @@ class Database
         $resume = $data['summary'];
         $image_couverture = "./imgCoverBook/" . $files['image']['full_path'];
 
-        $source = $_FILES["image"]["tmp_name"];
-
-        //La destination permet de définir non seulement le chemin du ficher, mais aussi
-        //un nouveau nom si nécessaire
-        $destination = "./imgCoverBook/" . $_FILES["image"]["name"];
-        
-        move_uploaded_file($source, $destination);
-
         // Avoir la requête sql
         $query = "UPDATE `t_ouvrage` SET `titre`=:titre,`nombre_page`=:pages,`extrait`=:extrait,`resume`=:resume,`date_edition`=:dateEdition,`image_couverture`=:image_couverture,`editeur`=:editeur,`ecrivain_id`=:ecrivain_id,`utilisateur_id`=:utilisateur_id,`categorie_id`=:categorie_id WHERE `ouvrage_id`= :ouvrage_id";
 
@@ -622,7 +614,7 @@ class Database
         $binds[] = [":categorie_id", $categorie_id, PDO::PARAM_INT];
 
         // Méthode pour executer la requête
-        $req = $this->queryPrepareExecute($query, $binds);
+        $this->queryPrepareExecute($query, $binds);
     }
 
     // Récupère tous les auteurs

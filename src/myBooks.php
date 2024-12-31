@@ -15,10 +15,12 @@ $booksController = new booksController();
 // Vérifie que l'user soit bien connecté
 if ($userController->isUserConnected() !== true) {
   header("Location: ./index.php");
+  exit;
 }
 // Vérifie si l'user est admin ou auteur de cette page
 elseif ($userController->isUserAdmin($_SESSION["user"]["userID"]) === false && $_SESSION["user"]["userID"] != $_GET["userID"]) {
   header('Location: ./userbooks.php?userID='. $_GET["userID"] . '');
+  exit;
 }
 
 // Supprime l'ouvrage lors du clic
@@ -26,6 +28,7 @@ if (isset($_POST["confirmDelete"])) {
   $booksController->delete($_POST["confirmDelete"]);
   $booksController->deleteImgCoverBook($_POST["pathBookCover"]);
   header('Location: ./myBooks.php?userID='. $_GET["userID"] . '');
+  exit;
 }
 
 ?>

@@ -55,6 +55,7 @@ class userController
         $_SESSION["user"]["admin"] = $userData["admin"];
         $_SESSION["user"]["userID"] = $userData["utilisateur_id"];
         header("Location: ./index.php");
+        exit;
     }
 
     // Retourne le pseudo de l'user

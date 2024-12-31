@@ -21,6 +21,7 @@ $userID = $_SESSION["user"]["userID"];
 
 if ($userController->isUserConnected() !== true) {
   header("Location: ./index.php");
+  exit;
 }
 
 // Vérifie si l'user a donné un avis

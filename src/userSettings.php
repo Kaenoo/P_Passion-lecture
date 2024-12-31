@@ -13,6 +13,7 @@ $userController = new userController();
 //Si l'user veut se déconnecter
 if (isset($_GET["login"]) && $_GET["login"] === "out") {
   header("Location: ./index.php");
+  exit;
 }
 
 //Si changement de données personnelles

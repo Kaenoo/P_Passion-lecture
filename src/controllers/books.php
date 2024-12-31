@@ -103,9 +103,14 @@ class booksController {
         return $this->db->addCategory($categoryName);
     }
 
-     // Ajoute une catégorie dans la db
+     // Ajoute un ouvrage dans la db
      public function updateBook($data, $files, $userID){
         return $this->db->addBook($data, $files, $userID);
+    }
+
+    // Modifie un ouvrage dans la db
+    public function changeBook($data, $files, $userID){
+        return $this->db->editBook($data, $files, $userID);
     }
 
     // Supprime la page de couverture d'un ouvrage supprimé -> répertoire imgCoverBook

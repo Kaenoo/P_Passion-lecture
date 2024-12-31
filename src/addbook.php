@@ -6,7 +6,6 @@
  */
 
 session_start();
-include("./models/database.php");
 
 include("./controllers/user.php");
 $userController = new userController();
@@ -19,8 +18,6 @@ if ($userController->isUserConnected() === false) {
   header("Location: ./index.php");
   exit;
 }
-
-$db = new Database();
 
 // Instanciation de variables
 $categories = $booksController->categories();
@@ -37,16 +34,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // Ajoute un auteur
   if (isset($_POST["authorNom"])) {
-    $author = $booksController->updateAuthor($_POST["authorNom"], $_POST["authorPrenom"],);
+    $author = $booksController->updateAuthor(htmlspecialchars($_POST["authorNom"], ENT_QUOTES), htmlspecialchars($_POST["authorPrenom"], ENT_QUOTES));
   } 
   // Ajoute une catégorie
   elseif (isset($_POST["categorieNom"])) {
-    $categorie = $booksController->updateCategory($_POST["categorieNom"]);
+    $categorie = $booksController->updateCategory(htmlspecialchars($_POST["categorieNom"], ENT_QUOTES));
   } 
   // Ajoute un éditeur
   elseif (isset($_POST["editeur"])) {
     $newEditeurs = $editeurs;
-    $newEditeurs[] = ["editeur" => $_POST["editeur"]];
+    $newEditeurs[] = ["editeur" => htmlspecialchars($_POST["editeur"], ENT_QUOTES)];
     $editeurs = $newEditeurs;
     $_SESSION["user"]["editeurs"] = $newEditeurs;
   }
@@ -126,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   </form>
                   <div class="flex items-center justify-center">
                     <form action="" method="post" class="space-y-4">
-                      <h3 class="text-lg font-bold">Ajouter un auteur!</h3>
+                      <h3 class="text-lg font-bold">Ajouter un auteur</h3>
                       <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour quitter</p>
                       <label class="input input-bordered flex items-center gap-2">
                         <input id="author" name="authorPrenom" type="text" class="grow" placeholder="Prénom" />
@@ -168,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   </form>
                   <div class="flex items-center justify-center">
                     <form action="#" method="post" class="space-y-4">
-                      <h3 class="text-lg font-bold">Ajouter une catégorie!</h3>
+                      <h3 class="text-lg font-bold">Ajouter une catégorie</h3>
                       <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour quitter</p>
                       <label class="input input-bordered flex items-center gap-2">
                         <input id="addCategory" name="categorieNom" type="text" class="grow" placeholder="Catégorie" />
@@ -224,7 +221,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   </form>
                   <div class="flex items-center justify-center">
                     <form action="#" method="post" class="space-y-4">
-                      <h3 class="text-lg font-bold">Ajouter un editeur!</h3>
+                      <h3 class="text-lg font-bold">Ajouter un éditeur</h3>
                       <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour quitter</p>
                       <label class="input input-bordered flex items-center gap-2">
                         <input id="addEditeur" name="editeur" type="text" class="grow" placeholder="Éditeur" />
@@ -263,15 +260,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <!-- Right Column -->
           <!-- Image -->
           <div>
-            <div class="mb-4">
+            <div class="md:flex flex-col items-center md:col-start-2 content-center mb-4">
               <p class="text-gray-600 font-medium mb-2 py-5">Image de couverture</p>
               <input action="#" type="file" name="image" id="image" onchange="loadFile(event)" method="post" enctype="multipart/form-data">
-              <img id="output" />
+              <img class="pt-5 w-80 h-auto" id="output" />
               <script src="./js/loadFile.js"></script>
             </div>
             <!-- Submit Button -->
-            <div class="mt-6 flex justify-end">
-              <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Enregistrer</button>
+            <div class="md:flex md:justify-end md:mt-28 md:mr-10">
+              <button type="submit" class="bg-green-700 hover:bg-green-600 text-white text-lg font-medium px-6 py-2 rounded-lg">Enregistrer</button>
             </div>
           </div>
         </div>

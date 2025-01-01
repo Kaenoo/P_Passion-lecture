@@ -49,13 +49,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 
   // Ajoute un ouvrage si les conditions sont remplies
-  if (isset($_FILES) && count($_FILES) > 0) {
+  if (isset($_POST["submit"])) {
 
     $source = $_FILES["image"]["tmp_name"];
     $destination = "./imgCoverBook/" . $_FILES["image"]["name"]; // permet de définir le chemin du ficher ainsi que son nom
     move_uploaded_file($source, $destination);
     
-    $booksController->updateBook($_POST, $_FILES, $_SESSION['user']['userID']);
+    $booksController->updateBook($_POST, $destination, $_SESSION['user']['userID']);
     
     header("Location: ./index.php");
     exit;
@@ -262,13 +262,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <div>
             <div class="md:flex flex-col items-center md:col-start-2 content-center mb-4">
               <p class="text-gray-600 font-medium mb-2 py-5">Image de couverture</p>
-              <input action="#" type="file" name="image" id="image" onchange="loadFile(event)" method="post" enctype="multipart/form-data">
+              <input action="#" type="file" accept=".png, .jpg, .jpeg" name="image" id="image" onchange="loadFile(event)" method="post" enctype="multipart/form-data">
               <img class="pt-5 w-80 h-auto" id="output" />
               <script src="./js/loadFile.js"></script>
             </div>
             <!-- Submit Button -->
             <div class="md:flex md:justify-end md:mt-28 md:mr-10">
-              <button type="submit" class="bg-green-700 hover:bg-green-600 text-white text-lg font-medium px-6 py-2 rounded-lg">Enregistrer</button>
+              <button type="submit" name="submit" value="save" class="bg-green-700 hover:bg-green-600 text-white text-lg font-medium px-6 py-2 rounded-lg">Enregistrer</button>
             </div>
           </div>
         </div>

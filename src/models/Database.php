@@ -528,7 +528,7 @@ class Database
 
     /* ---------------- Fonctions (Ajouter un Livre) ---------------- */
     // Ajoute un ouvrage
-    public function addBook($data, $files, $userID)
+    public function addBook($data, $destinationFile, $userID)
     {
         // Récupère les données
         $titre = $data['title'];
@@ -539,8 +539,7 @@ class Database
         $editeur = $data['publisher'];
         $dateEdition = $data['published_date'];
         $resume = $data['summary'];
-        $image_couverture = "./imgCoverBook/" . $files['image']['full_path'];
-        //$image_couverture = $files['image']['tmp_name'];
+        //$destinationFile = $files['image']['tmp_name'];
 
         // Avoir la requête sql
         $query = "INSERT INTO `t_ouvrage`(`ouvrage_id`, `titre`, `nombre_page`, `extrait`, `resume`, `date_edition`, `image_couverture`, `editeur`, `ecrivain_id`, `utilisateur_id`, `categorie_id`) 
@@ -553,7 +552,7 @@ class Database
         $binds[] = [":extrait", $extrait, PDO::PARAM_STR];
         $binds[] = [":resume", $resume, PDO::PARAM_STR];
         $binds[] = [":dateEdition", $dateEdition, PDO::PARAM_INT];
-        $binds[] = [":image_couverture", $image_couverture, PDO::PARAM_STR];
+        $binds[] = [":image_couverture", $destinationFile, PDO::PARAM_STR];
         $binds[] = [":editeur", $editeur, PDO::PARAM_STR];
         $binds[] = [":ecrivain_id", $ecrivain_id, PDO::PARAM_INT];
         $binds[] = [":utilisateur_id", $userID, PDO::PARAM_INT];
@@ -565,7 +564,7 @@ class Database
 
 
     // Modifie un ouvrage
-    public function editBook($data, $files, $userID)
+    public function editBook($data, $destinationFile, $userID)
     {
         // Recuperer les données
         $id_ouvrage = $data['ouvrage_id'];
@@ -577,7 +576,6 @@ class Database
         $editeur = $data['publisher'];
         $dateEdition = $data['published_date'];
         $resume = $data['summary'];
-        $image_couverture = "./imgCoverBook/" . $files['image']['full_path'];
 
         // Avoir la requête sql
         $query = "UPDATE `t_ouvrage` SET `titre`=:titre,`nombre_page`=:pages,`extrait`=:extrait,`resume`=:resume,`date_edition`=:dateEdition,`image_couverture`=:image_couverture,`editeur`=:editeur,`ecrivain_id`=:ecrivain_id,`utilisateur_id`=:utilisateur_id,`categorie_id`=:categorie_id WHERE `ouvrage_id`= :ouvrage_id";
@@ -590,7 +588,7 @@ class Database
         $binds[] = [":extrait", $extrait, PDO::PARAM_STR];
         $binds[] = [":resume", $resume, PDO::PARAM_STR];
         $binds[] = [":dateEdition", $dateEdition, PDO::PARAM_INT];
-        $binds[] = [":image_couverture", $image_couverture, PDO::PARAM_STR];
+        $binds[] = [":image_couverture", $destinationFile, PDO::PARAM_STR];
         $binds[] = [":editeur", $editeur, PDO::PARAM_STR];
         $binds[] = [":ecrivain_id", $ecrivain_id, PDO::PARAM_INT];
         $binds[] = [":utilisateur_id", $userID, PDO::PARAM_INT];

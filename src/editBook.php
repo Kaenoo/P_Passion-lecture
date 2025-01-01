@@ -30,13 +30,11 @@ $editeurs = $_SESSION["user"]["editeurs"];
 
 // Données de l'ouvrage
 $dataBook = $booksController->dataBook($_GET["id"]);
-var_dump($dataBook);
-
 // S'il y a une requête POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-   // Ajoute un auteur
-   if (isset($_POST["authorNom"])) {
+  
+  // Ajoute un auteur
+  if (isset($_POST["authorNom"])) {
     $author = $booksController->updateAuthor(htmlspecialchars($_POST["authorNom"], ENT_QUOTES), htmlspecialchars($_POST["authorPrenom"], ENT_QUOTES));
   } 
   // Ajoute une catégorie
@@ -50,20 +48,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $editeurs = $newEditeurs;
     $_SESSION["user"]["editeurs"] = $newEditeurs;
   }
-
+  
   // Modifie un ouvrage si les conditions sont remplies
-  if (isset($_FILES) && count($_FILES) > 0) {
-
-    $source = $_FILES["image"]["tmp_name"];
-    $destination = "./imgCoverBook/" . $_FILES["image"]["name"]; // permet de définir le chemin du ficher ainsi que son nom
-    //move_uploaded_file($source, $destination);
+  if (isset($_POST["submit"])) {
+    // Si un nouveau fichier est entrée -> ajout dans le répertoire et suppression de l'ancien
+    if (isset($_FILES["image"]["size"]) && $_FILES["image"]["size"] > 0) {
+      $booksController->deleteImgCoverBook($dataBook["image_couverture"]);
+      $source = $_FILES["image"]["tmp_name"];
+      $destination = "./imgCoverBook/" . $_FILES["image"]["name"]; // permet de définir le chemin du ficher ainsi que son nom
+      move_uploaded_file($source, $destination);
+    }
+    else {
+      $destination = $dataBook["image_couverture"];
+    }
     
-    $booksController->changeBook($_POST, $_FILES, $_SESSION['user']['userID']);
-    
+    $booksController->changeBook($_POST, $destination, $_SESSION['user']['userID']);
     header("Location: ./index.php");
     exit;
   }
-
+  
   header("Location: ./addBook.php?id={$_GET["id"]}");
   exit;
 }
@@ -108,8 +111,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="author" class="block text-gray-600 font-medium">Auteur</label>
               </div>
               <div class="w-3/4">
-                <select id="author" name="author" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
-                  <option value="<?= $dataBook["ecrivain_id"];?>" disabled selected><?= $booksController->writerBook($dataBook["ecrivain_id"]); ?></option>
+                <select id="author" name="author" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
+                  <option value="<?= $dataBook["ecrivain_id"];?>" selected><?= $booksController->writerBook($dataBook["ecrivain_id"]); ?></option>
                   <?php
                   foreach ($authors as $key => $author) {
                     if ($author["ecrivain_id"] !== $dataBook["ecrivain_id"]) {
@@ -152,8 +155,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="category" class="block text-gray-600 font-medium">Catégorie</label>
               </div>
               <div class="w-3/4">
-                <select id="category" name="category" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
-                  <option value="" disabled selected><?= $booksController->categoryBook($dataBook["categorie_id"])  ?></option>
+                <select id="category" name="category" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
+                  <option value="<?= $dataBook["categorie_id"]; ?>" selected><?= $booksController->categoryBook($dataBook["categorie_id"])  ?></option>
                   <?php
                   foreach ($categories as $key => $value) {
                     if ($value["categorie_id"] !== $dataBook["categorie_id"]) {
@@ -213,8 +216,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="publisher" class="block text-gray-600 font-medium">Éditeur</label>
               </div>
               <div class="w-3/4">
-                <select id="publisher" name="publisher" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
-                  <option value="" disabled selected><?= $dataBook["editeur"] ;?></option>
+                <select id="publisher" name="publisher" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
+                  <option value="<?= $dataBook["editeur"]; ?>" selected><?= $dataBook["editeur"] ;?></option>
                   <?php
                   foreach ($editeurs as $key => $editeur) {
                     if ($editeur["editeur"] !== $dataBook["editeur"]) {
@@ -273,18 +276,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <div>
             <div class="md:flex flex-col items-center md:col-start-2 content-center mb-4">
               <p class="text-gray-600 font-medium mb-2 py-5">Image de couverture</p>
-              <input action="#" type="file" name="image" id="image" onchange="loadFile(event)" method="post" enctype="multipart/form-data">
+              <input action="#" type="file" accept=".png, .jpg, .jpeg" name="image" id="image" onchange="loadFile(event)" method="post" enctype="multipart/form-data">
               <img class="pt-5 w-80 h-auto" id="output" />
+              <img class="pt-5 w-80 h-auto" id="defaultImage" src="<?= $dataBook["image_couverture"]; ?>" alt="image de couverture">
               <script src="./js/loadFile.js"></script>
-              <?php
-              if (count($_FILES) === 0) {
-                echo '<img class="pt-5 w-80 h-auto" src="' . $dataBook["image_couverture"] . '" alt="">';
-              }
-              ?>
             </div>
             <!-- Submit Button -->
             <div class="md:flex md:justify-end md:mt-28 md:mr-10">
-              <button type="submit" class="bg-green-700 hover:bg-green-600 text-white text-lg font-medium px-6 py-2 rounded-lg">Enregistrer</button>
+              <input type="hidden" name="ouvrage_id" value="<?= $dataBook["ouvrage_id"]; ?>">
+              <button type="submit" name="submit" value="save" class="bg-green-700 hover:bg-green-600 text-white text-lg font-medium px-6 py-2 rounded-lg">Enregistrer</button>
             </div>
           </div>
         </div>

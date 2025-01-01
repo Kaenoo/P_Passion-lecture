@@ -104,13 +104,13 @@ class booksController {
     }
 
      // Ajoute un ouvrage dans la db
-     public function updateBook($data, $files, $userID){
-        return $this->db->addBook($data, $files, $userID);
+     public function updateBook($data, $destinationFile, $userID){
+        return $this->db->addBook($data, $destinationFile, $userID);
     }
 
     // Modifie un ouvrage dans la db
-    public function changeBook($data, $files, $userID){
-        return $this->db->editBook($data, $files, $userID);
+    public function changeBook($data, $destinationFile, $userID){
+        return $this->db->editBook($data, $destinationFile, $userID);
     }
 
     // Supprime la page de couverture d'un ouvrage supprimé -> répertoire imgCoverBook

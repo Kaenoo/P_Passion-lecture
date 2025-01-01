@@ -41,7 +41,7 @@ if (isset($_POST["password"])) {
   <?php include("./views/header.php"); ?>
 
   <main class="lg:px-12 text-justify">
-    <h1 class="mt-4 mb-8 text-2xl lg:text-4xl font-bold text-center">Paramètre Profil</h1>
+    <h1 class="mt-4 mb-8 text-3xl md:text-4xl font-bold text-center">Paramètre Profil</h1>
 
     <!-- Formulaire pour changer des données -->
     <form action="" method="post">

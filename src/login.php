@@ -44,7 +44,7 @@ include("./views/header.php");
 <div class="flex min-h-full flex-col justify-center px-6 py-8 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
     <!-- <img class="mx-auto h-10 w-auto" src="./img/account.png" alt=""> -->
-    <h2 class="mt-5 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Connecte toi à ton compte</h2>
+    <h1 class="mt-5 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Connecte toi à ton compte</h1>
   </div>
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">

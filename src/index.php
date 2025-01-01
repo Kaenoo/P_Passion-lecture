@@ -29,8 +29,8 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
 <body class="m-auto w-full">
   <?php include("./views/header.php"); ?>
 
-  <main class="px-12 text-justify">
-    <h1 class="my-4 text-4xl font-bold text-center">Accueil</h1>
+  <main class="px-6 md:px-12 text-justify">
+    <h1 class="my-4 text-3xl md:text-4xl font-bold text-center">Accueil</h1>
 
     <!-- Message d'introduction -->
     <div class="m-5 p-5 bg-green-200 ">
@@ -47,14 +47,14 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
     </div>
 
     <!-- 5 derniers ouvrages -->
-    <h1 class="my-4 text-4xl font-bold text-center">5 derniers ouvrages ajoutés</h1>
+    <h1 class="my-4 text-3xl md:text-4xl font-bold text-center">5 derniers ouvrages ajoutés</h1>
 
-    <div class="grid grid-cols-5 gap-4 items-center">
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 items-center">
       <?php
         foreach ($booksController->booksPresentation() as $index => $bookArray) {
           echo '<div> <a href="./book.php?id=' . $bookArray[0] .'">';
-          echo '<img class="block mx-auto p-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[0] . '">';
-          echo '<h2 class="mb-5 text-center justify-center font-light text-2xl">' . $bookArray[1] .'</h2>';
+          echo '<img class="block mx-auto p-6 md:p-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[0] . '">';
+          echo '<h2 class="mb-2 md:mb-5 text-center justify-center font-light text-2xl">' . $bookArray[1] .'</h2>';
           echo '</a> </div>';  
         }
       ?>

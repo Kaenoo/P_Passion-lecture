@@ -44,7 +44,7 @@ if (count($_POST) > 0 && $reviewController->verifyReviewUser($userID, $dataBook[
   <?php include("./views/header.php"); ?>
 
   <main class="px-12 text-justify">
-    <h1 class="mt-2 lg:my-4 text-2xl lg:text-4xl font-bold text-center"><?= $dataBook["titre"] ?></h1>
+    <h1 class="mt-2 lg:my-4 text-3xl md:text-4xl font-bold text-center"><?= $dataBook["titre"] ?></h1>
     <h2 class="mb-4 lg:my-4 text-base lg:text-xl text-center"><?= $booksController->writerBook($dataBook["ecrivain_id"]) ?></h2>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 lg:px-16 lg:gap-32">

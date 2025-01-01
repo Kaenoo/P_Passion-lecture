@@ -35,11 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Ajoute un auteur
   if (isset($_POST["authorNom"])) {
     $author = $booksController->updateAuthor(htmlspecialchars($_POST["authorNom"], ENT_QUOTES), htmlspecialchars($_POST["authorPrenom"], ENT_QUOTES));
-  } 
+  }
   // Ajoute une catégorie
   elseif (isset($_POST["categorieNom"])) {
     $categorie = $booksController->updateCategory(htmlspecialchars($_POST["categorieNom"], ENT_QUOTES));
-  } 
+  }
   // Ajoute un éditeur
   elseif (isset($_POST["editeur"])) {
     $newEditeurs = $editeurs;
@@ -54,9 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $source = $_FILES["image"]["tmp_name"];
     $destination = "./imgCoverBook/" . $_FILES["image"]["name"]; // permet de définir le chemin du ficher ainsi que son nom
     move_uploaded_file($source, $destination);
-    
+
     $booksController->updateBook($_POST, $destination, $_SESSION['user']['userID']);
-    
+
     header("Location: ./index.php");
     exit;
   }
@@ -82,103 +82,96 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   ?>
   <main class="text-center">
     <!-- Form Section -->
-    <h1 class="my-4 text-4xl font-bold text-center">Ajouter un ouvrage</h1>
+    <h1 class="my-4 text-3xl md:text-4xl font-bold text-center">Ajouter un ouvrage</h1>
 
     <div class="p-6">
       <form action="#" method="post" enctype="multipart/form-data">
-        <div class="grid grid-cols-2 gap-6">
+        <div class="md:grid md:grid-cols-2 md:gap-6">
           <!-- Left Column -->
-          <div>
+          <div class="md:col-start-1">
             <!-- Titre -->
-            <div class="flex items-start space-x-4 border-2 border-gray-500 rounded-lg p-4 mb-4">
-              <div class="w-1/4">
-                <label for="title" class="block text-gray-600 font-medium">Titre</label>
-              </div>
-              <div class="w-3/4">
-                <input type="text" id="title" name="title" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
-              </div>
+            <div class="flex flex-col items-center md:items-start gap-2">
+              <label for="title" class="ml-3 text-gray-600 text-lg font-medium">Titre</label>
+              <input type="text" id="title" name="title" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5" required>
             </div>
 
             <!-- Auteur -->
-            <div class="flex items-start space-x-4 border-2 border-gray-500 rounded-lg p-4 mb-4">
-              <div class="w-1/4">
-                <label for="author" class="block text-gray-600 font-medium">Auteur</label>
-              </div>
-              <div class="w-3/4">
-                <select id="author" name="author" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
+            <div class="flex flex-col items-center md:items-start gap-2">
+              <label for="author" class="ml-3 text-gray-600 text-lg font-medium">Auteur</label>
+              <div class="flex justify-center md:justify-normal items-center md:items-start gap-1 w-full">
+                <select id="author" name="author" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-9/12" required>
                   <option value="" disabled selected>-- Sélectionnez un auteur --</option>
                   <?php
                   foreach ($authors as $key => $author) {
-                    $html = '<option value="'. $author["ecrivain_id"] .'">' . $author["prenom"] . ' ' . $author["nom"] . '</option>';
+                    $html = '<option value="' . $author["ecrivain_id"] . '">' . $author["prenom"] . ' ' . $author["nom"] . '</option>';
                     echo $html;
                   } ?>
                 </select>
+                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modalAddAuteur.showModal()">+</button>
               </div>
-
-              <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modalAddAuteur.showModal()">+</button>
-              <dialog id="modalAddAuteur" class="modal">
-                <div class="modal-box">
-                  <form method="dialog">
-                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
-                  </form>
-                  <div class="flex items-center justify-center">
-                    <form action="" method="post" class="space-y-4">
-                      <h3 class="text-lg font-bold">Ajouter un auteur</h3>
-                      <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour quitter</p>
-                      <label class="input input-bordered flex items-center gap-2">
-                        <input id="author" name="authorPrenom" type="text" class="grow" placeholder="Prénom" />
-                      </label>
-                      <label class="input input-bordered flex items-center gap-2">
-                        <input id="author" name="authorNom" type="text" class="grow" placeholder="Nom" />
-                      </label>
-                      <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
-                        Ajouter
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              </dialog>
-
             </div>
 
-            <!-- Catégorie -->
-            <div class="flex items-start space-x-4 border-2 border-gray-500 rounded-lg p-4 mb-4">
-              <div class="w-1/4">
-                <label for="category" class="block text-gray-600 font-medium">Catégorie</label>
+            <dialog id="modalAddAuteur" class="modal">
+              <div class="modal-box">
+                <form method="dialog">
+                  <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
+                </form>
+                <div class="flex items-center justify-center">
+                  <form action="" method="post" class="space-y-4">
+                    <h3 class="text-lg font-bold">Ajouter un auteur</h3>
+                    <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour quitter</p>
+                    <label class="input input-bordered flex items-center gap-2">
+                      <input id="author" name="authorPrenom" type="text" class="grow" placeholder="Prénom" />
+                    </label>
+                    <label class="input input-bordered flex items-center gap-2">
+                      <input id="author" name="authorNom" type="text" class="grow" placeholder="Nom" />
+                    </label>
+                    <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
+                      Ajouter
+                    </button>
+                  </form>
+                </div>
               </div>
-              <div class="w-3/4">
-                <select id="category" name="category" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
+            </dialog>
+
+
+            <!-- Catégorie -->
+            <div class="flex flex-col items-center md:items-start gap-2">
+              <label for="category" class="ml-3 text-gray-600 text-lg font-medium">Catégorie</label>
+              <div class="flex justify-center md:justify-normal items-center md:items-start gap-1 w-full">
+                <select id="category" name="category" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-9/12" required>
                   <option value="" disabled selected>-- Sélectionnez une catégorie --</option>
                   <?php
                   foreach ($categories as $key => $value) {
-                    $html = '<option value="'. $value["categorie_id"] .'">' . $value["nom"] . '</option>';
+                    $html = '<option value="' . $value["categorie_id"] . '">' . $value["nom"] . '</option>';
                     echo $html;
                   } ?>
                 </select>
+                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modaladdCategory.showModal()">+</button>
               </div>
-
-              <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modaladdCategory.showModal()">+</button>
-              <dialog id="modaladdCategory" class="modal">
-                <div class="modal-box">
-                  <form method="dialog">
-                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
-                  </form>
-                  <div class="flex items-center justify-center">
-                    <form action="#" method="post" class="space-y-4">
-                      <h3 class="text-lg font-bold">Ajouter une catégorie</h3>
-                      <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour quitter</p>
-                      <label class="input input-bordered flex items-center gap-2">
-                        <input id="addCategory" name="categorieNom" type="text" class="grow" placeholder="Catégorie" />
-                      </label>
-                      <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
-                        Ajouter
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              </dialog>
             </div>
 
+            <dialog id="modaladdCategory" class="modal">
+              <div class="modal-box">
+                <form method="dialog">
+                  <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
+                </form>
+                <div class="flex items-center justify-center">
+                  <form action="#" method="post" class="space-y-4">
+                    <h3 class="text-lg font-bold">Ajouter une catégorie</h3>
+                    <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour quitter</p>
+                    <label class="input input-bordered flex items-center gap-2">
+                      <input id="addCategory" name="categorieNom" type="text" class="grow" placeholder="Catégorie" />
+                    </label>
+                    <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
+                      Ajouter
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </dialog>
+
+            <!-- Nombre de pages et extrait -->
             <?php
             $data[0][0] = "Nombre de pages";
             $data[0][1] = "pages";
@@ -186,25 +179,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data[1][1] = "extrait";
 
             for ($i = 0; $i < 2; $i++) {
-              $html = '<div class="flex items-start space-x-4 border-2 border-gray-500 rounded-lg p-4 mb-4">
-                        <div class="w-1/4">
-                        <label for="' . $data[$i][1] . '" class="block text-gray-600 font-medium">' . $data[$i][0] . '</label>
-                        </div>
-                        <div class="w-3/4">
-                        <input id="' . $data[$i][1] . '" name="' . $data[$i][1] . '" class="border border-gray-300 rounded-lg px-4 py-2 w-full">
-                        </div>
-                        </div>';
+              $html = '<div class="flex flex-col items-center md:items-start gap-2">
+            <label for="' . $data[$i][1] . '" class="ml-3 text-gray-600 text-lg font-medium">' . $data[$i][0] . '</label>
+            <input id="' . $data[$i][1] . '" name="' . $data[$i][1] . '" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5">
+            </div>';
               echo $html;
             }
             ?>
 
             <!-- Éditeur -->
-            <div class="flex items-start space-x-4 border-2 border-gray-500 rounded-lg p-4 mb-4">
-              <div class="w-1/4">
-                <label for="publisher" class="block text-gray-600 font-medium">Éditeur</label>
-              </div>
-              <div class="w-3/4">
-                <select id="publisher" name="publisher" class="border border-gray-300 rounded-lg px-4 py-2 w-full" required>
+            <div class="flex flex-col items-center md:items-start gap-2">
+              <label for="publisher" class="ml-3 text-gray-600 text-lg font-medium">Éditeur</label>
+              <div class="flex justify-center md:justify-normal items-center md:items-start gap-1 w-full">
+                <select id="publisher" name="publisher" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-9/12" required>
                   <option value="" disabled selected>-- Sélectionnez un éditeur --</option>
                   <?php
                   foreach ($editeurs as $key => $editeur) {
@@ -212,8 +199,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo $html;
                   } ?>
                 </select>
+                <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modalAddEditeur.showModal()">+</button>
               </div>
-              <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modalAddEditeur.showModal()">+</button>
               <dialog id="modalAddEditeur" class="modal">
                 <div class="modal-box">
                   <form method="dialog">
@@ -236,31 +223,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <!-- Date d'édition -->
-            <div class="flex items-start space-x-4 border-2 border-gray-500 rounded-lg p-4 mb-4">
-              <div class="w-1/4">
-                <label for="published_date" class="block text-gray-600 font-medium">Date d'édition</label>
-              </div>
-              <div class="w-3/4">
-                <input type="number" id="published_date" name="published_date" class="border border-gray-300 rounded-lg px-4 py-2 w-full" max="9999" placeholder="YYYY">
-              </div>
+            <div class="flex flex-col items-center md:items-start gap-2">
+              <label for="published_date" class="ml-3 text-gray-600 text-lg font-medium">Date d'édition</label>
+              <input type="number" id="published_date" name="published_date" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5" max="9999" placeholder="YYYY">
             </div>
 
             <!-- Résumé -->
-            <div class="flex items-start space-x-4 border-2 border-gray-500 rounded-lg p-4 mb-4">
-              <div class="w-1/4">
-                <label for="summary" class="block text-gray-600 font-medium">Résumé</label>
-              </div>
-              <div class="w-3/4">
-                <textarea id="summary" name="summary" class="border border-gray-300 rounded-lg px-4 py-2 w-full"></textarea>
-              </div>
+            <div class="flex flex-col items-center md:items-start gap-2">
+              <label for="summary" class="ml-3 text-gray-600 text-lg font-medium">Résumé</label>
+              <textarea id="summary" name="summary" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5"></textarea>
             </div>
           </div>
 
 
           <!-- Right Column -->
           <!-- Image -->
-          <div>
-            <div class="md:flex flex-col items-center md:col-start-2 content-center mb-4">
+          <div class="md:col-start-2">
+            <div class="flex flex-col items-center md:col-start-2 content-center mb-4">
               <p class="text-gray-600 font-medium mb-2 py-5">Image de couverture</p>
               <input action="#" type="file" accept=".png, .jpg, .jpeg" name="image" id="image" onchange="loadFile(event)" method="post" enctype="multipart/form-data">
               <img class="pt-5 w-80 h-auto" id="output" />
@@ -271,10 +250,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <button type="submit" name="submit" value="save" class="bg-green-700 hover:bg-green-600 text-white text-lg font-medium px-6 py-2 rounded-lg">Enregistrer</button>
             </div>
           </div>
-        </div>
       </form>
-
     </div>
+  </div>
   </main>
   <?php
   include("./views/footer.php");

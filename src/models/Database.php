@@ -55,18 +55,6 @@ class Database
         return $req->closeCursor();
     }
 
-    // permet de recupérer les catégories
-    public function getAllCategorie()
-    {
-        $query = "SELECT * FROM t_categorie";
-        $req = $this->querySimpleExecute($query);
-
-        // Appeler la méthode pour avoir le résultat sous forme de tableau
-        $categories = $this->formatData($req);
-
-
-        return $categories;
-    }
 
     /* ---------------- Fonctions (Compte utilisateur) ---------------- */
     // Vérifie l'existence du compte dans la DB, si c'est le cas -> return les valeurs associées
@@ -117,7 +105,7 @@ class Database
        return $verify;
     }
 
-    // Vérifie les droits d'un user TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // Vérifie les droits d'un user
     public function getUserRight($userID)
     {
 
@@ -277,16 +265,16 @@ class Database
         return $writer[0]["nom"];
     }
 
-    // Récupère les catégories
-    public function getCategories()
+    // Récupère toutes les catégories
+    public function getAllCategories()
     {
-        $query = "SELECT `nom` FROM `t_categorie`";
+        $query = "SELECT * FROM `t_categorie` order by `nom` ASC";
         $req = $this->querySimpleExecute($query);
 
         $categories = $this->formatData($req);
 
         return $categories;
-    }
+    }    
 
     // Supprime un ouvrage
     public function deleteBook($bookID)
@@ -556,20 +544,19 @@ class Database
     }
 
     /* ---------------- Fonctions (Ajouter un Livre) ---------------- */
-    // Permet de ajouter un livre
-    public function addBook($datas, $files, $userID)
+    // Ajoute un ouvrage
+    public function addBook($data, $destinationFile, $userID)
     {
-        // Recuperer les données
-        $titre = $datas['title'];
-        $ecrivain_id = $datas['author'];
-        $categorie_id = $datas['category'];
-        $pages = $datas['pages'];
-        $extrait = $datas['extrait'];
-        $editeur = $datas['publisher'];
-        $dateEdition = $datas['published_date'];
-        $resume = $datas['summary'];
-        $image_couverture = "./imgCoverBook/" . $files['image']['full_path'];
-        //$image_couverture = $files['image']['tmp_name'];
+        // Récupère les données
+        $titre = $data['title'];
+        $ecrivain_id = $data['author'];
+        $categorie_id = $data['category'];
+        $pages = $data['pages'];
+        $extrait = $data['extrait'];
+        $editeur = $data['publisher'];
+        $dateEdition = $data['published_date'];
+        $resume = $data['summary'];
+        //$destinationFile = $files['image']['tmp_name'];
 
         // Avoir la requête sql
         $query = "INSERT INTO `t_ouvrage`(`ouvrage_id`, `titre`, `nombre_page`, `extrait`, `resume`, `date_edition`, `image_couverture`, `editeur`, `ecrivain_id`, `utilisateur_id`, `categorie_id`) 
@@ -582,85 +569,30 @@ class Database
         $binds[] = [":extrait", $extrait, PDO::PARAM_STR];
         $binds[] = [":resume", $resume, PDO::PARAM_STR];
         $binds[] = [":dateEdition", $dateEdition, PDO::PARAM_INT];
-        $binds[] = [":image_couverture", $image_couverture, PDO::PARAM_STR];
+        $binds[] = [":image_couverture", $destinationFile, PDO::PARAM_STR];
         $binds[] = [":editeur", $editeur, PDO::PARAM_STR];
         $binds[] = [":ecrivain_id", $ecrivain_id, PDO::PARAM_INT];
         $binds[] = [":utilisateur_id", $userID, PDO::PARAM_INT];
         $binds[] = [":categorie_id", $categorie_id, PDO::PARAM_INT];
 
-        $source = $_FILES["image"]["tmp_name"];
-
-        //La destination permet de définir non seulement le chemin du ficher, mais aussi
-        //un nouveau nom si nécessaire
-        
-        $destination = "./imgCoverBook/" . $_FILES["image"]["name"];
-        move_uploaded_file($source, $destination);
-
         // Méthode pour executer la requête
-        $req = $this->queryPrepareExecute($query, $binds);
+        $this->queryPrepareExecute($query, $binds);
     }
 
 
-    // Permet de ajouter un livre
-    public function editBook($datas, $files, $userID)
+    // Modifie un ouvrage
+    public function editBook($data, $destinationFile, $userID)
     {
-
         // Recuperer les données
-        $id_ouvrage = $datas['ouvrage_id'];
-        $titre = $datas['title'];
-        $ecrivain_id = $datas['author'];
-        $categorie_id = $datas['category'];
-        $pages = $datas['pages'];
-        $extrait = $datas['extrait'];
-        $editeur = $datas['publisher'];
-        $dateEdition = $datas['published_date'];
-        $resume = $datas['summary'];
-        $image_couverture = "./imgCoverBook/" . $files['image']['full_path'];
-
-
-        // if (!is_uploaded_file($files['image']['tmp_name'])) {
-        //     throw new RuntimeException("Le fichier téléchargé n'est pas valide.");
-        // }
-
-        // $destination = 'C:/Users/Mustafa/Desktop/Projets/P_Passion-lecture/src/imgCoverBook/' . basename($files['image']['name']);
-        // if (!move_uploaded_file($files['image']['tmp_name'], $destination)) {
-        //     throw new RuntimeException("Le fichier n'a pas pu être déplacé.");
-        // }
-
-        // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        //     if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-        //         $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
-        //         $fileMimeType = mime_content_type($_FILES['photo']['tmp_name']);
-
-        //         if (in_array($fileMimeType, $allowedMimeTypes)) {
-        //             $uploadDir = 'C:/Users/Mustafa/Desktop/Projets/P_Passion-lecture/src/imgCoverBook/' . basename($files['image']['name']);
-        //             $uploadFile = $uploadDir . basename($_FILES['photo']['name']);
-        //             var_dump($uploadFile);
-
-        //             if (!move_uploaded_file($files['image']['tmp_name'], $uploadFile)) {
-        //                 throw new RuntimeException("Le fichier n'a pas pu être déplacé.");
-        //             }
-
-        //             if (move_uploaded_file($_FILES['photo']['tmp_name'], $uploadFile)) {
-        //                 $uploadedFilePath = $uploadFile;
-        //             } else {
-        //                 $error = "Une erreur s'est produite lors du téléchargement du fichier.";
-        //             }
-        //         } else {
-        //             $error = "Format de fichier non valide. Veuillez télécharger une image.";
-        //         }
-        //     } else {
-        //         $error = "Vous n'avez pas sélectionné un fichier valide.";
-        //     }
-        // }
-
-        $source = $_FILES["image"]["tmp_name"];
-
-        //La destination permet de définir non seulement le chemin du ficher, mais aussi
-        //un nouveau nom si nécessaire
-        $destination = "./imgCoverBook/" . $_FILES["image"]["name"];
-        
-        move_uploaded_file($source, $destination);
+        $id_ouvrage = $data['ouvrage_id'];
+        $titre = $data['title'];
+        $ecrivain_id = $data['author'];
+        $categorie_id = $data['category'];
+        $pages = $data['pages'];
+        $extrait = $data['extrait'];
+        $editeur = $data['publisher'];
+        $dateEdition = $data['published_date'];
+        $resume = $data['summary'];
 
         // Avoir la requête sql
         $query = "UPDATE `t_ouvrage` SET `titre`=:titre,`nombre_page`=:pages,`extrait`=:extrait,`resume`=:resume,`date_edition`=:dateEdition,`image_couverture`=:image_couverture,`editeur`=:editeur,`ecrivain_id`=:ecrivain_id,`utilisateur_id`=:utilisateur_id,`categorie_id`=:categorie_id WHERE `ouvrage_id`= :ouvrage_id";
@@ -673,112 +605,68 @@ class Database
         $binds[] = [":extrait", $extrait, PDO::PARAM_STR];
         $binds[] = [":resume", $resume, PDO::PARAM_STR];
         $binds[] = [":dateEdition", $dateEdition, PDO::PARAM_INT];
-        $binds[] = [":image_couverture", $image_couverture, PDO::PARAM_STR];
+        $binds[] = [":image_couverture", $destinationFile, PDO::PARAM_STR];
         $binds[] = [":editeur", $editeur, PDO::PARAM_STR];
         $binds[] = [":ecrivain_id", $ecrivain_id, PDO::PARAM_INT];
         $binds[] = [":utilisateur_id", $userID, PDO::PARAM_INT];
         $binds[] = [":categorie_id", $categorie_id, PDO::PARAM_INT];
 
         // Méthode pour executer la requête
-        $req = $this->queryPrepareExecute($query, $binds);
+        $this->queryPrepareExecute($query, $binds);
     }
 
-    // Afficher les auteurs
-    public function listAuthors()
+    // Récupère tous les auteurs
+    public function getAllAuthors()
     {
-        // Avoir la requête sql
-        $query = "SELECT * FROM t_ecrivain ORDER BY prenom, nom ASC;";
+        $query = "SELECT * FROM `t_ecrivain`ORDER BY `prenom` ASC";
 
-        // Appeler la méthode pour executer la requête
-        $result = $this->querySimpleExecute($query);
+        $req = $this->querySimpleExecute($query);
 
-        // Retour tous les auteurs
-        return $result;
+        $authors = $this->formatData($req);
+
+        // Retourne tous les auteurs
+        return $authors;
     }
 
-    // Afficher les catégories
-    public function listCategories()
+    // Ajoute un auteur
+    public function addAuteur($surname, $forename)
     {
-        // Avoir la requête sql
-        $query = "SELECT * FROM t_categorie ORDER BY nom ASC;";
-
-        // Appeler la méthode pour executer la requête
-        $result = $this->querySimpleExecute($query);
-
-        // Retour tous les catégories
-        return $result;
-    }
-
-    // Afficher les editeurs
-    public function listOuvrages()
-    {
-        // Avoir la requête sql
-        $query = "SELECT DISTINCT editeur FROM t_ouvrage ORDER BY editeur ASC;";
-
-        // Appeler la méthode pour executer la requête
-        $result = $this->querySimpleExecute($query);
-
-        // Retour tous les editeurs
-        return $result;
-    }
-
-    // Ajouter un auteur
-    public function addAuteur($datas)
-    {
-
-        var_dump($_POST);
-
-        // Recuperer les données
-        $nom = $datas['authorNom'];
-        $prenom = $datas['authorPrenom'];
-
-        // Avoir la requête sql
         $query = "INSERT INTO `t_ecrivain`(`ecrivain_id`, `nom`, `prenom`) VALUES (DEFAULT,:nom,:prenom)";
 
-        // Avoir la list PDO pour requête prépare sql
         $binds = [];
-        $binds[] = [":nom", $nom, PDO::PARAM_STR];
-        $binds[] = [":prenom", $prenom, PDO::PARAM_STR];
+        $binds[] = [":nom", $surname, PDO::PARAM_STR];
+        $binds[] = [":prenom", $forename, PDO::PARAM_STR];
 
-        // Méthode pour executer la requête
-        $req = $this->queryPrepareExecute($query, $binds);
-
-        // Retour tous les enseignants
-        return $req;
+        // Méthode pour éxecuter la requête
+        $this->queryPrepareExecute($query, $binds);
     }
 
-    // Ajouter un catègorie
-    public function addCategorie($datas)
+    // Ajoute une catégorie
+    public function addCategory($categoryName)
     {
-        var_dump($_POST);
-
-        // Recuperer les données
-        $nom = $datas['categorieNom'];
-
         // Avoir la requête sql
         $query = "INSERT INTO `t_categorie`(`categorie_id`, `nom`) VALUES (DEFAULT,:nom)";
 
         // Avoir la list PDO pour requête prépare sql
         $binds = [];
-        $binds[] = [":nom", $nom, PDO::PARAM_STR];
+        $binds[] = [":nom", $categoryName, PDO::PARAM_STR];
 
         // Méthode pour executer la requête
-        $req = $this->queryPrepareExecute($query, $binds);
-
-        // Retour tous les enseignants
-        return $req;
+        $this->queryPrepareExecute($query, $binds);
     }
 
-    // Afficher les editeurs
-    public function listEditeurs()
+    // Récupère les éditeurs
+    public function getAllEditors()
     {
         // Avoir la requête sql
-        $query = "SELECT * FROM t_ouvrage";
+        $query = "SELECT DISTINCT `editeur` FROM `t_ouvrage`";
 
         // Appeler la méthode pour executer la requête
-        $result = $this->querySimpleExecute($query);
+        $req = $this->querySimpleExecute($query);
+
+        $editors = $this->formatData($req);
 
         // Retour tous les enseignants
-        return $result;
+        return $editors;
     }
 }

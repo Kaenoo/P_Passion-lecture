@@ -15,10 +15,12 @@ $booksController = new booksController();
 // Vérifie que l'user soit bien connecté
 if ($userController->isUserConnected() !== true) {
   header("Location: ./index.php");
+  exit;
 }
 // Vérifie si l'user est admin ou auteur de cette page
 elseif ($userController->isUserAdmin($_SESSION["user"]["userID"]) === false && $_SESSION["user"]["userID"] != $_GET["userID"]) {
   header('Location: ./userbooks.php?userID='. $_GET["userID"] . '');
+  exit;
 }
 
 // Supprime l'ouvrage lors du clic
@@ -26,6 +28,7 @@ if (isset($_POST["confirmDelete"])) {
   $booksController->delete($_POST["confirmDelete"]);
   $booksController->deleteImgCoverBook($_POST["pathBookCover"]);
   header('Location: ./myBooks.php?userID='. $_GET["userID"] . '');
+  exit;
 }
 
 ?>
@@ -42,7 +45,7 @@ if (isset($_POST["confirmDelete"])) {
     <?php include("./views/header.php"); ?>
     
     <main class="lg:px-12 text-justify">
-      <h1 class="mt-4 mb-8 text-2xl lg:text-4xl font-bold text-center">Mes publications d'ouvrages</h1>
+      <h1 class="mt-4 mb-8 text-3xl md:text-4xl font-bold text-center">Mes publications d'ouvrages</h1>
       
       
       
@@ -60,7 +63,7 @@ if (isset($_POST["confirmDelete"])) {
             <div tabindex="0" role="button" class="font-bold text-3xl align-text-top">...</div>
             <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-14 shadow">
               <li>
-                <a class="p-1 text-center" href="./editBook.php">
+                <a class="p-1 text-center" href="./editBook.php?id='. $bookArray[0] . '">
                   <img class="size-6" src="./img/edit.png" alt="Modifier">
                 </a>
               </li>

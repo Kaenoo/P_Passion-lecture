@@ -108,13 +108,13 @@
       }
       else
       {
+
         $listBooks = $db->listBooks($index, $limit);
       }
 
         foreach ($listBooks as $dataBook)
         { 
-
-          echo "<div class = 'flex justify-between mx-30'>";
+            echo "<div class = 'flex justify-between mx-30'>";
 
             echo "<div class='h-1/4 w-1/4 mb-2 flex-1 p-2'>";
             
@@ -126,7 +126,6 @@
               $listPseudoUser = $db->listPseudoUser ($dataBook["utilisateur_id"]);
               foreach ($listPseudoUser as $pseudoUser)
               {
-
                 echo "<div class='flex justify-end'>";
                 echo '<a href="userBooks.php?userID='. $pseudoUser["utilisateur_id"] .'">' . $pseudoUser["pseudo"] . "</a>" . "<br> ";
                 echo "</div>";
@@ -144,7 +143,7 @@
                 echo "</div>";
               
               echo "<div class='text-sm'>";
-
+              
               $listCategoryBook = $db->listCategoryBook ($dataBook["categorie_id"]);
               foreach ($listCategoryBook as $categoryBook)
               {

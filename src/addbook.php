@@ -171,21 +171,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </div>
             </dialog>
 
-            <!-- Nombre de pages et extrait -->
-            <?php
-            $data[0][0] = "Nombre de pages";
-            $data[0][1] = "pages";
-            $data[1][0] = "Extrait (.pdf)";
-            $data[1][1] = "extrait";
+            <!-- Nombre de pages -->
+            <div class="flex flex-col items-center md:items-start gap-2">
+            <label for="pages" class="ml-3 text-gray-600 text-lg font-medium">Nombre de pages</label>
+            <input id="pages" name="pages" pattern="^[0-9]+$" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5" required>
+            </div>
 
-            for ($i = 0; $i < 2; $i++) {
-              $html = '<div class="flex flex-col items-center md:items-start gap-2">
-            <label for="' . $data[$i][1] . '" class="ml-3 text-gray-600 text-lg font-medium">' . $data[$i][0] . '</label>
-            <input id="' . $data[$i][1] . '" name="' . $data[$i][1] . '" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5">
-            </div>';
-              echo $html;
-            }
-            ?>
+            <!-- Extrait  -->
+            <div class="flex flex-col items-center md:items-start gap-2">
+            <label for="extrait" class="ml-3 text-gray-600 text-lg font-medium">Extrait au format PDF (optionnel)</label>
+            <input id="extrait" name="extrait" pattern="\.pdf$" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5">
+            </div>
 
             <!-- Éditeur -->
             <div class="flex flex-col items-center md:items-start gap-2">
@@ -225,13 +221,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Date d'édition -->
             <div class="flex flex-col items-center md:items-start gap-2">
               <label for="published_date" class="ml-3 text-gray-600 text-lg font-medium">Date d'édition</label>
-              <input type="number" id="published_date" name="published_date" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5" max="9999" placeholder="YYYY">
+              <input type="number" id="published_date" name="published_date" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5" max="9999" placeholder="YYYY" required>
             </div>
 
             <!-- Résumé -->
             <div class="flex flex-col items-center md:items-start gap-2">
               <label for="summary" class="ml-3 text-gray-600 text-lg font-medium">Résumé</label>
-              <textarea id="summary" name="summary" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5"></textarea>
+              <textarea id="summary" name="summary" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5" required></textarea>
             </div>
           </div>
 
@@ -241,8 +237,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <div class="md:col-start-2">
             <div class="flex flex-col items-center md:col-start-2 content-center mb-4">
               <p class="text-gray-600 font-medium mb-2 py-5">Image de couverture</p>
-              <input action="#" type="file" accept=".png, .jpg, .jpeg" name="image" id="image" onchange="loadFile(event)" method="post" enctype="multipart/form-data">
-              <img class="pt-5 w-80 h-auto" id="output" />
+              <input action="#" type="file" accept=".png, .jpg, .jpeg" name="image" id="image" onchange="loadFile(event)" method="post" enctype="multipart/form-data" required>
+              <img class="pt-5 w-80 h-auto" id="output" required />
               <script src="./js/loadFile.js"></script>
             </div>
             <!-- Submit Button -->

@@ -2671,16 +2671,8 @@ html {
   grid-column-start: 2;
 }
 
-.m-10 {
-  margin: 2.5rem;
-}
-
 .m-auto {
   margin: auto;
-}
-
-.m-16 {
-  margin: 4rem;
 }
 
 .mx-auto {
@@ -2688,24 +2680,14 @@ html {
   margin-right: auto;
 }
 
-.my-4 {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
-.mx-16 {
-  margin-left: 4rem;
-  margin-right: 4rem;
-}
-
-.my-5 {
-  margin-top: 1.25rem;
-  margin-bottom: 1.25rem;
-}
-
 .my-10 {
   margin-top: 2.5rem;
   margin-bottom: 2.5rem;
+}
+
+.my-4 {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .mb-1 {
@@ -3078,20 +3060,8 @@ html {
   padding: 0.5rem;
 }
 
-.p-5 {
-  padding: 1.25rem;
-}
-
 .p-6 {
   padding: 1.5rem;
-}
-
-.p-10 {
-  padding: 2.5rem;
-}
-
-.p-16 {
-  padding: 4rem;
 }
 
 .px-12 {
@@ -3206,14 +3176,6 @@ html {
   vertical-align: text-top;
 }
 
-.font-serif {
-  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-}
-
-.font-mono {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-}
-
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -3273,22 +3235,6 @@ html {
 
 .font-semibold {
   font-weight: 600;
-}
-
-.leading-4 {
-  line-height: 1rem;
-}
-
-.leading-10 {
-  line-height: 2.5rem;
-}
-
-.leading-8 {
-  line-height: 2rem;
-}
-
-.leading-9 {
-  line-height: 2.25rem;
 }
 
 .leading-7 {
@@ -3616,10 +3562,6 @@ html {
     padding: 2rem;
   }
 
-  .md\:p-16 {
-    padding: 4rem;
-  }
-
   .md\:px-12 {
     padding-left: 3rem;
     padding-right: 3rem;
@@ -3628,11 +3570,6 @@ html {
   .md\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
-  }
-
-  .md\:text-2xl {
-    font-size: 1.5rem;
-    line-height: 2rem;
   }
 
   .md\:leading-9 {
@@ -3670,14 +3607,14 @@ html {
     margin-right: 0px;
   }
 
-  .lg\:my-4 {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-
   .lg\:mx-16 {
     margin-left: 4rem;
     margin-right: 4rem;
+  }
+
+  .lg\:my-4 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 
   .lg\:mb-0 {
@@ -3757,12 +3694,12 @@ html {
        object-fit: scale-down;
   }
 
-  .lg\:p-5 {
-    padding: 1.25rem;
-  }
-
   .lg\:p-16 {
     padding: 4rem;
+  }
+
+  .lg\:p-5 {
+    padding: 1.25rem;
   }
 
   .lg\:px-12 {
@@ -3809,6 +3746,11 @@ html {
     text-align: left;
   }
 
+  .lg\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
   .lg\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
@@ -3827,11 +3769,6 @@ html {
   .lg\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
-  }
-
-  .lg\:text-2xl {
-    font-size: 1.5rem;
-    line-height: 2rem;
   }
 }
 

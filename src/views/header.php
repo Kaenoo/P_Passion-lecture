@@ -13,7 +13,7 @@ $userController = new userController();
     </a>
 
     <!-- Menu version ordinateur -->
-    <div class="hidden lg:visible lg:flex lg:ml-auto lg:space-x-14 pt-8">
+    <div class="hidden lg:visible lg:flex lg:ml-auto lg:space-x-14 py-2">
       
       <?php if (isset($_SESSION["user"])) {
         echo '<a href="./addBook.php">

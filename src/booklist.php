@@ -54,7 +54,8 @@
                     $categories = $db->getAllCategories();
                     foreach ($categories as $key => $value) 
                     {
-                      echo '<option value="'. $value . '">' . $value . '</option>';
+                      
+                      echo '<option value="'. $value["nom"]. '">' . $value["nom"] . '</option>';
                     }
                 ?>
               </select>
@@ -114,7 +115,6 @@
         { 
             echo "<div class = 'flex justify-between mx-30'>";
             echo "<div class='h-1/4 w-1/4 mb-2 flex-1 p-2'>";
-            
             
             echo '<img src="'.$dataBook["image_couverture"].'" alt="Couverture du livre">';
             echo "</div>";

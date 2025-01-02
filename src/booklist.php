@@ -108,14 +108,12 @@
       }
       else
       {
-
         $listBooks = $db->listBooks($index, $limit);
       }
 
         foreach ($listBooks as $dataBook)
         { 
             echo "<div class = 'flex justify-between mx-30'>";
-
             echo "<div class='h-1/4 w-1/4 mb-2 flex-1 p-2'>";
             
             
@@ -140,10 +138,8 @@
                     echo $authorBook["prenom"] . " ";
                     echo $authorBook["nom"] . "</br>";
                   }
-                echo "</div>";
-              
+                echo "</div>";            
               echo "<div class='text-sm'>";
-              
               $listCategoryBook = $db->listCategoryBook ($dataBook["categorie_id"]);
               foreach ($listCategoryBook as $categoryBook)
               {
@@ -159,7 +155,6 @@
           echo "</div>";
           echo "</div>";
         }
-
 
         // Pagination adaptée au nombre de livres
         if ($nbOfBooks > $limit) //pagination == 1

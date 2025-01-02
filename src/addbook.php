@@ -123,7 +123,7 @@ function addList($data, $addData)
                     <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
                   </form>
                   <div class="flex items-center justify-center">
-                    <form action="" method="post" class="space-y-4">
+                    <form action="#" method="post" class="space-y-4">
                       <h3 class="text-lg font-bold">Ajouter un auteur!</h3>
                       <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
                       <label class="input input-bordered flex items-center gap-2">
@@ -242,7 +242,7 @@ function addList($data, $addData)
                 <label for="published_date" class="block text-gray-600 font-medium">Date d'édition</label>
               </div>
               <div class="w-3/4">
-                <input type="number" id="published_date" name="published_date" class="border border-gray-300 rounded-lg px-4 py-2 w-full" max="9999" placeholder="YYYY">
+                <input type="number" id="published_date" default="2000" name="published_date" class="border border-gray-300 rounded-lg px-4 py-2 w-full" max="9999" placeholder="YYYY">
               </div>
             </div>
 

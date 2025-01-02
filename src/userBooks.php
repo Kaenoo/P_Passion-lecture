@@ -44,8 +44,8 @@ else if ($userController->isUserAdmin($_SESSION["user"]["userID"]) === true || $
       <?php
 
         // Vérifie si l'user a publié des ouvrages
-        if ($booksController->userHaveBooks($db, $_GET["userID"])) {
-          foreach ($booksController->showMyBooks($db, $_GET["userID"]) as $index => $bookArray) {
+        if ($booksController->userHaveBooks($_GET["userID"])) {
+          foreach ($booksController->showMyBooks($_GET["userID"]) as $index => $bookArray) {
             $html = '<div class="pt-6 lg:pt-0 mb-5 lg:mb-0 sm:h-full sm:w-full p-2 bg-gray-200 rounded-2xl">'; 
             
             // Affichage de la couverture et du tire de l'ouvrage

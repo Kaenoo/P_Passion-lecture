@@ -37,7 +37,7 @@
 
       <!-- Barre de recherche -->
       <form action="#" method="get">
-        <div class = 'searchBar'>
+        <div class = 'flex justify-center mb-4'>
             <div class="join">
                 <div>
                 <div>
@@ -107,35 +107,41 @@
         $listBooks = $db->searchBooks($_GET, $index, $limit);
       }
       else
-      {
+      {   
         $listBooks = $db->listBooks($index, $limit);
       }
 
         foreach ($listBooks as $dataBook)
         { 
-          echo "<div class = 'globalDataBook'>";
-          echo "<div class='cat'>";
-          echo '<img src="'.$dataBook["image_couverture"].'" alt="Couverture du livre">';
-          echo "</div>";
+          echo "<div class = 'flex justify-between mx-30'>";
 
-            echo "<div class='textDataBook'>";
+            echo "<div class='h-1/4 w-1/4 mb-2 flex-1 p-2'>";
+            
+            
+            echo '<img src="'.$dataBook["image_couverture"].'" alt="Couverture du livre">';
+            echo "</div>";
+
+            echo "<div class='flex flex-col flex-1 p-2'>";
               $listPseudoUser = $db->listPseudoUser ($dataBook["utilisateur_id"]);
               foreach ($listPseudoUser as $pseudoUser)
               {
-                echo "<div class='pseudo'>";
-                echo '<a href="userBooks.php?id='. $pseudoUser["utilisateur_id"] .'">' . $pseudoUser["pseudo"] . "</a>" . "<br> ";
+                echo "<div class='flex justify-end'>";
+                echo '<a href="userBooks.php?userID='. $pseudoUser["utilisateur_id"] .'">' . $pseudoUser["pseudo"] . "</a>" . "<br> ";
                 echo "</div>";
               }
-                echo "<div class='directDataBook'>";
-                echo '<a href="book.php?id='. $dataBook["ouvrage_id"] .'">' . $dataBook["titre"] . "</a>" . ", ";
-                
-                $listAuthorBook = $db->listAuthorBook($dataBook["ecrivain_id"]);
-                foreach ($listAuthorBook as $authorBook)
-                {
-                  echo $authorBook["prenom"] . " ";
-                  echo $authorBook["nom"] . "</br>";
-                }
+                echo "<div class='flex flex-row font-clamp'>";
+
+                  echo '<a href="book.php?id='. $dataBook["ouvrage_id"] .'">' . $dataBook["titre"] . "</a>" . ", ";
+                  
+                  $listAuthorBook = $db->listAuthorBook($dataBook["ecrivain_id"]);
+                  foreach ($listAuthorBook as $authorBook)
+                  {
+                    echo $authorBook["prenom"] . " ";
+                    echo $authorBook["nom"] . "</br>";
+                  }
+                echo "</div>";
               
+              echo "<div class='text-sm'>";
               $listCategoryBook = $db->listCategoryBook ($dataBook["categorie_id"]);
               foreach ($listCategoryBook as $categoryBook)
               {
@@ -143,7 +149,6 @@
               }
 
               $listSummaryBook = $db->listSummaryBook ($dataBook["ouvrage_id"]);
-              //var_dump($listSummaryBook);
               foreach ($listSummaryBook as $summaryBook)
               {
                 echo $summaryBook["resume"] . "</br>";
@@ -191,65 +196,7 @@
   
       ?>
     </main>
-
   <?php include("./views/footer.php");?>
-
-<style>
-   .globalDataBook {
-          display : flex;
-          /*align-items : center;
-          justify-content: center;*/
-          /*margin-left: 30%;
-          margin-right: 30%;*/
-          width: 40%; /* Définit la largeur de l'élément à 40% de la largeur du conteneur parent */
-      margin-left: auto; /* Centrer l'élément horizontalement */
-    margin-right: auto; /* Centrer l'élément horizontalement */
-    text-align : center;
-        }
-
-        img {
-        height: 100%;
-        width: 100%;
-        object-fit: contain;
-        }
-
-        .cat {
-        height:300px;
-        width: 300px;
-        margin-bottom: 2%;
-        /*object-fit: cover;*/
-        }
-
-        .textDataBook
-        {
-          display : flex;
-          flex-direction: column;
-        }
-
-      .pseudo {
-        display : flex;
-        justify-content:flex-end;
-      }
-
-      .directDataBook{
-        display : flex;
-        flex-direction: row;
-        font-size: clamp(1rem, 3vw, 2rem);
-
-      }
-
-      .searchBar{
-        display: flex;
-        justify-content : center;
-        margin-bottom: 4%;
-      }
-
-      .flex-container {
-        display: flex;
-        /* flex-wrap : wrap;
-        flex-direction: column; */
-      }
-</style>
 </body>
 </body>
 </html>

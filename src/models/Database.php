@@ -539,7 +539,7 @@ class Database
         // Mise en forme en tableau
         $listSummaryBook = $this->formatData($result);
 
-        // Retourne la catégorie des livres
+
         return $listSummaryBook;
     }
 

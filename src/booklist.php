@@ -7,7 +7,6 @@
   include("./models/database.php");
   include("./controllers/books.php");
   $db = new Database();
-  $booksController = new booksController();
 
   $limit = 5;
   $page = 4;
@@ -52,7 +51,7 @@
                 </option>
                 <!-- Affichage dynamique des catégories -->
                 <?php 
-                    $categories = $booksController->categories($db);
+                    $categories = $db->getAllCategories();
                     foreach ($categories as $key => $value) 
                     {
                       echo '<option value="'. $value . '">' . $value . '</option>';

@@ -88,7 +88,7 @@ class booksController {
         return $this->db->getAllEditors();
     }
 
-    // Retourne tous les éditeurs
+    // Retourne tous les auteurs
     public function authors(){
         return $this->db->getAllAuthors();
     }

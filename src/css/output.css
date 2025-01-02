@@ -107,7 +107,7 @@
 }
 
 /*
-! tailwindcss v3.4.15 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -2813,12 +2813,12 @@ html {
   height: 100%;
 }
 
-.min-h-full {
-  min-height: 100%;
-}
-
 .min-h-\[100px\] {
   min-height: 100px;
+}
+
+.min-h-full {
+  min-height: 100%;
 }
 
 .w-1\/4 {

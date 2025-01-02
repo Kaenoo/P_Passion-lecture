@@ -238,7 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Résumé -->
             <div class="flex flex-col items-center md:items-start gap-2">
               <label for="summary" class="ml-3 text-gray-600 text-lg font-medium">Résumé</label>
-              <textarea id="summary" name="summary" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5" required><?= $dataBook["resume"] ?></textarea>
+              <textarea id="summary" name="summary" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 min-h-[100px] w-4/5" required><?= $dataBook["resume"] ?></textarea>
             </div>
           </div>
 

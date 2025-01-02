@@ -2817,6 +2817,10 @@ html {
   min-height: 100%;
 }
 
+.min-h-\[100px\] {
+  min-height: 100px;
+}
+
 .w-1\/4 {
   width: 25%;
 }

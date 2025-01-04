@@ -53,7 +53,7 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
         foreach ($booksController->booksPresentation() as $index => $bookArray) {
           echo '<div> <a href="./book.php?id=' . $bookArray[0] .'">';
           echo '<img class="block mx-auto p-6 md:p-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[0] . '">';
-          echo '<h2 class="mb-2 md:mb-5 text-center justify-center font-light text-2xl">' . $bookArray[1] .'</h2>';
+          echo '<h2 class="mb-2 md:mb-5 text-center justify-center font-light text-2xl hover:text-green-700 hover:font-normal">' . $bookArray[1] .'</h2>';
           echo '</a> </div>';  
         }
       ?>

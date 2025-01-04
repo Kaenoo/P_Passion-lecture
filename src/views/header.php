@@ -3,14 +3,17 @@ Auteur : Kaeno Eyer
 Date : 03.12.2024
 Description :  En-tête du site web
 -->
+<?
+$userController = new userController();
+?>
+
 <header class="sticky z-50 top-0 flex items-center py-6 px-4 lg:px-28 bg-green-700">
     <a href="../index.php">
       <img class="w-52 sm:w-80" src="./img/iconWebsite.png" alt="Logo du site">  
-    <!-- <h1 class="text-3xl font-bold lg:text-4xl ">Passion Lecture</h1> -->
     </a>
 
     <!-- Menu version ordinateur -->
-    <div class="hidden lg:visible lg:flex lg:ml-auto lg:space-x-14 ">
+    <div class="hidden lg:visible lg:flex lg:ml-auto lg:space-x-14 pt-8">
       
       <?php if (isset($_SESSION["user"])) {
         echo '<a href="./addBook.php">
@@ -20,17 +23,23 @@ Description :  En-tête du site web
         <img class="lg:size-12" src="img/book_list.png" alt="Liste des ouvrages">
       </a>
 
-      <?php 
-      if (!isset($_SESSION["user"])) {
-        echo '<a href="./login.php">
-              <img class="lg:size-12" src="img/account.png" alt="Compte utilisateur">
-              </a>';
-      }
-      else { 
-        include('./controllers/menu.php'); 
-      }
-      ?>
-    </div>
+      <div class="flex flex-col">
+        <?php 
+        if (!isset($_SESSION["user"])) {
+          echo '<a href="./login.php">
+                <img class="lg:size-12" src="img/account.png" alt="Compte utilisateur">
+                </a>';
+        }
+        else { 
+          include('./controllers/menu.php'); 
+        }
+        
+        if ($userController->isUserConnected()) {
+          echo '<p class="text-center font-semibold text-lg">' . $_SESSION["user"]["pseudo"] . '</p>';
+        }
+        ?>
+      </div>
+</div>
 
     <!-- Menu version mobile -->
     <div class="lg:hidden flex ml-auto">

@@ -6,7 +6,9 @@
   session_start();
   include("./models/database.php");
   include("./controllers/books.php");
+  include("./controllers/user.php");
   $db = new Database();
+  $userController = new userController();
 
   $limit = 5;
   $page = 4;

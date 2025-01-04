@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </div>
             </div>
 
-            <dialog id="modalAddAuteur" class="modal">
+            <dialog id="modalAddAuteur" class="modal modal-bottom sm:modal-middle">
               <div class="modal-box">
                 <form method="dialog">
                   <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="flex items-center justify-center">
                   <form action="" method="post" class="space-y-4">
                     <h3 class="text-lg font-bold">Ajouter un auteur</h3>
-                    <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour quitter</p>
+                    <p class="py-4">Appuyez sur la touche ESC ou sur la croix pour quitter</p>
                     <label class="input input-bordered flex items-center gap-2">
                       <input id="author" name="authorPrenom" type="text" class="grow" placeholder="Prénom" />
                     </label>
@@ -160,7 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </div>
             </div>
 
-            <dialog id="modaladdCategory" class="modal">
+            <dialog id="modaladdCategory" class="modal modal-bottom sm:modal-middle">
               <div class="modal-box">
                 <form method="dialog">
                   <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
@@ -168,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="flex items-center justify-center">
                   <form action="#" method="post" class="space-y-4">
                     <h3 class="text-lg font-bold">Ajouter une catégorie</h3>
-                    <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour quitter</p>
+                    <p class="py-4">Appuyez sur la touche ESC ou sur la croix pour quitter</p>
                     <label class="input input-bordered flex items-center gap-2">
                       <input id="addCategory" name="categorieNom" type="text" class="grow" placeholder="Catégorie" />
                     </label>
@@ -209,7 +209,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modalAddEditeur.showModal()">+</button>
               </div>
             </div>
-            <dialog id="modalAddEditeur" class="modal">
+            <dialog id="modalAddEditeur" class="modal modal-bottom sm:modal-middle">
               <div class="modal-box">
                 <form method="dialog">
                   <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
@@ -217,7 +217,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="flex items-center justify-center">
                   <form action="#" method="post" class="space-y-4">
                     <h3 class="text-lg font-bold">Ajouter un éditeur</h3>
-                    <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour quitter</p>
+                    <p class="py-4">Appuyez sur la touche ESC ou sur la croix pour quitter</p>
                     <label class="input input-bordered flex items-center gap-2">
                       <input id="addEditeur" name="editeur" type="text" class="grow" placeholder="Éditeur" />
                     </label>

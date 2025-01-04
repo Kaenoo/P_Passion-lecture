@@ -109,39 +109,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modalAddAuteur.showModal()">+</button>
               </div>
-              <dialog id="modalAddAuteur" class="modal">
-                <div class="modal-box">
-                  <form method="dialog">
-                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
-                  </form>
-                  <div class="flex items-center justify-center">
-                    <form action="#" method="post" class="space-y-4">
-                      <h3 class="text-lg font-bold">Ajouter un auteur!</h3>
-                      <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour ajouter</p>
-                      <label class="input input-bordered flex items-center gap-2">
-                        <input id="author" name="authorPrenom" type="text" class="grow" placeholder="Prénom" />
-                      </label>
-                      <label class="input input-bordered flex items-center gap-2">
-                        <input id="author" name="authorNom" type="text" class="grow" placeholder="Nom" />
-                      </label>
-                      <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
-                        Ajouter
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              </dialog>
-         </div>
+            </div>
 
-            <dialog id="modalAddAuteur" class="modal">
+            <dialog id="modalAddAuteur" class="modal modal-bottom sm:modal-middle">
               <div class="modal-box">
                 <form method="dialog">
                   <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
                 </form>
                 <div class="flex items-center justify-center">
-                  <form action="" method="post" class="space-y-4">
+                  <form action="#" method="post" class="space-y-4">
                     <h3 class="text-lg font-bold">Ajouter un auteur</h3>
-                    <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour quitter</p>
+                    <p class="py-4">Appuyez sur la touche ESC ou sur la croix pour quitter</p>
                     <label class="input input-bordered flex items-center gap-2">
                       <input id="author" name="authorPrenom" type="text" class="grow" placeholder="Prénom" />
                     </label>
@@ -155,7 +133,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
               </div>
             </dialog>
-
 
             <!-- Catégorie -->
             <div class="flex flex-col items-center md:items-start gap-2">
@@ -173,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               </div>
             </div>
 
-            <dialog id="modaladdCategory" class="modal">
+            <dialog id="modaladdCategory" class="modal modal-bottom sm:modal-middle">
               <div class="modal-box">
                 <form method="dialog">
                   <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
@@ -181,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="flex items-center justify-center">
                   <form action="#" method="post" class="space-y-4">
                     <h3 class="text-lg font-bold">Ajouter une catégorie</h3>
-                    <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour quitter</p>
+                    <p class="py-4">Appuyez sur la touche ESC ou sur la croix pour quitter</p>
                     <label class="input input-bordered flex items-center gap-2">
                       <input id="addCategory" name="categorieNom" type="text" class="grow" placeholder="Catégorie" />
                     </label>
@@ -195,14 +172,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Nombre de pages -->
             <div class="flex flex-col items-center md:items-start gap-2">
-            <label for="pages" class="ml-3 text-gray-600 text-lg font-medium">Nombre de pages</label>
-            <input id="pages" name="pages" pattern="^[0-9]+$" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5" required>
+              <label for="pages" class="ml-3 text-gray-600 text-lg font-medium">Nombre de pages</label>
+              <input id="pages" name="pages" pattern="^[0-9]+$" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5" required>
             </div>
 
             <!-- Extrait  -->
             <div class="flex flex-col items-center md:items-start gap-2">
-            <label for="extrait" class="ml-3 text-gray-600 text-lg font-medium">Extrait au format PDF (optionnel)</label>
-            <input id="extrait" name="extrait" pattern="\.pdf$" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5">
+              <label for="extrait" class="ml-3 text-gray-600 text-lg font-medium">Extrait au format PDF (optionnel)</label>
+              <input id="extrait" name="extrait" pattern="\.pdf$" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5">
             </div>
 
             <!-- Éditeur -->
@@ -219,26 +196,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </select>
                 <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded-lg shadow" onclick="modalAddEditeur.showModal()">+</button>
               </div>
-              <dialog id="modalAddEditeur" class="modal">
-                <div class="modal-box">
-                  <form method="dialog">
-                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
-                  </form>
-                  <div class="flex items-center justify-center">
-                    <form action="#" method="post" class="space-y-4">
-                      <h3 class="text-lg font-bold">Ajouter un éditeur</h3>
-                      <p class="py-4">Appuyez sur la touche ESC ou cliquez sur le bouton ci-dessous pour quitter</p>
-                      <label class="input input-bordered flex items-center gap-2">
-                        <input id="addEditeur" name="editeur" type="text" class="grow" placeholder="Éditeur" />
-                      </label>
-                      <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
-                        Ajouter
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              </dialog>
             </div>
+            <dialog id="modalAddEditeur" class="modal modal-bottom sm:modal-middle">
+              <div class="modal-box">
+                <form method="dialog">
+                  <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">X</button>
+                </form>
+                <div class="flex items-center justify-center">
+                  <form action="#" method="post" class="space-y-4">
+                    <h3 class="text-lg font-bold">Ajouter un éditeur</h3>
+                    <p class="py-4">Appuyez sur la touche ESC ou sur la croix pour quitter</p>
+                    <label class="input input-bordered flex items-center gap-2">
+                      <input id="addEditeur" name="editeur" type="text" class="grow" placeholder="Éditeur" />
+                    </label>
+                    <button type="submit" class="btn w-full mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
+                      Ajouter
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </dialog>
 
             <!-- Date d'édition -->
             <div class="flex flex-col items-center md:items-start gap-2">
@@ -252,7 +229,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <textarea id="summary" name="summary" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 min-h-[100px] w-4/5" required></textarea>
             </div>
           </div>
-
 
           <!-- Right Column -->
           <!-- Image -->
@@ -268,9 +244,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <button type="submit" name="submit" value="save" class="bg-green-700 hover:bg-green-600 text-white text-lg font-medium px-6 py-2 rounded-lg">Enregistrer</button>
             </div>
           </div>
+        </div>
       </form>
     </div>
-  </div>
   </main>
   <?php
   include("./views/footer.php");

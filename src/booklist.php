@@ -126,7 +126,7 @@
               foreach ($listPseudoUser as $pseudoUser)
               {
                 echo "<div class='flex justify-end'>";
-                echo '<a href="userBooks.php?userID='. $pseudoUser["utilisateur_id"] .'">' . $pseudoUser["pseudo"] . "</a>" . "<br> ";
+                echo '<a class="hover:text-green-700" href="userBooks.php?userID='. $pseudoUser["utilisateur_id"] .'">' . $pseudoUser["pseudo"] . "</a>" . "<br> ";
                 echo "</div>";
               }
                 echo "<div class='flex flex-row font-clamp'>";

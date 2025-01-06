@@ -3785,3 +3785,50 @@ html {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
+
+.btn-square:where(.join-item){
+  background-color : transparent;
+}
+
+.mx-30{
+  margin-left : 30%;
+  margin-right : 30%;
+}
+
+.h-300px{
+  height:300px;
+}
+
+.w-300px{
+  width: 300px;
+}
+
+.mb-2:where(.h-300px .w-300px){
+  margin-bottom: 2%;
+}
+
+.object-contain {
+  object-fit: contain;
+}
+
+.h-300px .w-300px img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.font-clamp{
+  font-size: clamp(1rem, 3vw, 1.8rem);
+}
+
+.mb-4:where(.justify-center){
+  margin-bottom: 4%;
+}
+
+.flex-1{
+  flex: 1;
+}
+
+.font-clamp .normal{
+  font-size: clamp(1rem, 1vw, 1.8rem);
+}

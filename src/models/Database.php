@@ -452,7 +452,7 @@ class Database
 
         $listAuthorBook = $this->formatData($result);
 
-        return $listAuthorBook[0];
+        return $listAuthorBook;
     }
 
     // Affiche le pseudo d'un utilisateur

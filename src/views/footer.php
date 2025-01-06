@@ -10,7 +10,7 @@ Description :  Pied de page du site web
 
     </div>
     <div class="col-start-1 px-4 lg:pl-8">
-        <details open>
+        <details>
             <summary class="mb-2 pt-4 lg:pt-0 lg:mb-4 font-semibold">Contact</summary>
             <ul>
                 <li><a class="text-sm mb-1 lg:mb-0 hover:underline" href="mailto:kaeno.eyer@eduvaud.ch">Kaeno.eyer@eduvaud.ch</a></li>

@@ -23,7 +23,7 @@ $userController = new userController();
         <img class="lg:size-12" src="img/book_list.png" alt="Liste des ouvrages">
       </a>
 
-      <div class="flex flex-col">
+      <div class="flex flex-col justify-center">
         <?php 
         if (!isset($_SESSION["user"])) {
           echo '<a href="./login.php">

@@ -34,7 +34,7 @@
 
     <main>
       <!-- Lien pour revenir sur l'affichage par défaut -->
-      <h1 class="py-4 text-4xl font-bold text-center"> <a href="bookList.php">Liste des ouvrages </a></h1>
+      <h1 class="mt-2 lg:my-4 text-3xl md:text-4xl font-bold text-center"> <a href="bookList.php">Liste des ouvrages </a></h1>
 
       <!-- Barre de recherche -->
       <form action="#" method="get">

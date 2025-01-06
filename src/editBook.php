@@ -232,7 +232,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Date d'édition -->
             <div class="flex flex-col items-center md:items-start gap-2">
               <label for="published_date" class="ml-3 text-gray-600 text-lg font-medium">Date d'édition</label>
-              <input type="number" id="published_date" name="published_date" value="<?= $dataBook["date_edition"] ?>" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5" max="9999" placeholder="YYYY" required>
+              <input type="number" id="published_date" name="published_date" value="<?= $dataBook["date_edition"] ?>" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5" min="1000" max="9999" placeholder="YYYY" required>
             </div>
 
             <!-- Résumé -->

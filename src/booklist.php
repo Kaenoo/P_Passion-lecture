@@ -115,10 +115,10 @@
 
         foreach ($listBooks as $dataBook)
         { 
-            echo "<div class = 'flex justify-between mx-30'>";
-            echo "<div class='h-1/4 w-1/4 mb-2 flex-1 p-2'>";
+            echo "<div class = 'flex justify-between mx-30 border-2 m-1 p-4'>";
+            echo "<div class='h-1/4 w-1/4 mb-2 flex-1 p-2 justify-center'>";
             
-            echo '<img src="'.$dataBook["image_couverture"].'" alt="Couverture du livre">';
+            echo '<img src="'.$dataBook["image_couverture"].'" alt="Couverture du livre" class="mx-20 w-2/5 h-2/5">';
             echo "</div>";
 
             echo "<div class='flex flex-col flex-1 p-2'>";

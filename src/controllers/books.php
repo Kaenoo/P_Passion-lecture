@@ -70,9 +70,9 @@ class booksController {
     }
 
     // Retourne le nom et prénom de l'écrivain
-    public function writerBook($writerID){
+    public function authorBook($writerID){
 
-        $content = $this->db->getBookWriter($writerID);
+        $content = $this->db->listAuthorBook($writerID);
         
         $writerName = $content["prenom"] . " " . $content["nom"];
 

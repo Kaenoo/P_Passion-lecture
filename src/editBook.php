@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <label for="author" class="ml-3 text-gray-600 text-lg font-medium">Auteur</label>
               <div class="flex justify-center md:justify-normal items-center md:items-start gap-1 w-full">
                 <select id="author" name="author" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-9/12">
-                  <option value="<?= $dataBook["ecrivain_id"]; ?>" selected><?= $booksController->writerBook($dataBook["ecrivain_id"]); ?></option>
+                  <option value="<?= $dataBook["ecrivain_id"]; ?>" selected><?= $booksController->authorBook($dataBook["ecrivain_id"]); ?></option>
                   <?php
                   foreach ($authors as $key => $author) {
                     if ($author["ecrivain_id"] !== $dataBook["ecrivain_id"]) {

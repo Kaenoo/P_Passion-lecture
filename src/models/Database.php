@@ -57,6 +57,21 @@ class Database
 
 
     /* ---------------- Fonctions (Compte utilisateur) ---------------- */
+    // Vérifie l'existence du compte dans la DB, si c'est le cas -> return les valeurs associées
+    public function checkAccount($login, $password)
+    {
+        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
+
+        $binds = [];
+        $binds[] = [":pseudo", $login, PDO::PARAM_STR];
+
+        $req = $this->queryPrepareExecute($query, $binds);
+
+        $verify = $this->formatData($req);
+
+       return $verify;
+    }
+
     // Récupère les donnéees du compte utilisateur
     public function getDataAccount($pseudo)
     {
@@ -79,7 +94,6 @@ class Database
     // Vérifie les droits d'un user
     public function getUserRight($userID)
     {
-
         $query = "SELECT `admin` FROM `t_utilisateur` WHERE `utilisateur_id` = :userID";
 
         $binds = [];
@@ -93,8 +107,8 @@ class Database
     }
 
     // Récupère le mot de passe haché d'un user
-    public function getPasswordUser($userID){
-
+    public function getPasswordUser($userID)
+    {
         $query = "SELECT `mot_de_passe` FROM `t_utilisateur` WHERE `utilisateur_id` = :userID";
 
         $binds = [];
@@ -108,7 +122,8 @@ class Database
     }
 
     // Change le mot de passe d'un user
-    public function changePassword($userID, $newPassword){
+    public function changePassword($userID, $newPassword)
+    {
         $query = "UPDATE `t_utilisateur` SET `mot_de_passe` = :newPassword WHERE `utilisateur_id` = :userID";
 
         $binds = [];
@@ -120,7 +135,8 @@ class Database
     }
 
     // Change les donnnées personnelles de l'user
-    public function changeDataUser($userID, $surname, $forename, $pseudo){
+    public function changeDataUser($userID, $surname, $forename, $pseudo)
+    {
         $query = "UPDATE `t_utilisateur` SET `pseudo`= :pseudo,`nom`= :surname,`prenom`= :forename WHERE `utilisateur_id` = :userID";
 
         $binds = [];
@@ -206,21 +222,6 @@ class Database
         return $book[0];
     }
 
-    // Récupère les données de l'écrivain
-    public function getBookWriter($writerID)
-    {
-        $query = "SELECT * FROM `t_ecrivain` WHERE `ecrivain_id` = :writerID";
-
-        $binds = [];
-        $binds[] = [":writerID", $writerID, PDO::PARAM_INT];
-
-        $req = $this->queryPrepareExecute($query, $binds);
-
-        $writer = $this->formatData($req);
-
-        return $writer[0];
-    }
-
     // Récupère la catégorie d'un ouvrage
     public function getBookCategory($categoryID)
     {
@@ -284,7 +285,6 @@ class Database
     // Donne une notation et un avis d'un user sur un ouvrage
     public function giveReviewOnABook($bookID, $userID, $note, $review)
     {
-
         $query = "INSERT INTO `t_apprecier`(`ouvrage_id`, `utilisateur_id`, `note`, `commentaire`) VALUES (:bookID, :userID, :note, :review)";
 
         $binds = [];
@@ -292,7 +292,6 @@ class Database
         $binds[] = [":userID", $userID, PDO::PARAM_INT];
         $binds[] = [":note", $note, PDO::PARAM_INT];
         $binds[] = [":review", $review, PDO::PARAM_STR];
-
 
         $this->queryPrepareExecute($query, $binds);
     }
@@ -308,7 +307,6 @@ class Database
         $req = $this->queryPrepareExecute($query, $binds);
 
         $reviews = $this->formatData($req);
-
 
         return $reviews;
     }
@@ -326,7 +324,8 @@ class Database
 
         $review = $this->formatData($req);
 
-        if (count($review) > 0) {
+        if (count($review) > 0) 
+        {
             return true;
         }
         return false;
@@ -366,16 +365,14 @@ class Database
 
         $req = $this->queryPrepareExecute($query, $binds);
 
-        // Mise en forme en tableau
         $searchBooks = $this->formatData($req);
 
-        // Retourne le résultat d'une recherche de livre
         return $searchBooks;
     }
 
+    // Compte le nombre de livre selon la recherche utilisateur
     public function getRowsNumberOfSearch($search)
     {
-
         $query = "SELECT COUNT(*)
         FROM `t_ouvrage` o 
         INNER JOIN `t_ecrivain` e ON o.ecrivain_id = e.ecrivain_id 
@@ -407,49 +404,41 @@ class Database
 
         $count = $req->fetchColumn();
 
-        // Retourne le résultat 
         return $count;
     }
 
+    // Compte le nombre de livre de l'affichage par défaut
     public function getRowsNumberOfList()
     {
         $query = "SELECT COUNT(*) FROM `t_ouvrage`;";
         $req = $this->querySimpleExecute($query);
         $count = $req->fetchColumn();
 
-        // Retourne le résultat 
         return $count;
     }
 
-    // Liste les titres des livres
+    // Affiche le titre d'un livre
     public function listBooks($min, $max)
-    {
-        // 
+     {
         $query = "SELECT * FROM t_ouvrage LIMIT $min, $max;";
 
-        // Méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
 
-        // Mise en forme en tableau
         $listBooks = $this->formatData($result);
 
-        // Retourne la liste des livres
         return $listBooks;
     }
 
-    // Liste le noms des auteurs en fonction des livres écrits
+    // Affiche les données d'un auteur
     public function listAuthorBook($data)
     {
-        // 
         $query = "SELECT * FROM t_ecrivain WHERE ecrivain_id = :ecrivain_id;";
 
         $binds = [];
         $binds [] = ["ecrivain_id", $data, PDO::PARAM_STR];
 
-        // Méthode pour executer la requête
         $result = $this->queryPrepareExecute($query, $binds);
 
-        // Mise en forme en tableau
         $listAuthorBook = $this->formatData($result);
 
         // Retourne la liste des noms et prénoms des auteurs
@@ -457,60 +446,48 @@ class Database
         
     }
 
-    // Liste le pseudo des utilisateurs en fonction des livres publiés
+    // Affiche le pseudo d'un utilisateur
     public function listPseudoUser($data)
     {
-        // Requête SQL
-        $query = "SELECT * FROM t_utilisateur WHERE utilisateur_id = :ecrivain_id;";
+        $query = "SELECT * FROM t_utilisateur WHERE utilisateur_id = :utilisateur_id;";
 
         $binds = [];
-        $binds [] = ["ecrivain_id", $data, PDO::PARAM_STR];
+        $binds [] = ["utilisateur_id", $data, PDO::PARAM_STR];
 
-        // Méthode pour executer la requête
         $result = $this->queryPrepareExecute($query, $binds);
 
-        // Mise en forme en tableau
         $listPseudoUser = $this->formatData($result);
 
-        // Retorune les pseudos utilisateur
         return $listPseudoUser;
     }
 
-    // Liste les livres selon leur catégorie
+    // Affiche la catégorie d'un livre
     public function listCategoryBook($data)
     {
-        // TODO: avoir la requête sql
         $query = "SELECT * FROM t_categorie WHERE categorie_id = :categorie_id;";
 
         $binds = [];
         $binds [] = ["categorie_id", $data, PDO::PARAM_STR];
 
-        // Méthode pour executer la requête
         $result = $this->queryPrepareExecute($query, $binds);
 
-        // Mise en forme en tableau
         $listCategoryBook = $this->formatData($result);
 
-        // Retourne la catégorie des livres
         return $listCategoryBook;
     }
 
 
-    // Liste les livres selon leur catégorie
+    // Affiche le résumé d'un livre
     public function listSummaryBook($data)
     {
-        // TODO: avoir la requête sql
         $query = "SELECT SUBSTR(resume, 1,100) AS resume FROM `t_ouvrage` WHERE ouvrage_id = :ouvrage_id;";
 
         $binds = [];
         $binds [] = ["ouvrage_id", $data, PDO::PARAM_STR];
 
-        // Méthode pour executer la requête
         $result = $this->queryPrepareExecute($query, $binds);
 
-        // Mise en forme en tableau
         $listSummaryBook = $this->formatData($result);
-
 
         return $listSummaryBook;
     }
@@ -528,7 +505,6 @@ class Database
         $editeur = $data['publisher'];
         $dateEdition = $data['published_date'];
         $resume = $data['summary'];
-        //$destinationFile = $files['image']['tmp_name'];
 
         // Avoir la requête sql
         $query = "INSERT INTO `t_ouvrage`(`ouvrage_id`, `titre`, `nombre_page`, `extrait`, `resume`, `date_edition`, `image_couverture`, `editeur`, `ecrivain_id`, `utilisateur_id`, `categorie_id`) 

@@ -361,51 +361,37 @@ class Database
         return false;
     }
 
+    /* ---------------- Fonctions (Recherche utilisateurs) ---------------- */
+
     // Affiche les résultats de la recherche utilisateur
-    public function searchBooks($search)
+    public function searchBooks($search, $index, $limit)
     {
-        //$query = "SELECT * FROM db_passion_lecture.TABLES LIMIT 0, 5;";
-
-        // $query = "SELECT DISTINCT o.titre, e.nom, e.prenom, u.pseudo, c.nom;
-
         $query = "SELECT DISTINCT *
         FROM `t_ouvrage` o 
         INNER JOIN `t_ecrivain` e ON o.ecrivain_id = e.ecrivain_id 
         INNER JOIN `t_categorie` c ON o.categorie_id = c.categorie_id 
-        WHERE (o.titre LIKE :titre
+        WHERE (o.titre LIKE :o_titre
         OR e.nom LIKE :e_nom
-        OR e.prenom LIKE :prenom)
-        AND c.nom LIKE :c_nom;";
+        OR e.prenom LIKE :e_prenom)
+        AND c.nom LIKE :c_nom LIMIT $index, $limit;";
 
 
         $word = "%" . $search["search"] . "%";
 
         $categorie = "%%";
 
-        if ($search["categories"] != "filter") {
-            $categorie = $search["categories"];
+        if ($search["categorie"] != "Filtre") 
+        {
+            $categorie = $search["categorie"];
         }
 
         $binds =
-            [
-                ["titre", $word, PDO::PARAM_STR],
-                ["e_nom", $word, PDO::PARAM_STR],
-                ["prenom", $word, PDO::PARAM_STR],
-                ["c_nom", $categorie, PDO::PARAM_STR],
-            ];
-
-
-
-        // $binds = [];
-        // foreach ($search as $searching => $word) {
-        //     $wording = "%" . $word . "%";
-        //     $binds[] =
-        //         [
-        //             ["titre", $wording, PDO::PARAM_STR],
-        //             ["nom", $word, PDO::PARAM_STR],
-        //         ];
-        // }
-
+        [
+            ["o_titre", $word, PDO::PARAM_STR],
+            ["e_nom", $word, PDO::PARAM_STR],
+            ["e_prenom", $word, PDO::PARAM_STR],
+            ["c_nom", $categorie, PDO::PARAM_STR],
+        ];
 
         $req = $this->queryPrepareExecute($query, $binds);
 
@@ -423,9 +409,9 @@ class Database
         FROM `t_ouvrage` o 
         INNER JOIN `t_ecrivain` e ON o.ecrivain_id = e.ecrivain_id 
         INNER JOIN `t_categorie` c ON o.categorie_id = c.categorie_id 
-        WHERE (o.titre LIKE :titre
+        WHERE (o.titre LIKE :o_titre
         OR e.nom LIKE :e_nom
-        OR e.prenom LIKE :prenom)
+        OR e.prenom LIKE :e_prenom)
         AND c.nom LIKE :c_nom;";
 
 
@@ -433,17 +419,18 @@ class Database
 
         $categorie = "%%";
 
-        if ($search["categories"] != "filter") {
-            $categorie = $search["categories"];
+        if ($search["categorie"] != "Filtre") 
+        {
+            $categorie = $search["categorie"];
         }
 
         $binds =
-            [
-                ["titre", $word, PDO::PARAM_STR],
-                ["e_nom", $word, PDO::PARAM_STR],
-                ["prenom", $word, PDO::PARAM_STR],
-                ["c_nom", $categorie, PDO::PARAM_STR],
-            ];
+        [
+            ["o_titre", $word, PDO::PARAM_STR],
+            ["e_nom", $word, PDO::PARAM_STR],
+            ["e_prenom", $word, PDO::PARAM_STR],
+            ["c_nom", $categorie, PDO::PARAM_STR],
+        ];
 
         $req = $this->queryPrepareExecute($query, $binds);
 
@@ -464,10 +451,10 @@ class Database
     }
 
     // Liste les titres des livres
-    public function listBooks()
+    public function listBooks($min, $max)
     {
         // 
-        $query = "SELECT * FROM t_ouvrage;";
+        $query = "SELECT * FROM t_ouvrage LIMIT $min, $max;";
 
         // Méthode pour executer la requête
         $result = $this->querySimpleExecute($query);
@@ -483,10 +470,13 @@ class Database
     public function listAuthorBook($data)
     {
         // 
-        $query = "SELECT nom, prenom FROM t_ecrivain WHERE ecrivain_id = $data;";
+        $query = "SELECT * FROM t_ecrivain WHERE ecrivain_id = :ecrivain_id;";
+
+        $binds = [];
+        $binds [] = ["ecrivain_id", $data, PDO::PARAM_STR];
 
         // Méthode pour executer la requête
-        $result = $this->querySimpleExecute($query);
+        $result = $this->queryPrepareExecute($query, $binds);
 
         // Mise en forme en tableau
         $listAuthorBook = $this->formatData($result);
@@ -499,31 +489,58 @@ class Database
     public function listPseudoUser($data)
     {
         // Requête SQL
-        $query = "SELECT * FROM t_utilisateur WHERE utilisateur_id = $data;";
+        $query = "SELECT * FROM t_utilisateur WHERE utilisateur_id = :ecrivain_id;";
+
+        $binds = [];
+        $binds [] = ["ecrivain_id", $data, PDO::PARAM_STR];
 
         // Méthode pour executer la requête
-        $result = $this->querySimpleExecute($query);
+        $result = $this->queryPrepareExecute($query, $binds);
 
         // Mise en forme en tableau
+        $listPseudoUser = $this->formatData($result);
 
         // Retorune les pseudos utilisateur
-        return $result;
+        return $listPseudoUser;
     }
 
     // Liste les livres selon leur catégorie
     public function listCategoryBook($data)
     {
         // TODO: avoir la requête sql
-        $query = "SELECT * FROM t_categorie WHERE categorie_id = $data;";
+        $query = "SELECT * FROM t_categorie WHERE categorie_id = :categorie_id;";
+
+        $binds = [];
+        $binds [] = ["categorie_id", $data, PDO::PARAM_STR];
 
         // Méthode pour executer la requête
-        $result = $this->querySimpleExecute($query);
+        $result = $this->queryPrepareExecute($query, $binds);
 
         // Mise en forme en tableau
-        $this->formatData($result);
+        $listCategoryBook = $this->formatData($result);
 
         // Retourne la catégorie des livres
-        return $result;
+        return $listCategoryBook;
+    }
+
+
+    // Liste les livres selon leur catégorie
+    public function listSummaryBook($data)
+    {
+        // TODO: avoir la requête sql
+        $query = "SELECT SUBSTR(resume, 1,100) AS resume FROM `t_ouvrage` WHERE ouvrage_id = :ouvrage_id;";
+
+        $binds = [];
+        $binds [] = ["ouvrage_id", $data, PDO::PARAM_STR];
+
+        // Méthode pour executer la requête
+        $result = $this->queryPrepareExecute($query, $binds);
+
+        // Mise en forme en tableau
+        $listSummaryBook = $this->formatData($result);
+
+
+        return $listSummaryBook;
     }
 
     /* ---------------- Fonctions (Ajouter un Livre) ---------------- */

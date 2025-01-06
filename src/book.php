@@ -103,8 +103,8 @@ if (count($_POST) > 0 && $reviewController->verifyReviewUser($userID, $dataBook[
         if ($reviewController->verifyReviewUser($userID, $dataBook["ouvrage_id"]) === false) {
           
           echo '<div class="mt-8">
-          <button class="btn bg-green-700 text-lg text-white font-semibold hover:bg-green-600" onclick="my_modal_3.showModal()">Donner son avis</button>
-          <dialog id="my_modal_3" class="modal">
+          <button class="btn bg-green-700 text-lg text-white font-semibold hover:bg-green-600" onclick="my_modal_5.showModal()">Donner son avis</button>
+          <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
             <div class="modal-box">
               <form method="dialog">
                 <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
@@ -124,7 +124,6 @@ if (count($_POST) > 0 && $reviewController->verifyReviewUser($userID, $dataBook[
                   </button>
                 </form>
               </div>
-  
             </div>
           </dialog>
 

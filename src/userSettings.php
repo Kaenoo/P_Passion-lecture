@@ -64,59 +64,51 @@ if (isset($_POST["password"])) {
     </form>
 
     <!-- Modal pour changer de mot de passe -->
-    <div class="flex gap-4 flex-col items-center justify-center mt-2">
-      <button class="text-base hover:underline" onclick="my_modal_3.showModal()">Changer de mot de passe</button>
-      <dialog id="my_modal_3" class="modal">
-        <div class="modal-box">
-          <form method="dialog">
-            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    <div class="flex justify-center mt-2">
+      <button class="text-base hover:underline" onclick="my_modal_5.showModal()">Changer de mot de passe</button>
+    </div>
+    <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box">
+        <form method="dialog">
+          <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <div class="flex flex-col items-center justify-center">
+          <form action="" method="post">
+            <div class="mt-2">
+              <label for="password" class="block w-80 text-sm/6 font-medium text-gray-900">Mot de passe actuel</label>
+              <div class="mt-2">
+                <input id="password" name="password" type="password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
+              </div>
+            </div>
+
+            <div class="mt-2">
+              <label for="password" class="block w-80 text-sm/6 font-medium text-gray-900">Nouveau mot de passe</label>
+              <div class="mt-2">
+                <input id="newpassword" name="newpassword" type="password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
+              </div>
+            </div>
+
+            <!-- Confirmation du mot de passe -->
+            <div class="mt-2">
+              <label for="password" class="block w-80 text-sm/6 font-medium text-gray-900">Confirmation du mot de passe</label>
+              <div class="mt-2">
+                <input id="newpassword2" name="newpassword2" type="password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
+              </div>
+            </div>
+            <button type="submit" class="btn w-48 block mx-auto mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
+              Confirmer
+            </button>
           </form>
-          <div class="flex flex-col items-center justify-center">
-            <form action="" method="post">
-              <div class="mt-2">
-                <div class="flex items-center justify-between">
-                  <label for="password" class="block w-80 text-sm/6 font-medium text-gray-900">Mot de passe actuel</label>
-                </div>
-                <div class="mt-2">
-                  <input id="password" name="password" type="password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
-                </div>
-              </div>
-
-              <div class="mt-2">
-                <div class="flex items-center justify-between">
-                  <label for="password" class="block w-80 text-sm/6 font-medium text-gray-900">Nouveau mot de passe</label>
-                </div>
-                <div class="mt-2">
-                  <input id="newpassword" name="newpassword" type="password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
-                </div>
-              </div>
-
-              <!-- Confirmation du mot de passe -->
-              <div class="mt-2">
-                <div class="flex items-center justify-between">
-                  <label for="password" class="block w-80 text-sm/6 font-medium text-gray-900">Confirmation du mot de passe</label>
-                </div>
-                <div class="mt-2">
-                  <input id="newpassword2" name="newpassword2" type="password" required class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm/6">
-                </div>
-              </div>
-              <button type="submit" class="btn w-48 mt-4 bg-green-700 text-lg text-white font-semibold hover:bg-green-600">
-                Confirmer
-              </button>
-            </form>
-          </div>
-
         </div>
-      </dialog>
-      <?php
-          if (isset($information) && (str_contains($information, "est") || str_contains($information, "existe"))) {
-            echo '<p class="text-center font-semibold text-red-700">' . $information . '</p>';
-          }
-          elseif (isset($information) && str_contains($information, "modifié")) {
-            echo '<p class="text-center font-semibold text-green-700">' . $information . '</p>';
-          }
-          
-        ?>
+    </dialog>
+    <?php
+    if (isset($information) && (str_contains($information, "est") || str_contains($information, "existe"))) {
+      echo '<p class="text-center font-semibold text-red-700">' . $information . '</p>';
+    } elseif (isset($information) && str_contains($information, "modifié")) {
+      echo '<p class="text-center font-semibold text-green-700">' . $information . '</p>';
+    }
+
+    ?>
     </div>
   </main>
   <?php include("./views/footer.php"); ?>

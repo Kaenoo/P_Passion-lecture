@@ -14,8 +14,8 @@ Description :  Pied de page du site web
             <summary class="mb-2 pt-4 lg:pt-0 lg:mb-4 font-semibold">Contact</summary>
             <ul>
                 <li><a class="text-sm mb-1 lg:mb-0 hover:underline" href="mailto:kaeno.eyer@eduvaud.ch">Kaeno.eyer@eduvaud.ch</a></li>
-                <li><a class="text-sm mb-1 lg:mb-0 hover:underline" href="mailto:Sarah.dongmo@eduvaud.ch">Sarah.dongmo@eduvaud.ch</a></li>
                 <li><a class="text-sm mb-1 lg:mb-0 hover:underline" href="mailto:Mustafa.Yildiz@eduvaud.ch">Mustafa.Yildiz@eduvaud.ch</a></li>
+                <li><a class="text-sm mb-1 lg:mb-0 hover:underline" href="mailto:Sarah.dongmo@eduvaud.ch">Sarah.dongmo@eduvaud.ch</a></li>
             </ul>
         </details>
     </div>

@@ -29,12 +29,12 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
 <body class="m-auto w-full">
   <?php include("./views/header.php"); ?>
 
-  <main class="px-6 md:px-12 text-justify">
+  <main class="px-6 md:px-12 text-start">
     <h1 class="my-4 text-3xl md:text-4xl font-bold text-center">Accueil</h1>
 
     <!-- Message d'introduction -->
-    <div class="m-5 p-5 bg-green-200 ">
-      <p>Bienvenue sur Passion Lecture, votre espace dédié à la découverte et au partage littéraire ! Que vous soyez un amateur de romans, un passionné d’essais ou un curieux de récits historiques, ce site vous permet :</p>
+    <div class="lg:mx-16 my-10 lg:p-16 p-6 text-lg lg:text-2xl leading-7 md:leading-9 bg-green-200">
+      <p>Bienvenue sur Passion Lecture, votre espace dédié à la découverte et au partage littéraire! Que vous soyez un amateur de romans, un passionné d’essais ou un curieux de récits historiques, ce site vous permet :</p>
 
       <ul class="list-disc pl-8">
         <li>Explorer de nouvelles lectures : Parcourez une vaste bibliothèque d’ouvrages classés par catégories, genres, ou auteurs.</li>
@@ -42,8 +42,7 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
         <li>Découvrir des recommandations personnalisées : Trouvez votre prochaine lecture grâce à nos suggestions basées sur vos préférences.</li>
         <li>Suivre vos auteurs favoris : Restez informé des œuvres de vos écrivains préférés.</li>
       </ul>
-      <p>Les cinq derniers ouvrages ajoutés sont disponibles directement sur cette page pour une exploration immédiate. Bonne lecture ! 📚 <br>
-      Si vous avez des précisions à apporter ou souhaitez une version plus ciblée, faites-le-moi savoir !</p>
+      <p>Les cinq derniers ouvrages ajoutés sont disponibles directement sur cette page pour une exploration immédiate. Bonne lecture ! 📚</p>
     </div>
 
     <!-- 5 derniers ouvrages -->
@@ -54,7 +53,7 @@ if (isset($_GET["login"]) && $_GET["login"] === "out") {
         foreach ($booksController->booksPresentation() as $index => $bookArray) {
           echo '<div> <a href="./book.php?id=' . $bookArray[0] .'">';
           echo '<img class="block mx-auto p-6 md:p-8 size-fit object-cover justify-center" src="' . $bookArray[2] . '" alt="Première de couverture de l\'ouvrage ' . $bookArray[0] . '">';
-          echo '<h2 class="mb-2 md:mb-5 text-center justify-center font-light text-2xl">' . $bookArray[1] .'</h2>';
+          echo '<h2 class="mb-2 md:mb-5 text-center justify-center font-light text-2xl hover:text-green-700 hover:font-normal">' . $bookArray[1] .'</h2>';
           echo '</a> </div>';  
         }
       ?>

@@ -442,7 +442,7 @@ class Database
         $listAuthorBook = $this->formatData($result);
 
         // Retourne la liste des noms et prénoms des auteurs
-        return $listAuthorBook;
+        return $listAuthorBook[0];
     }
 
     // Affiche le pseudo d'un utilisateur

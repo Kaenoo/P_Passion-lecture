@@ -134,11 +134,10 @@
                   echo '<a href="book.php?id='. $dataBook["ouvrage_id"] .'">' . $dataBook["titre"] . "</a>" . ", ";
                   
                   $listAuthorBook = $db->listAuthorBook($dataBook["ecrivain_id"]);
-                  foreach ($listAuthorBook as $authorBook)
-                  {
-                    echo $authorBook["prenom"] . " ";
-                    echo $authorBook["nom"] . "</br>";
-                  }
+                 
+                  echo $listAuthorBook["prenom"] . " ";
+                  echo $listAuthorBook["nom"] . "</br>";
+                  
                 echo "</div>";            
               echo "<div class='text-sm'>";
               $listCategoryBook = $db->listCategoryBook ($dataBook["categorie_id"]);

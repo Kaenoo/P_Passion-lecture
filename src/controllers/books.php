@@ -74,7 +74,7 @@ class booksController {
 
         $content = $this->db->listAuthorBook($writerID);
         
-        $writerName = $content["prenom"] . " " . $content["nom"];
+        $writerName = $content[0]["prenom"] . " " . $content[0]["nom"];
 
         return $writerName;
     }

@@ -443,7 +443,6 @@ class Database
 
         // Retourne la liste des noms et prénoms des auteurs
         return $listAuthorBook;
-        
     }
 
     // Affiche le pseudo d'un utilisateur

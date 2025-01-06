@@ -57,23 +57,6 @@ class Database
 
 
     /* ---------------- Fonctions (Compte utilisateur) ---------------- */
-    // Vérifie l'existence du compte dans la DB, si c'est le cas -> return les valeurs associées
-    public function checkAccount($login, $password)
-    {
-
-
-        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
-
-        $binds = [];
-        $binds[] = [":pseudo", $login, PDO::PARAM_STR];
-
-        $req = $this->queryPrepareExecute($query, $binds);
-
-        $verify = $this->formatData($req);
-
-       return $verify;
-    }
-
     // Récupère les donnéees du compte utilisateur
     public function getDataAccount($pseudo)
     {
@@ -87,22 +70,7 @@ class Database
         $verify = $this->formatData($req);
 
 
-        return $verify[0];
-    }
-
-    // Vérifie si le pseudo existe dans la db
-    public function checkPseudoExistence($pseudo)
-    {
-        $query = "SELECT * FROM t_utilisateur WHERE `pseudo` = :pseudo";
-
-        $binds = [];
-        $binds[] = [":pseudo", $pseudo, PDO::PARAM_STR];
-
-        $req = $this->queryPrepareExecute($query, $binds);
-
-        $verify = $this->formatData($req);
-
-       return $verify;
+        return $verify;
     }
 
     // Vérifie les droits d'un user
@@ -279,7 +247,7 @@ class Database
     // Supprime un ouvrage
     public function deleteBook($bookID)
     {
-        $query = "DELETE FROM t_apprecier WHERE ouvrage_id = :bookID; ";
+        $query = "DELETE FROM t_apprecier WHERE ouvrage_id = :bookID ";
         $query2 = "DELETE FROM t_ouvrage WHERE ouvrage_id = :bookID";
 
         $binds = [];
@@ -294,7 +262,7 @@ class Database
     public function getBookReviews($bookID)
     {
 
-        $query = "SELECT  ROUND(AVG(`note`)) FROM `t_apprecier` WHERE `ouvrage_id`= :bookID ";
+        $query = "SELECT  ROUND(AVG(`note`)) FROM `t_apprecier` WHERE `ouvrage_id`= :bookID";
 
         $binds = [];
         $binds[] = [":bookID", $bookID, PDO::PARAM_INT];
@@ -483,6 +451,7 @@ class Database
 
         // Retourne la liste des noms et prénoms des auteurs
         return $listAuthorBook;
+        
     }
 
     // Liste le pseudo des utilisateurs en fonction des livres publiés

@@ -22,6 +22,7 @@ if ($userController->isUserConnected() === false) {
 // Instanciation de variables
 $categories = $booksController->categories();
 $authors = $booksController->authors();
+$date = getdate();
 
 if (!isset($_SESSION["user"]["editeurs"])) {
   $_SESSION["user"]["editeurs"] = $booksController->editors();
@@ -51,16 +52,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // Modifie un ouvrage si les conditions sont remplies
   if (isset($_POST["submit"])) {
-    // Si un nouveau fichier est entrée -> ajout dans le répertoire et suppression de l'ancien
-    if (isset($_FILES["image"]["size"]) && $_FILES["image"]["size"] > 0) {
+    if ( $_POST["published_date"] <=$date["year"]){
+
+      // Si un nouveau fichier est entrée -> ajout dans le répertoire et suppression de l'ancien
+      if (isset($_FILES["image"]["size"]) && $_FILES["image"]["size"] > 0) {
       $booksController->deleteImgCoverBook($dataBook["image_couverture"]);
       $source = $_FILES["image"]["tmp_name"];
       $destination = "./imgCoverBook/" . $_FILES["image"]["name"]; // permet de définir le chemin du ficher ainsi que son nom
       move_uploaded_file($source, $destination);
-    } else {
-      $destination = $dataBook["image_couverture"];
-    }
-
+      } else {
+        $destination = $dataBook["image_couverture"];
+      }
+    } 
+    
     $booksController->changeBook($_POST, $destination, $_SESSION['user']['userID']);
     header("Location: ./index.php");
     exit;
@@ -234,6 +238,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <label for="published_date" class="ml-3 text-gray-600 text-lg font-medium">Date d'édition</label>
               <input type="number" id="published_date" name="published_date" value="<?= $dataBook["date_edition"] ?>" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5" min="1000" max="9999" placeholder="YYYY" required>
             </div>
+
+            <? if (isset($error)) {
+              echo '<p class="text-center font-semibold text-red-700">' . $error . '</p>';;
+            } ?>
 
             <!-- Résumé -->
             <div class="flex flex-col items-center md:items-start gap-2">

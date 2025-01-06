@@ -91,11 +91,5 @@ $userController = new userController();
           </li>
         </ul>
     </div>
-
-   
-    </div>
-
-    
-       
-        
+    </div>    
 </header>

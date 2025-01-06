@@ -125,11 +125,11 @@ class userController
     {
         $verify = $this->db->getDataAccount($pseudo);
 
-        if (count($verify) > 0) {
+        if ($verify !== null) {
             return true;
         }
 
-        return false;
+        return null;
     }
 
     //Déconnecte l'utilisateur

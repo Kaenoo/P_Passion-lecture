@@ -52,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Ajoute un ouvrage si les conditions sont remplies
   if (isset($_POST["submit"])) {
     if ( $_POST["published_date"] <=$date["year"]) {
-      die;
       $source = $_FILES["image"]["tmp_name"];
       $destination = "./imgCoverBook/" . $_FILES["image"]["name"]; // permet de définir le chemin du ficher ainsi que son nom
       move_uploaded_file($source, $destination);
@@ -62,12 +61,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       header("Location: ./index.php");
       exit;
     }
-    $error = "La date d'édition est incorrect !";
-
+    else {
+      $error = "La date d'édition est incorrect !";
+    } 
   }
-
-  header("Location: ./addBook.php");
-  exit;
 }
 ?>
 
@@ -228,9 +225,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <input type="number" id="published_date" name="published_date" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5" min="1000" max="9999" placeholder="YYYY" required>
             </div>
 
-            <? if (isset($error)) {
-              echo '<p class="text-center font-semibold text-red-700">' . $error . '</p>';;
-            } ?>
+            <?php
+              if (isset($error)) {
+                echo '<p class="text-center font-semibold text-red-700 w-4/5">' . $error . '</p>';
+              }
+            ?>
 
             <!-- Résumé -->
             <div class="flex flex-col items-center md:items-start gap-2">

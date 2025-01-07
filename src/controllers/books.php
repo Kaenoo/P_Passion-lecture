@@ -84,6 +84,11 @@ class booksController {
         return $this->db->getBookCategory($categoryID);
     }
 
+    // Affiche le résumé d'un livre
+    public function listSummaryBook($data){
+        return $this->db->getListSummaryBook($data);
+    }
+
     // Retourne les catégories
     public function categories(){
         return $this->db->getAllCategories();
@@ -125,5 +130,17 @@ class booksController {
             unlink($path);
         }
     }
+
+    // Affiche le titre d'un livre
+    public function listBooks($min, $max)
+     {
+        return $this->db->getListBooks($min, $max);
+     }
+
+     // Affiche les résultats de la recherche utilisateur
+     public function searchBooks($search, $index, $limit)
+     {
+        return $this->db->getSearchBooks($search, $index, $limit);
+     }
 }
 ?>

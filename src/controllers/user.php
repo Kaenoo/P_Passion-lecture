@@ -132,6 +132,11 @@ class userController
         return null;
     }
 
+    // Affiche le pseudo d'un utilisateur
+    public function listPseudoUser($data){
+        return $this->db->getListPseudoUser($data);
+    }
+
     //Déconnecte l'utilisateur
     public function deconnectUser()
     {

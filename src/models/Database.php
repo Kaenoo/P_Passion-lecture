@@ -334,7 +334,7 @@ class Database
     /* ---------------- Fonctions (Recherche utilisateurs) ---------------- */
 
     // Affiche les résultats de la recherche utilisateur
-    public function searchBooks($search, $index, $limit)
+    public function getSearchBooks($search, $index, $limit)
     {
         $query = "SELECT DISTINCT *
         FROM `t_ouvrage` o 
@@ -365,9 +365,9 @@ class Database
 
         $req = $this->queryPrepareExecute($query, $binds);
 
-        $searchBooks = $this->formatData($req);
+        $getSearchBooks = $this->formatData($req);
 
-        return $searchBooks;
+        return $getSearchBooks;
     }
 
     // Compte le nombre de livre selon la recherche utilisateur
@@ -418,15 +418,15 @@ class Database
     }
 
     // Affiche le titre d'un livre
-    public function listBooks($min, $max)
+    public function getListBooks($min, $max)
      {
         $query = "SELECT * FROM t_ouvrage LIMIT $min, $max;";
 
         $result = $this->querySimpleExecute($query);
 
-        $listBooks = $this->formatData($result);
+        $getListBooks = $this->formatData($result);
 
-        return $listBooks;
+        return $getListBooks;
     }
 
     // Affiche les données d'un auteur
@@ -446,7 +446,7 @@ class Database
     }
 
     // Affiche le pseudo d'un utilisateur
-    public function listPseudoUser($data)
+    public function getListPseudoUser($data)
     {
         $query = "SELECT * FROM t_utilisateur WHERE utilisateur_id = :utilisateur_id;";
 
@@ -455,29 +455,13 @@ class Database
 
         $result = $this->queryPrepareExecute($query, $binds);
 
-        $listPseudoUser = $this->formatData($result);
+        $getListPseudoUser = $this->formatData($result);
 
-        return $listPseudoUser;
+        return $getListPseudoUser[0];
     }
-
-    // Affiche la catégorie d'un livre
-    public function listCategoryBook($data)
-    {
-        $query = "SELECT * FROM t_categorie WHERE categorie_id = :categorie_id;";
-
-        $binds = [];
-        $binds [] = ["categorie_id", $data, PDO::PARAM_STR];
-
-        $result = $this->queryPrepareExecute($query, $binds);
-
-        $listCategoryBook = $this->formatData($result);
-
-        return $listCategoryBook;
-    }
-
 
     // Affiche le résumé d'un livre
-    public function listSummaryBook($data)
+    public function getListSummaryBook($data)
     {
         $query = "SELECT SUBSTR(resume, 1,100) AS resume FROM `t_ouvrage` WHERE ouvrage_id = :ouvrage_id;";
 
@@ -486,9 +470,9 @@ class Database
 
         $result = $this->queryPrepareExecute($query, $binds);
 
-        $listSummaryBook = $this->formatData($result);
+        $getListSummaryBook = $this->formatData($result);
 
-        return $listSummaryBook;
+        return $getListSummaryBook[0];
     }
 
     /* ---------------- Fonctions (Ajouter un Livre) ---------------- */

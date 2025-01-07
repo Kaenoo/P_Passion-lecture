@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Hôte : db:3306
--- Généré le : ven. 13 déc. 2024 à 20:22
--- Version du serveur : 8.0.30
--- Version de PHP : 8.0.27
+-- Host: db:3306
+-- Generation Time: Jan 07, 2025 at 10:06 AM
+-- Server version: 8.0.30
+-- PHP Version: 8.0.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `db_passion_lecture`
+-- Database: `db_passion_lecture`
 --
 CREATE DATABASE IF NOT EXISTS `db_passion_lecture` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE `db_passion_lecture`;
@@ -26,7 +26,7 @@ USE `db_passion_lecture`;
 -- --------------------------------------------------------
 
 --
--- Structure de la table `t_apprecier`
+-- Table structure for table `t_apprecier`
 --
 
 CREATE TABLE `t_apprecier` (
@@ -37,17 +37,25 @@ CREATE TABLE `t_apprecier` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `t_apprecier`
+-- Dumping data for table `t_apprecier`
 --
 
 INSERT INTO `t_apprecier` (`ouvrage_id`, `utilisateur_id`, `note`, `commentaire`) VALUES
 (3, 1, 3, 'Bof, sans plus.\r\nLorem, ipsum dolor sit amet consectetur adipisicing elit. Velit esse dolores ipsam qui voluptatem distinctio accusamus, at id possimus assumenda voluptate eum culpa molestias totam incidunt, aut quis repellat voluptatum.'),
-(18, 1, 5, 'Personnage attachant');
+(18, 1, 5, 'Personnage attachant'),
+(43, 1, 2, 'Je connais pas mais ça à l&#039;air pas top'),
+(42, 1, 4, 'On m&#039;a dit beaucoup de bien de ce manga'),
+(40, 1, 5, 'TROP COOL !'),
+(39, 1, 5, 'PASSIONNANT'),
+(43, 14, 4, 'TOP !'),
+(42, 14, 2, 'Je préfère les échecs'),
+(40, 14, 4, 'Cool'),
+(39, 14, 3, 'Pas mal');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `t_categorie`
+-- Table structure for table `t_categorie`
 --
 
 CREATE TABLE `t_categorie` (
@@ -56,7 +64,7 @@ CREATE TABLE `t_categorie` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `t_categorie`
+-- Dumping data for table `t_categorie`
 --
 
 INSERT INTO `t_categorie` (`categorie_id`, `nom`) VALUES
@@ -71,7 +79,7 @@ INSERT INTO `t_categorie` (`categorie_id`, `nom`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `t_ecrivain`
+-- Table structure for table `t_ecrivain`
 --
 
 CREATE TABLE `t_ecrivain` (
@@ -81,7 +89,7 @@ CREATE TABLE `t_ecrivain` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `t_ecrivain`
+-- Dumping data for table `t_ecrivain`
 --
 
 INSERT INTO `t_ecrivain` (`ecrivain_id`, `nom`, `prenom`) VALUES
@@ -109,7 +117,7 @@ INSERT INTO `t_ecrivain` (`ecrivain_id`, `nom`, `prenom`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `t_ouvrage`
+-- Table structure for table `t_ouvrage`
 --
 
 CREATE TABLE `t_ouvrage` (
@@ -127,7 +135,7 @@ CREATE TABLE `t_ouvrage` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `t_ouvrage`
+-- Dumping data for table `t_ouvrage`
 --
 
 INSERT INTO `t_ouvrage` (`ouvrage_id`, `titre`, `nombre_page`, `extrait`, `resume`, `date_edition`, `image_couverture`, `editeur`, `ecrivain_id`, `utilisateur_id`, `categorie_id`) VALUES
@@ -153,7 +161,7 @@ INSERT INTO `t_ouvrage` (`ouvrage_id`, `titre`, `nombre_page`, `extrait`, `resum
 -- --------------------------------------------------------
 
 --
--- Structure de la table `t_utilisateur`
+-- Table structure for table `t_utilisateur`
 --
 
 CREATE TABLE `t_utilisateur` (
@@ -167,7 +175,7 @@ CREATE TABLE `t_utilisateur` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `t_utilisateur`
+-- Dumping data for table `t_utilisateur`
 --
 
 INSERT INTO `t_utilisateur` (`utilisateur_id`, `pseudo`, `date_entree`, `admin`, `nom`, `prenom`, `mot_de_passe`) VALUES
@@ -177,30 +185,30 @@ INSERT INTO `t_utilisateur` (`utilisateur_id`, `pseudo`, `date_entree`, `admin`,
 (14, 'GregLeBarbar', '2024-11-29', 0, 'Charmier', 'Grégory', '$2y$10$G/XII8Nzx5.99R41CvLouujgC8XgBO2mHtULFfR0513DvcDOzCAcC');
 
 --
--- Index pour les tables déchargées
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `t_apprecier`
+-- Indexes for table `t_apprecier`
 --
 ALTER TABLE `t_apprecier`
   ADD KEY `utilisateur_id` (`utilisateur_id`),
   ADD KEY `ouvrage_id` (`ouvrage_id`) USING BTREE;
 
 --
--- Index pour la table `t_categorie`
+-- Indexes for table `t_categorie`
 --
 ALTER TABLE `t_categorie`
   ADD PRIMARY KEY (`categorie_id`);
 
 --
--- Index pour la table `t_ecrivain`
+-- Indexes for table `t_ecrivain`
 --
 ALTER TABLE `t_ecrivain`
   ADD PRIMARY KEY (`ecrivain_id`);
 
 --
--- Index pour la table `t_ouvrage`
+-- Indexes for table `t_ouvrage`
 --
 ALTER TABLE `t_ouvrage`
   ADD PRIMARY KEY (`ouvrage_id`),
@@ -209,52 +217,52 @@ ALTER TABLE `t_ouvrage`
   ADD KEY `categorie_id` (`categorie_id`);
 
 --
--- Index pour la table `t_utilisateur`
+-- Indexes for table `t_utilisateur`
 --
 ALTER TABLE `t_utilisateur`
   ADD PRIMARY KEY (`utilisateur_id`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `t_categorie`
+-- AUTO_INCREMENT for table `t_categorie`
 --
 ALTER TABLE `t_categorie`
   MODIFY `categorie_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT pour la table `t_ecrivain`
+-- AUTO_INCREMENT for table `t_ecrivain`
 --
 ALTER TABLE `t_ecrivain`
   MODIFY `ecrivain_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT pour la table `t_ouvrage`
+-- AUTO_INCREMENT for table `t_ouvrage`
 --
 ALTER TABLE `t_ouvrage`
   MODIFY `ouvrage_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
--- AUTO_INCREMENT pour la table `t_utilisateur`
+-- AUTO_INCREMENT for table `t_utilisateur`
 --
 ALTER TABLE `t_utilisateur`
   MODIFY `utilisateur_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- Contraintes pour les tables déchargées
+-- Constraints for dumped tables
 --
 
 --
--- Contraintes pour la table `t_apprecier`
+-- Constraints for table `t_apprecier`
 --
 ALTER TABLE `t_apprecier`
   ADD CONSTRAINT `t_apprecier_ibfk_1` FOREIGN KEY (`ouvrage_id`) REFERENCES `t_ouvrage` (`ouvrage_id`),
   ADD CONSTRAINT `t_apprecier_ibfk_2` FOREIGN KEY (`utilisateur_id`) REFERENCES `t_utilisateur` (`utilisateur_id`);
 
 --
--- Contraintes pour la table `t_ouvrage`
+-- Constraints for table `t_ouvrage`
 --
 ALTER TABLE `t_ouvrage`
   ADD CONSTRAINT `t_ouvrage_ibfk_1` FOREIGN KEY (`ecrivain_id`) REFERENCES `t_ecrivain` (`ecrivain_id`),

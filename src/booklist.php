@@ -127,7 +127,7 @@ $page = 1;
 
       echo "<div class='grid place-self-center sm:col-start-1 w-52 md:w-60 lg:w-96 h-auto mb-2 p-2'>";
       echo '<a href="userBooks.php?userID=' . $pseudoUser["utilisateur_id"] . '">';
-      echo '<img src="' . $dataBook["image_couverture"] . '" alt="Couverture du livre"></a>';
+      echo '<img class="hover:shadow-md hover:transition-shadow hover:shadow-slate-500" src="' . $dataBook["image_couverture"] . '" alt="Couverture du livre"></a>';
       echo "</div>";
 
       echo "<div class='sm:col-start-2 p-2 sm:pr-10'>";

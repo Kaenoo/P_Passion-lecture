@@ -49,11 +49,11 @@ if (isset($_POST["password"])) {
       <div class="flex flex-col items-center gap-4 mt-5">
         <label class="flex items-center justify-center input input-bordered w-72">
           <span class="flex-none font-bold mr-2">Nom :</span>
-          <input type="text" name="surname" id="surname" pattern="[A-Za-z]+" class="grow" required value="<?= $_SESSION["user"]["surname"] ?>" placeholder="<?= $_SESSION["user"]["surname"] ?>" />
+          <input type="text" name="surname" id="surname" pattern="[A-Za-z \-]+" class="grow" required value="<?= $_SESSION["user"]["surname"] ?>" placeholder="<?= $_SESSION["user"]["surname"] ?>" />
         </label>
         <label class="flex items-center justify-center input input-bordered w-72">
           <span class="flex-none font-bold mr-2">Prénom :</span>
-          <input type="text" name="forename" id="forename" pattern="[A-Za-z]+" class="grow" required value="<?= $_SESSION["user"]["forename"] ?>" placeholder="<?= $_SESSION["user"]["forename"] ?>" />
+          <input type="text" name="forename" id="forename" pattern="[A-Za-z \-]+" class="grow" required value="<?= $_SESSION["user"]["forename"] ?>" placeholder="<?= $_SESSION["user"]["forename"] ?>" />
         </label>
         <label class="flex items-center justify-start input input-bordered w-72">
           <span class="flex-none font-bold mr-2">Pseudo :</span>

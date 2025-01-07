@@ -463,7 +463,8 @@ class Database
     // Affiche le résumé d'un livre
     public function getListSummaryBook($data)
     {
-        $query = "SELECT SUBSTR(resume, 1,100) AS resume FROM `t_ouvrage` WHERE ouvrage_id = :ouvrage_id;";
+        //AS SUBSTR(resume, 1,100)
+        $query = "SELECT resume FROM `t_ouvrage` WHERE ouvrage_id = :ouvrage_id;";
 
         $binds = [];
         $binds [] = ["ouvrage_id", $data, PDO::PARAM_STR];

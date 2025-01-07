@@ -39,22 +39,21 @@ $page = 1;
 
   <main>
     <!-- Lien pour revenir sur l'affichage par défaut -->
-    <h1 class="py-4 text-4xl font-bold text-center"> <a href="bookList.php">Liste des ouvrages </a></h1>
-
+    <h1 class="mt-2 lg:my-4 text-3xl md:text-4xl font-bold text-center"> <a href="bookList.php">Liste des ouvrages </a></h1>
     <!-- Barre de recherche -->
     <form action="#" method="get">
-      <div class='flex justify-center mb-4'>
+      <div class='flex justify-center mt-4 mb-4'>
         <div class="join">
           <div>
             <div>
-              <input class="input input-bordered join-item"
+              <input class="input input-bordered join-item w-40 md:w-auto"
                 <?php if (isset($_GET['search']) || isset($_GET['categorie'])) {
                   echo 'value="' . $_GET['search'] . '"';
                 } ?>
                 placeholder="Recherche" id="search" name="search" />
             </div>
           </div>
-          <select id="categorie" name="categorie" class="select select-bordered join-item">
+          <select id="categorie" name="categorie" class="select select-bordered join-item w-12 md:w-auto">
             <option value="Filtre" selected>
               <?php if (isset($_GET['search']) || isset($_GET['categorie'])) {
                 echo $_GET['categorie'];
@@ -71,7 +70,7 @@ $page = 1;
             ?>
           </select>
           <div class="indicator">
-            <button type="submit" class="btn join-item bg-green-700 hover:bg-green-600 font-bold">Rechercher</button>
+            <button type="submit" class="btn join-item bg-green-700 hover:bg-green-600 font-bold w-24 md:w-auto text-xs md:text-base">Rechercher</button>
           </div>
         </div>
       </div>
@@ -116,31 +115,32 @@ $page = 1;
     }
 
     foreach ($getListBooks as $dataBook) {
-      echo "<div class = 'flex justify-between mx-30'>";
-      echo "<div class='h-1/4 w-1/4 mb-2 flex-1 p-2'>";
 
-      echo '<img src="' . $dataBook["image_couverture"] . '" alt="Couverture du livre">';
-      echo "</div>";
-
-      echo "<div class='flex flex-col flex-1 p-2'>";
+      //Déclaration de variables
       $pseudoUser = $userController->listPseudoUser($dataBook["utilisateur_id"]);
-      echo "<div class='flex justify-end'>";
-      echo '<a class="hover:text-green-700" href="userBooks.php?userID=' . $pseudoUser["utilisateur_id"] . '">' . $pseudoUser["pseudo"] . "</a>" . "<br> ";
-      echo "</div>";
-      echo "<div class='flex flex-row font-clamp'>";
-
-      echo '<a href="book.php?id=' . $dataBook["ouvrage_id"] . '">' . $dataBook["titre"] . "</a>" . ", ";
-
       $authorName = $booksController->authorBook($dataBook["ecrivain_id"]);
-
-      echo $authorName . "</br>";
-
-      echo "</div>";
-      echo "<div class='text-sm'>";
       $categoryName = $booksController->categoryBook($dataBook["categorie_id"]);
-      echo $categoryName . "</br>";
       $getListSummaryBook = $booksController->listSummaryBook($dataBook["ouvrage_id"]);
-      echo $getListSummaryBook["resume"] . "</br>";
+
+
+      echo "<div class ='grid sm:grid-cols-2 md:gap-2 sm:mx-20 lg:mx-36'>";
+
+      echo "<div class='grid place-self-center sm:col-start-1 w-52 md:w-60 lg:w-96 h-auto mb-2 p-2'>";
+      echo '<a href="userBooks.php?userID=' . $pseudoUser["utilisateur_id"] . '">';
+      echo '<img src="' . $dataBook["image_couverture"] . '" alt="Couverture du livre"></a>';
+      echo "</div>";
+
+      echo "<div class='sm:col-start-2 p-2 sm:pr-10'>";
+      echo "<div class='flex justify-center sm:justify-end'>";
+      echo '<a class="hover:text-green-700 hover:font-semibold" href="userBooks.php?userID=' . $pseudoUser["utilisateur_id"] . '">';
+      echo '<p>' . $pseudoUser["pseudo"] . "</p></a>";
+      echo "</div>";
+      echo '<a class="hover:text-green-700 hover:font-semibold" href="book.php?id=' . $dataBook["ouvrage_id"] . '">';
+      echo '<p class="px-4 sm:px-0 text-center sm:text-start">' . $dataBook["titre"] . ", " . $authorName . "</p></a>";
+
+      echo "<div class='text-sm'>";
+      echo '<p class="px-4 sm:px-0 text-center sm:text-start">'.  $categoryName . '</p>';
+      echo '<p class="px-4 sm:px-0 text-center sm:text-start">'. $getListSummaryBook["resume"] . '</p></br>';
       echo "</div>";
       echo "</div>";
       echo "</div>";
@@ -151,7 +151,7 @@ $page = 1;
     {
       $i = 1;
       echo '<div class="join">
-          <input class="join-item btn btn-square " type="radio" name="options" onclick="window.location.href=\'bookList.php?page=' . ($page > 1 ? $page - 1 : $page) . '\';"aria-label="&laquo;" />';
+          <input class="join-item btn bg-transparent" type="radio" name="options" onclick="window.location.href=\'bookList.php?page=' . ($page > 1 ? $page - 1 : $page) . '\';"aria-label="&laquo;" />';
 
       for ($i; $i <= $nbOfPages; $i++) {
         // Identification de la page active
@@ -169,14 +169,14 @@ $page = 1;
         }
 
         if ($i == 1) {
-          echo '<input class="join-item btn btn-square" type="radio" name="options" 
+          echo '<input class="join-item btn bg-transparent" type="radio" name="options" 
               onclick="window.location.href=\'bookList.php?page=' . $i . '\';" aria-label="' . $i . '" ' . $checked . '/>';
         } else {
-          echo '<input class="join-item btn btn-square" type="radio" name="options" onclick="window.location.href=\'bookList.php?page=' . $i . '\';"
+          echo '<input class="join-item btn bg-transparent" type="radio" name="options" onclick="window.location.href=\'bookList.php?page=' . $i . '\';"
               aria-label="' . $i . '"/>';
         }
       }
-      echo '<input class="join-item btn btn-square" type="radio" name="options" onclick="window.location.href=\'bookList.php?page=' . ($page < $nbOfPages ? $page + 1 : $page) . '\';"aria-label="&raquo;" />';
+      echo '<input class="join-item btn bg-transparent" type="radio" name="options" onclick="window.location.href=\'bookList.php?page=' . ($page < $nbOfPages ? $page + 1 : $page) . '\';"aria-label="&raquo;" />';
     }
 
     ?>

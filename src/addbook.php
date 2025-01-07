@@ -24,6 +24,7 @@ $categories = $booksController->categories();
 $authors = $booksController->authors();
 $date = getdate();
 
+// Permet de contôler l'editeur dans la session
 if (!isset($_SESSION["user"]["editeurs"])) {
   $_SESSION["user"]["editeurs"] = $booksController->editors();
 }
@@ -31,7 +32,6 @@ $editeurs = $_SESSION["user"]["editeurs"];
 
 // S'il y a une requête POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
 
   // Ajoute un auteur
   if (isset($_POST["authorNom"])) {
@@ -51,19 +51,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // Ajoute un ouvrage si les conditions sont remplies
   if (isset($_POST["submit"])) {
-    if ( $_POST["published_date"] <=$date["year"]) {
+    if ($_POST["published_date"] <= $date["year"]) {
       $source = $_FILES["image"]["tmp_name"];
       $destination = "./imgCoverBook/" . $_FILES["image"]["name"]; // permet de définir le chemin du ficher ainsi que son nom
       move_uploaded_file($source, $destination);
-  
+
       $booksController->updateBook($_POST, $destination, $_SESSION['user']['userID']);
-  
+
       header("Location: ./index.php");
       exit;
-    }
-    else {
+    } else {
       $error = "La date d'édition est incorrect !";
-    } 
+    }
   }
 }
 ?>
@@ -226,9 +225,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <?php
-              if (isset($error)) {
-                echo '<p class="text-center font-semibold text-red-700 w-4/5">' . $error . '</p>';
-              }
+            if (isset($error)) {
+              echo '<p class="text-center font-semibold text-red-700 w-4/5">' . $error . '</p>';
+            }
             ?>
 
             <!-- Résumé -->
@@ -254,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
       </form>
     </div>
-  </div>
+    </div>
   </main>
   <?php
   include("./views/footer.php");

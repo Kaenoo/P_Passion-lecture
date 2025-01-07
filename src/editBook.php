@@ -24,6 +24,7 @@ $categories = $booksController->categories();
 $authors = $booksController->authors();
 $date = getdate();
 
+// Permet de contôler l'editeur dans la session
 if (!isset($_SESSION["user"]["editeurs"])) {
   $_SESSION["user"]["editeurs"] = $booksController->editors();
 }
@@ -52,22 +53,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // Modifie un ouvrage si les conditions sont remplies
   if (isset($_POST["submit"])) {
-    if ( $_POST["published_date"] <= $date["year"]){
+    if ($_POST["published_date"] <= $date["year"]) {
 
       // Si un nouveau fichier est entrée -> ajout dans le répertoire et suppression de l'ancien
       if (isset($_FILES["image"]["size"]) && $_FILES["image"]["size"] > 0) {
-      $booksController->deleteImgCoverBook($dataBook["image_couverture"]);
-      $source = $_FILES["image"]["tmp_name"];
-      $destination = "./imgCoverBook/" . $_FILES["image"]["name"]; // permet de définir le chemin du ficher ainsi que son nom
-      move_uploaded_file($source, $destination);
+        $booksController->deleteImgCoverBook($dataBook["image_couverture"]);
+        $source = $_FILES["image"]["tmp_name"];
+        $destination = "./imgCoverBook/" . $_FILES["image"]["name"]; // permet de définir le chemin du ficher ainsi que son nom
+        move_uploaded_file($source, $destination);
       } else {
         $destination = $dataBook["image_couverture"];
       }
       $booksController->changeBook($_POST, $destination, $_SESSION['user']['userID']);
       header("Location: ./index.php");
       exit;
-    }
-    else {
+    } else {
       $error = "La date d'édition est incorrect !";
     }
   }
@@ -184,15 +184,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </dialog>
 
             <!-- Nombre de pages -->
-            <div class="flex flex-col items-center md:items-start gap-2">          
-            <label for="pages" class="ml-3 text-gray-600 text-lg font-medium">Nombre de pages</label>
-            <input id="pages" name="pages" pattern="^[0-9]+$" value="<?= $dataBook["nombre_page"]; ?>" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5" required>
+            <div class="flex flex-col items-center md:items-start gap-2">
+              <label for="pages" class="ml-3 text-gray-600 text-lg font-medium">Nombre de pages</label>
+              <input id="pages" name="pages" pattern="^[0-9]+$" value="<?= $dataBook["nombre_page"]; ?>" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5" required>
             </div>
 
             <!-- Extrait -->
-            <div class="flex flex-col items-center md:items-start gap-2">          
-            <label for="extrait" class="ml-3 text-gray-600 text-lg font-medium">Extrait au format PDF (optionnel)</label>
-            <input id="extrait" name="extrait" pattern="\.pdf$" value="<?= $dataBook["extrait"]; ?>" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5">
+            <div class="flex flex-col items-center md:items-start gap-2">
+              <label for="extrait" class="ml-3 text-gray-600 text-lg font-medium">Extrait au format PDF (optionnel)</label>
+              <input id="extrait" name="extrait" pattern="\.pdf$" value="<?= $dataBook["extrait"]; ?>" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 w-4/5">
             </div>
 
             <!-- Éditeur -->
@@ -239,10 +239,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <?php
-          if (isset($error)) {
-            echo '<p class="text-center font-semibold text-red-700 w-4/5">' . $error . '</p>';
-          }
-        ?>
+            if (isset($error)) {
+              echo '<p class="text-center font-semibold text-red-700 w-4/5">' . $error . '</p>';
+            }
+            ?>
 
             <!-- Résumé -->
             <div class="flex flex-col items-center md:items-start gap-2">
@@ -250,7 +250,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <textarea id="summary" name="summary" class="border mb-3 border-gray-300 rounded-lg px-4 py-2 min-h-[100px] w-4/5" required><?= $dataBook["resume"] ?></textarea>
             </div>
           </div>
-
 
           <!-- Right Column -->
           <!-- Image -->

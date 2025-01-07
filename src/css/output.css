@@ -5275,7 +5275,7 @@ details.collapse summary::-webkit-details-marker {
 
 .btn-square:where(.join-item){
   background-color : transparent;
-<<<<<<< HEAD
+
 }
 
 .mx-30{
@@ -5283,13 +5283,6 @@ details.collapse summary::-webkit-details-marker {
   margin-right : 30%;
 }
 
-.min-h-64{
-
-}
-
-.min-w-64{
-
-}
 
 .h-300px{
   height:300px;

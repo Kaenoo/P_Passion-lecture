@@ -129,7 +129,8 @@
                 echo '<a class="hover:text-green-700" href="userBooks.php?userID='. $pseudoUser["utilisateur_id"] .'">' . $pseudoUser["pseudo"] . "</a>" . "<br> ";
                 echo "</div>";
               }
-                echo "<div class='flex flex-row font-clamp'>";
+                echo "<div class='flex flex-row font-clamp text-[clamp(1rem,3vw,1.8rem)] </div>
+                '>";
 
                   echo '<a href="book.php?id='. $dataBook["ouvrage_id"] .'">' . $dataBook["titre"] . "</a>" . ", ";
                   
@@ -149,7 +150,7 @@
               $listSummaryBook = $db->listSummaryBook ($dataBook["ouvrage_id"]);
               foreach ($listSummaryBook as $summaryBook)
               {
-                echo $summaryBook["resume"] . "</br>";
+                echo $summaryBook["resume"] . "...</br>";
               }
           echo "</div>";
           echo "</div>";
@@ -157,9 +158,11 @@
         }
 
         // Pagination adaptée au nombre de livres
-        if ($nbOfBooks > $limit) //pagination == 1
+        if ($nbOfBooks > $limit)
         {
           $i = 1;
+
+          // Définition de la page minimale
           echo '<div class="join">
           <input class="join-item btn btn-square " type="radio" name="options" onclick="window.location.href=\'bookList.php?page=' . ($page > 1 ? $page - 1 : $page) .'\';"aria-label="&laquo;" />';
 
@@ -177,20 +180,14 @@
             else 
             { $checked = '';}
 
-            if ($i == 1)
-            {
-              echo '<input class="join-item btn btn-square" type="radio" name="options" 
-              onclick="window.location.href=\'bookList.php?page=' . $i . '\';" aria-label="' . $i . '" ' . $checked . '/>'; 
-            }
-            else
-            {
-              echo '<input class="join-item btn btn-square" type="radio" name="options" onclick="window.location.href=\'bookList.php?page=' . $i . '\';"
-              aria-label="' . $i . '"/>';
-            }
+            echo '<input class="join-item btn btn-square" type="radio" name="options" 
+            onclick="window.location.href=\'bookList.php?page=' . $i . '\';" aria-label="' . $i . '" ' . $checked . '/>'; 
+
           }
+
+          // Définition de la page maximale
           echo '<input class="join-item btn btn-square" type="radio" name="options" onclick="window.location.href=\'bookList.php?page=' . ($page < $nbOfPages ? $page + 1 : $page). '\';"aria-label="&raquo;" />';
         }
-  
       ?>
     </main>
   <?php include("./views/footer.php");?>

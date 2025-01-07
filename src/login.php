@@ -11,7 +11,7 @@ include("./controllers/user.php");
 $userController = new userController();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && count($_POST) > 1) {
-  if ($userController->verifyPseudoExistence($_POST["pseudo"]) !== false) {
+  if ($userController->verifyPseudoExistence($_POST["pseudo"]) !== null) {
     //Vérifie si le login fait parti de la DB, si c'est la cas -> création de session
     if ($userController->verifyLogin($_POST["pseudo"], $_POST["password"]) === true) 
     {  

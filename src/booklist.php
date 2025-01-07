@@ -34,7 +34,7 @@
 
     <main>
       <!-- Lien pour revenir sur l'affichage par défaut -->
-      <h1 class="mt-2 lg:my-4 text-3xl md:text-4xl font-bold text-center"> <a href="bookList.php">Liste des ouvrages </a></h1>
+      <h1 class="py-4 text-4xl font-bold text-center"> <a href="bookList.php">Liste des ouvrages </a></h1>
 
       <!-- Barre de recherche -->
       <form action="#" method="get">
@@ -126,7 +126,7 @@
               foreach ($listPseudoUser as $pseudoUser)
               {
                 echo "<div class='flex justify-end'>";
-                echo '<a href="userBooks.php?userID='. $pseudoUser["utilisateur_id"] .'">' . $pseudoUser["pseudo"] . "</a>" . "<br> ";
+                echo '<a class="hover:text-green-700" href="userBooks.php?userID='. $pseudoUser["utilisateur_id"] .'">' . $pseudoUser["pseudo"] . "</a>" . "<br> ";
                 echo "</div>";
               }
                 echo "<div class='flex flex-row font-clamp'>";
@@ -134,11 +134,10 @@
                   echo '<a href="book.php?id='. $dataBook["ouvrage_id"] .'">' . $dataBook["titre"] . "</a>" . ", ";
                   
                   $listAuthorBook = $db->listAuthorBook($dataBook["ecrivain_id"]);
-                  foreach ($listAuthorBook as $authorBook)
-                  {
-                    echo $authorBook["prenom"] . " ";
-                    echo $authorBook["nom"] . "</br>";
-                  }
+                 
+                  echo $listAuthorBook["prenom"] . " ";
+                  echo $listAuthorBook["nom"] . "</br>";
+                  
                 echo "</div>";            
               echo "<div class='text-sm'>";
               $listCategoryBook = $db->listCategoryBook ($dataBook["categorie_id"]);

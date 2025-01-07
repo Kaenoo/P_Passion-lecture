@@ -27,12 +27,12 @@ class userController
     // Vérifie les identifiants lors de la connexion
     public function verifyLogin($pseudo, $password)
     {
-        $verify = $this->db->checkAccount($pseudo, $password);
+        $verify = $this->db->getDataAccount($pseudo);
 
         // Retourne false si le pseudo n'est pas trouvé ou que le mot de passe n'est pas bon
         if (count($verify) == 0) {
             return false;
-        } elseif (password_verify($password, $verify[0]["mot_de_passe"]) === false) {
+        } elseif (password_verify($password, $verify["mot_de_passe"]) === false) {
             return false;
         }
 
@@ -123,13 +123,13 @@ class userController
     // Vérifie l'existence d'un pseudo dans la db
     public function verifyPseudoExistence($pseudo)
     {
-        $verify = $this->db->checkPseudoExistence($pseudo);
+        $verify = $this->db->getDataAccount($pseudo);
 
-        if (count($verify) > 0) {
+        if ($verify !== null) {
             return true;
         }
 
-        return false;
+        return null;
     }
 
     //Déconnecte l'utilisateur
